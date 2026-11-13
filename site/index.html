@@ -136,10 +136,11 @@
   .ficha__in { display: grid; gap: var(--s-6); padding: var(--s-6); overflow: auto; max-height: 88vh }
   @media (min-width: 760px) { .ficha__in { grid-template-columns: 5fr 7fr; gap: var(--s-8); padding: var(--s-8) } }
   /* o palco nao estica com a tabela ao lado: moldura fixa, foto preenchendo */
-  .ficha__palco { background: var(--surface); border-radius: var(--r-md); display: grid;
-                  place-items: center; align-self: start; aspect-ratio: 1; min-height: 0;
-                  padding: var(--s-5) }
-  .ficha__foto { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain }
+  .ficha__palco { position: relative; background: var(--surface); border-radius: var(--r-md);
+                  align-self: start; aspect-ratio: 1; min-height: 0; padding: 0 }
+  /* mesmo padrao do palco do hero no kit: preenche o palco, folga por padding */
+  .ficha__foto { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none;
+                 padding: var(--s-5); object-fit: contain }
   .ficha__row { display: flex; justify-content: space-between; gap: var(--s-4);
                 padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent) }
   .ficha__row dt { color: var(--muted); font-size: var(--t-small) }
