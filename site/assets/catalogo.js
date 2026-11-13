@@ -191,7 +191,21 @@ function pintarFicha() {
     caps.innerHTML = gr.vars.map((x, i) =>
       `<button class="cap cap--btn" type="button" data-var="${i}" aria-pressed="${i === iVar}">${x.s} GB</button>`).join('');
   }
+  dlg.querySelector('.ficha__notas').innerHTML = notas(gr).map(([t, c]) =>
+    `<div class="nota"><h3>${esc(t)}</h3><p>${esc(c)}</p></div>`).join('');
+
   dlg.querySelector('.ficha__wa').dataset.modelo = nomeVar(gr, v);
+}
+
+function notas(gr) {
+  const lacrado = gr.k === 'lacrado';
+  return [
+    ['Garantia e procedência', lacrado
+      ? 'Aparelho novo, caixa fechada, com nota e 12 meses de garantia pela loja.'
+      : 'Testado pela loja, com a saúde da bateria medida e 6 meses de garantia. O vídeo do aparelho chega antes do pagamento.'],
+    ['Formas de pagamento', 'Até 10x sem juros no cartão, ou desconto à vista.'],
+    ['Entrega e retirada', 'Retirada na loja ou entrega no mesmo dia do pedido.']
+  ];
 }
 
 export function abrirFicha(id) {
@@ -203,14 +217,35 @@ export function abrirFicha(id) {
   if (!dlg.open) dlg.showModal();
 }
 
+export function fecharFicha() {
+  if (dlg && dlg.open) dlg.close();
+}
+
+/** O endereço carrega o modelo: #iphone-13-pro-semi abre a ficha daquele modelo. */
+function rota() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (G.some(g => g.id === id)) abrirFicha(id);
+  else fecharFicha();
+}
+
 export function ligarFicha(el) {
   dlg = el;
-  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
-  dlg.querySelector('.ficha__fechar').addEventListener('click', () => dlg.close());
+  const sair = () => {
+    // tira o modelo do endereço, mantendo a posição na página
+    if (G.some(g => g.id === decodeURIComponent(location.hash.slice(1)))) {
+      history.replaceState(null, '', location.pathname + location.search);
+    }
+    fecharFicha();
+  };
+  dlg.addEventListener('click', e => { if (e.target === dlg) sair(); });
+  dlg.querySelector('.ficha__fechar').addEventListener('click', sair);
+  dlg.addEventListener('cancel', e => { e.preventDefault(); sair(); });
   dlg.querySelector('.ficha__caps').addEventListener('click', e => {
     const b = e.target.closest('[data-var]');
     if (!b) return;
     iVar = Number(b.dataset.var);
     pintarFicha();
   });
+  addEventListener('hashchange', rota);
+  rota();
 }

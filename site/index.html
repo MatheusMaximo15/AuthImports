@@ -133,6 +133,9 @@
   .ficha__preco { font-family: var(--font-display); font-size: var(--t-h2);
                   letter-spacing: var(--display-tracking) }
   .ficha__par { display: block; font-family: var(--font-text); font-size: var(--t-small); color: var(--muted) }
+  .ficha__notas { display: grid; gap: var(--s-4) }
+  .nota h3 { font: 500 var(--t-small)/1.3 var(--font-text); letter-spacing: 0 }
+  .nota p { font-size: var(--t-small); color: var(--muted); margin-top: 2px }
   .ficha__fechar { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px;
                    border-radius: 999px; background: var(--bg); border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
                    display: grid; place-items: center; cursor: pointer }
@@ -353,6 +356,7 @@
       <div class="ficha__caps" role="group" aria-label="Armazenamento"></div>
       <p class="ficha__preco"><b></b><span class="ficha__par"></span></p>
       <dl class="ficha__corpo"></dl>
+      <div class="ficha__notas"></div>
       <a class="btn btn--primary ficha__wa" href="#f-modelo">Pedir o vídeo</a>
     </div>
   </div>
@@ -445,11 +449,14 @@ filtrar();
 // a ficha do aparelho
 const dlg = document.querySelector('dialog.ficha');
 ligarFicha(dlg);
+// o clique no cartão só muda o endereço; quem abre a ficha é a rota
 document.addEventListener('click', e => {
   const a = e.target.closest('[data-grupo]');
   if (!a) return;
-  e.preventDefault();
-  abrirFicha(a.dataset.grupo);
+  if (location.hash.slice(1) === a.dataset.grupo) {
+    e.preventDefault();
+    abrirFicha(a.dataset.grupo);
+  }
 });
 dlg.querySelector('.ficha__wa').addEventListener('click', () => {
   const campoModelo = document.getElementById('f-modelo');
