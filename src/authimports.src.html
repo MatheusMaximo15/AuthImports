@@ -1,0 +1,616 @@
+<title>Auth Imports</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap">
+
+<style>
+/* Layout: nav fixa > hero com o aparelho real > faixa de garantias >
+   catálogo filtrável com foto por produto > como funciona > proposta > rodapé.
+   Tema único escuro: a identidade da loja já é preto + verde. */
+:root{
+  --ink:#090B0A;
+  --surface:#101413;
+  --surface-2:#161C19;
+  --plate:#141A17;
+  --line:#232B27;
+  --line-soft:#1A211D;
+  --bone:#EEF2EF;
+  --muted:#93A199;
+  --muted-dim:#6E7D75;
+  --green:#2EE07C;
+  --green-ink:#042413;
+  --gold:#DCC49E;
+  --red:#F26A56;
+
+  --display:'Archivo',system-ui,sans-serif;
+  --body:'DM Sans',system-ui,-apple-system,sans-serif;
+
+  --r:16px;
+  --gl:max(20px,env(safe-area-inset-left,0px));
+  --gr:max(20px,env(safe-area-inset-right,0px));
+  --max:1200px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ink);color:var(--bone);
+  font-family:var(--body);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,h4{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.028em;line-height:1.06}
+p{margin:0}
+a{color:inherit}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:8px}
+.wrap{width:100%;max-width:var(--max);margin-inline:auto;padding-left:var(--gl);padding-right:var(--gr)}
+.eyebrow{font-family:var(--display);font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted-dim)}
+
+/* ---------- nav ---------- */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:rgba(9,11,10,.94)}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:rgba(9,11,10,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line-soft)}
+.nav-in{display:flex;align-items:center;gap:22px;height:72px}
+.brand{display:flex;align-items:center;flex:none}
+.brand img{height:30px;width:auto}
+@media(min-width:420px){.brand img{height:34px}}
+.nav-links{display:none;gap:24px;margin-left:10px;font-size:.92rem;color:var(--muted)}
+.nav-links a{text-decoration:none;transition:color .16s}
+.nav-links a:hover{color:var(--bone)}
+.nav-cta{margin-left:auto}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:46px;padding:0 20px;border-radius:999px;
+  font-family:var(--display);font-weight:700;font-size:.92rem;letter-spacing:-.01em;
+  transition:transform .18s cubic-bezier(.2,.7,.3,1),background .18s,border-color .18s,box-shadow .18s;
+}
+.btn svg{width:17px;height:17px;flex:none}
+.btn-green{background:var(--green);color:var(--green-ink)}
+.btn-green:hover{transform:translateY(-1px);box-shadow:0 10px 28px -10px rgba(46,224,124,.6)}
+.btn-ghost{border:1px solid var(--line);color:var(--bone);background:var(--surface)}
+.btn-ghost:hover{border-color:#36413a;background:var(--surface-2)}
+.btn-wa{border:1px solid rgba(46,224,124,.34);color:var(--green);background:rgba(46,224,124,.07)}
+.btn-wa:hover{background:var(--green);color:var(--green-ink);border-color:var(--green)}
+.btn-sm{min-height:42px;padding:0 15px;font-size:.85rem}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line-soft)}
+.hero::after{content:"";position:absolute;width:820px;height:820px;right:-280px;top:-320px;pointer-events:none;background:radial-gradient(circle,rgba(46,224,124,.12),transparent 62%)}
+.hero-in{position:relative;display:grid;gap:34px;padding-block:48px 56px}
+.hero h1{font-size:clamp(2.35rem,7.2vw,4.1rem);font-weight:800}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero-lede{margin-top:20px;max-width:46ch;color:var(--muted);font-size:1.04rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 13px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:.81rem;color:var(--muted)}
+.pill b{color:var(--bone);font-weight:500}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);flex:none;box-shadow:0 0 0 3px rgba(46,224,124,.16)}
+
+.stage{position:relative;display:grid;place-items:center;min-height:320px}
+.stage-glow{position:absolute;width:min(330px,74vw);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(46,224,124,.22),rgba(46,224,124,.04) 55%,transparent 70%)}
+.stage img{position:relative;width:min(252px,62vw);filter:drop-shadow(0 40px 56px rgba(0,0,0,.72))}
+.tag{position:absolute;background:rgba(16,20,19,.92);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:13px;padding:10px 14px;box-shadow:0 20px 44px -18px rgba(0,0,0,.9)}
+.tag .k{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-dim);font-family:var(--display);font-weight:700}
+.tag .v{font-family:var(--display);font-weight:700;font-size:1.04rem;letter-spacing:-.025em;font-variant-numeric:tabular-nums}
+.tag-a{left:0;top:16%}
+.tag-b{right:0;bottom:18%}
+.tag-b .v{color:var(--green)}
+
+/* ---------- fatos ---------- */
+.facts{border-bottom:1px solid var(--line-soft);background:var(--surface)}
+.facts-in{display:grid;grid-template-columns:repeat(2,1fr)}
+.fact{padding:20px 16px}
+.fact:nth-child(even){border-left:1px solid var(--line-soft);padding-right:0}
+.fact:nth-child(-n+2){border-bottom:1px solid var(--line-soft)}
+.fact:nth-child(odd){padding-left:0}
+.fact .v{font-family:var(--display);font-weight:700;font-size:1.2rem;letter-spacing:-.03em}
+.fact .k{color:var(--muted);font-size:.84rem;margin-top:3px}
+
+/* ---------- seções ---------- */
+section{scroll-margin-top:88px}
+.sec{padding-block:68px}
+.sec-head{margin-bottom:30px}
+.sec-head h2{font-size:clamp(1.7rem,4.4vw,2.6rem);font-weight:700;margin-top:10px}
+.sec-head p{color:var(--muted);max-width:52ch;margin-top:11px}
+
+/* ---------- catálogo ---------- */
+.catalog{background:var(--surface);border-block:1px solid var(--line-soft)}
+.tabs{display:flex;gap:4px;padding:4px;background:var(--ink);border:1px solid var(--line);border-radius:999px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{min-height:42px;padding:0 16px;border-radius:999px;white-space:nowrap;flex:none;font-family:var(--display);font-weight:600;font-size:.87rem;color:var(--muted);transition:color .16s,background .16s}
+.tab[aria-selected="true"]{background:var(--green);color:var(--green-ink)}
+.tab:hover:not([aria-selected="true"]){color:var(--bone)}
+.tab .n{opacity:.6;margin-left:6px;font-variant-numeric:tabular-nums}
+
+.controls{display:grid;gap:10px;margin-top:14px}
+.field{position:relative;display:flex;align-items:center}
+.field>svg{position:absolute;left:14px;width:16px;height:16px;color:var(--muted-dim);pointer-events:none}
+.field input,.field select{width:100%;min-height:48px;border-radius:13px;border:1px solid var(--line);background:var(--ink);padding:0 14px 0 40px;font-size:.95rem;appearance:none;transition:border-color .16s}
+.field select{padding-left:15px}
+.field input::placeholder{color:var(--muted-dim)}
+.field input:hover,.field select:hover{border-color:#333e37}
+.chev{left:auto;right:14px;width:14px;height:14px}
+
+.count{margin-top:18px;color:var(--muted);font-size:.86rem}
+.count b{color:var(--bone);font-weight:500;font-variant-numeric:tabular-nums}
+
+.grid{display:grid;gap:12px;margin-top:14px;grid-template-columns:repeat(2,1fr)}
+.card{display:flex;flex-direction:column;background:var(--ink);border:1px solid var(--line-soft);border-radius:var(--r);overflow:hidden;transition:border-color .2s,transform .2s cubic-bezier(.2,.7,.3,1)}
+.card:hover{border-color:#2F3933;transform:translateY(-3px)}
+.plate{display:flex;flex-direction:column;gap:10px;padding:12px 14px 16px;background:radial-gradient(130% 92% at 50% 16%,rgba(46,224,124,.08),transparent 64%),var(--plate)}
+.plate .shot{flex:1;display:grid;place-items:center;min-height:126px}
+.plate img{max-height:126px;max-width:84%;width:auto;object-fit:contain;filter:drop-shadow(0 14px 20px rgba(0,0,0,.55))}
+.flag{display:flex;flex-wrap:wrap;gap:5px;min-height:21px}
+.badge{font-family:var(--display);font-size:.6rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;padding:4px 7px;border-radius:6px;border:1px solid var(--line);color:var(--muted);background:rgba(9,11,10,.6);line-height:1.1}
+.badge.ready{color:var(--green);border-color:rgba(46,224,124,.4);background:rgba(4,36,19,.75)}
+.badge.lacrado{color:var(--gold);border-color:rgba(220,196,158,.38);background:rgba(28,23,15,.7)}
+.body{display:flex;flex-direction:column;gap:11px;padding:15px 16px 16px;flex:1;border-top:1px solid var(--line-soft)}
+.body h3{font-size:1rem;font-weight:700;letter-spacing:-.022em;min-height:2.3em}
+.sub{color:var(--muted);font-size:.8rem;margin-top:4px;min-height:2.5em}
+.bat{display:flex;align-items:center;gap:9px;font-size:.78rem;color:var(--muted)}
+.bat-track{flex:1;height:5px;border-radius:99px;background:var(--line);overflow:hidden;min-width:32px}
+.bat-fill{height:100%;border-radius:99px;background:var(--green)}
+.bat-fill.warn{background:var(--gold)}
+.bat .pct{font-variant-numeric:tabular-nums;color:var(--bone);font-weight:500}
+.price{margin-top:auto;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.price .v{font-family:var(--display);font-weight:800;font-size:1.46rem;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.price .label{font-size:.76rem;color:var(--muted-dim)}
+.inst{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;margin-top:-5px}
+.inst b{color:var(--bone);font-weight:500}
+.card .btn{width:100%;margin-top:3px}
+.empty{padding:50px 20px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:var(--r);margin-top:14px;grid-column:1/-1}
+.empty b{display:block;color:var(--bone);font-family:var(--display);font-size:1.06rem;margin-bottom:7px}
+
+/* ---------- passos ---------- */
+.steps{display:grid;gap:12px}
+.step{display:flex;gap:16px;padding:22px;border:1px solid var(--line-soft);border-radius:var(--r);background:var(--surface)}
+.step .i{width:32px;height:32px;flex:none;border-radius:10px;display:grid;place-items:center;background:var(--surface-2);border:1px solid var(--line);font-family:var(--display);font-weight:700;font-size:.92rem;color:var(--green)}
+.step h3{font-size:1.04rem;font-weight:700}
+.step p{color:var(--muted);font-size:.92rem;margin-top:6px}
+
+/* ---------- proposta ---------- */
+.pitch{background:var(--surface);border-block:1px solid var(--line-soft)}
+.rows{margin-top:28px}
+.row{display:grid;gap:7px;padding:20px 0;border-bottom:1px solid var(--line-soft)}
+.row:last-child{border-bottom:0}
+.row h3{font-size:1.02rem;font-weight:700}
+.row .now{color:var(--red);font-size:.86rem}
+.row .then{color:var(--green);font-size:.86rem}
+.lbl{font-family:var(--display);font-size:.64rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;opacity:.8;margin-right:8px}
+
+/* ---------- rodapé ---------- */
+footer{padding-block:52px 44px;border-top:1px solid var(--line-soft)}
+.foot{display:grid;gap:26px}
+.foot img{height:38px;width:auto;margin-bottom:18px;opacity:.92}
+.foot small{color:var(--muted-dim);font-size:.82rem;line-height:1.6;display:block}
+.foot-note{border:1px solid var(--line);background:var(--surface);border-radius:var(--r);padding:20px}
+.foot-note b{font-family:var(--display);display:block;margin-bottom:7px;color:var(--bone)}
+
+/* ---------- folha whatsapp ---------- */
+.sheet-bg{position:fixed;inset:0;z-index:80;background:rgba(4,6,5,.74);backdrop-filter:blur(4px);display:grid;place-items:end center}
+.sheet{width:100%;max-width:470px;background:var(--surface);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:24px;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px));padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px));animation:up .26s cubic-bezier(.2,.8,.3,1)}
+@keyframes up{from{transform:translateY(18px);opacity:0}to{transform:none;opacity:1}}
+.sheet h3{font-size:1.16rem;font-weight:700}
+.sheet .msg{margin-top:14px;background:var(--ink);border:1px solid var(--line);border-radius:13px;padding:15px;font-size:.9rem;white-space:pre-wrap;line-height:1.5}
+.sheet .hint{color:var(--muted);font-size:.84rem;margin-top:13px}
+.sheet-actions{display:flex;gap:9px;margin-top:17px}
+.sheet-actions .btn{flex:1}
+
+/* ---------- selo ---------- */
+.proto{position:fixed;z-index:70;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:999px;background:rgba(16,20,19,.94);border:1px solid var(--line);backdrop-filter:blur(10px);font-size:.75rem;color:var(--muted);box-shadow:0 16px 36px -16px rgba(0,0,0,.95)}
+.proto .dot{background:var(--gold);box-shadow:0 0 0 3px rgba(220,196,158,.16)}
+
+.rise{animation:rise .72s cubic-bezier(.2,.8,.3,1) both}
+.rise.d{animation-delay:.1s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+@media(min-width:620px){
+  .facts-in{grid-template-columns:repeat(4,1fr)}
+  .fact{border-left:1px solid var(--line-soft);border-bottom:0;padding:24px 22px}
+  .fact:first-child{border-left:0;padding-left:0}
+  .fact:last-child{padding-right:0}
+  .fact:nth-child(2),.fact:nth-child(3){padding-left:22px;padding-right:22px}
+  .controls{grid-template-columns:1.7fr 1fr 1fr}
+  .grid{grid-template-columns:repeat(3,1fr)}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .row{grid-template-columns:1.05fr 1fr 1fr;align-items:start;gap:18px;padding:22px 0}
+}
+@media(min-width:940px){
+  .nav-links{display:flex}
+  .hero-in{grid-template-columns:1.1fr .9fr;align-items:center;padding-block:80px 88px}
+  .grid{grid-template-columns:repeat(4,1fr)}
+  .foot{grid-template-columns:1.5fr 1fr}
+  .sheet-bg{place-items:center}
+  .sheet{border-radius:20px}
+}
+</style>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#topo" aria-label="Auth Imports — início"><img id="logo-nav" alt="Auth Imports"></a>
+    <div class="nav-links">
+      <a href="#catalogo">Catálogo</a>
+      <a href="#como">Como funciona</a>
+      <a href="#garantia">Garantia</a>
+    </div>
+    <div class="nav-cta"><button class="btn btn-green btn-sm" data-wa="geral">Falar no WhatsApp</button></div>
+  </div>
+</nav>
+
+<header class="hero" id="topo">
+  <div class="wrap hero-in">
+    <div class="rise">
+      <p class="eyebrow">Apple · Pronta entrega e encomenda</p>
+      <h1>iPhone com garantia de verdade, <em>entregue no mesmo dia.</em></h1>
+      <p class="hero-lede">Seminovos testados com bateria verificada, lacrados com 12 meses de garantia e vídeo do aparelho real antes de você pagar. Você escolhe na tabela e já pode buscar.</p>
+      <div class="hero-actions">
+        <a class="btn btn-green" href="#catalogo">Ver o catálogo</a>
+        <button class="btn btn-ghost" data-wa="geral">Pedir vídeo do aparelho</button>
+      </div>
+      <div class="hero-meta">
+        <span class="pill"><span class="dot" aria-hidden="true"></span><b id="n-ready">12</b> aparelhos em estoque agora</span>
+        <span class="pill"><b>até 10x</b> sem juros no cartão</span>
+        <span class="pill"><b>6 a 12</b> meses de garantia</span>
+      </div>
+    </div>
+    <div class="stage rise d">
+      <div class="stage-glow" aria-hidden="true"></div>
+      <img id="hero-img" alt="iPhone 17 Pro Max">
+      <div class="tag tag-a"><div class="k">Bateria</div><div class="v">96%</div></div>
+      <div class="tag tag-b"><div class="k">17 Pro Max 256GB</div><div class="v">R$ 6.999</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="facts">
+  <div class="wrap facts-in">
+    <div class="fact"><div class="v">6 a 12 meses</div><div class="k">Garantia pela loja</div></div>
+    <div class="fact"><div class="v">Mesmo dia</div><div class="k">Entrega após o pedido</div></div>
+    <div class="fact"><div class="v">10x</div><div class="k">Sem juros no cartão</div></div>
+    <div class="fact"><div class="v">Vídeo real</div><div class="k">Do aparelho, antes de pagar</div></div>
+  </div>
+</div>
+
+<section class="catalog" id="catalogo">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <p class="eyebrow">Catálogo</p>
+      <h2>Três tabelas viraram uma busca só.</h2>
+      <p>Filtre por modelo, armazenamento ou preço. O selo verde é estoque na loja agora; o resto sai no mesmo dia.</p>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Filtrar por condição">
+      <button class="tab" role="tab" data-tab="all" aria-selected="true">Tudo<span class="n" data-count="all"></span></button>
+      <button class="tab" role="tab" data-tab="ready" aria-selected="false">Pronta entrega<span class="n" data-count="ready"></span></button>
+      <button class="tab" role="tab" data-tab="semi" aria-selected="false">Seminovos<span class="n" data-count="semi"></span></button>
+      <button class="tab" role="tab" data-tab="lacrado" aria-selected="false">Lacrados<span class="n" data-count="lacrado"></span></button>
+    </div>
+
+    <div class="controls">
+      <label class="field">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Buscar: 13 Pro, MacBook, Watch…" aria-label="Buscar no catálogo">
+      </label>
+      <label class="field">
+        <select id="storage" aria-label="Armazenamento">
+          <option value="">Todo armazenamento</option>
+          <option value="64">64 GB</option>
+          <option value="128">128 GB</option>
+          <option value="256">256 GB</option>
+          <option value="512">512 GB</option>
+        </select>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </label>
+      <label class="field">
+        <select id="sort" aria-label="Ordenar">
+          <option value="low">Menor preço</option>
+          <option value="high">Maior preço</option>
+          <option value="new">Mais novo</option>
+        </select>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+      </label>
+    </div>
+
+    <p class="count" id="count" aria-live="polite"></p>
+    <div class="grid" id="grid"></div>
+
+    <div class="step" style="margin-top:24px">
+      <span class="i" aria-hidden="true">?</span>
+      <div>
+        <h3>Não achou o modelo?</h3>
+        <p>A loja consulta outros estoques e responde com preço e vídeo no mesmo dia.</p>
+        <button class="btn btn-ghost btn-sm" data-wa="geral" style="margin-top:12px">Pedir um modelo específico</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="como">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <p class="eyebrow">Como funciona</p>
+      <h2>Três passos até o aparelho na mão.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="i">1</span><div><h3>Escolhe na tabela</h3><p>Preço à vista e parcelado já aparecem, com a saúde da bateria de cada seminovo.</p></div></div>
+      <div class="step"><span class="i">2</span><div><h3>Confere o vídeo</h3><p>A loja manda o vídeo do aparelho real no WhatsApp. Você avalia antes de fechar.</p></div></div>
+      <div class="step"><span class="i">3</span><div><h3>Recebe no mesmo dia</h3><p>Retirada na loja ou entrega no mesmo dia do pedido, com nota e garantia.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="garantia">
+  <div class="wrap sec" style="padding-top:0">
+    <div class="sec-head">
+      <p class="eyebrow">Garantia e condições</p>
+      <h2>O que está incluído.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="i" aria-hidden="true">✓</span><div><h3>Seminovos</h3><p>6 meses de garantia pela loja. Bateria verificada e informada na tabela. Acompanha cabo e carregador.</p></div></div>
+      <div class="step"><span class="i" aria-hidden="true">✓</span><div><h3>Lacrados</h3><p>12 meses de garantia. Aparelho novo, caixa fechada, nota fiscal.</p></div></div>
+      <div class="step"><span class="i" aria-hidden="true">✓</span><div><h3>Pagamento</h3><p>Até 10x sem juros no cartão, ou desconto à vista — os dois valores ficam visíveis em cada aparelho.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="pitch" id="proposta">
+  <div class="wrap sec">
+    <div class="sec-head">
+      <p class="eyebrow">Proposta</p>
+      <h2>O que muda ao sair do Canva.</h2>
+      <p>Esta página é uma demonstração montada a partir das três tabelas que já estão no ar. Logo, fotos, modelos e preços são os de vocês.</p>
+    </div>
+    <div class="rows">
+      <div class="row">
+        <h3>Contato</h3>
+        <div class="now"><span class="lbl">Hoje</span>Nenhuma das três páginas tem link de WhatsApp, telefone ou endereço.</div>
+        <div class="then"><span class="lbl">Com site</span>Botão em cada aparelho, com a mensagem do modelo já escrita.</div>
+      </div>
+      <div class="row">
+        <h3>Endereço</h3>
+        <div class="now"><span class="lbl">Hoje</span>authimports.my.canva.site — subdomínio do Canva, fora do Google.</div>
+        <div class="then"><span class="lbl">Com site</span>authimports.com.br, indexado, pronto para anúncio e bio.</div>
+      </div>
+      <div class="row">
+        <h3>Preço</h3>
+        <div class="now"><span class="lbl">Hoje</span>Preço é imagem: trocar um valor significa reeditar o design.</div>
+        <div class="then"><span class="lbl">Com site</span>Preço é dado: muda em segundos, de qualquer celular.</div>
+      </div>
+      <div class="row">
+        <h3>Catálogo</h3>
+        <div class="now"><span class="lbl">Hoje</span>Três páginas separadas, sem busca e sem filtro, com quase 40 modelos.</div>
+        <div class="then"><span class="lbl">Com site</span>Uma busca só, filtrável por modelo, memória e preço.</div>
+      </div>
+      <div class="row">
+        <h3>Estoque</h3>
+        <div class="now"><span class="lbl">Hoje</span>Disponibilidade sinalizada por um pontinho verde ou vermelho desenhado.</div>
+        <div class="then"><span class="lbl">Com site</span>Status real por aparelho, com data da última atualização.</div>
+      </div>
+      <div class="row">
+        <h3>Anúncios</h3>
+        <div class="now"><span class="lbl">Hoje</span>Sem pixel e sem métrica: não dá para medir o que o tráfego pago traz.</div>
+        <div class="then"><span class="lbl">Com site</span>Meta Pixel e Analytics, conversão por modelo e por campanha.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <img id="logo-foot" alt="Auth Imports">
+      <small>Demonstração de site. Logo e fotos de produto vieram das próprias páginas da loja; modelos, preços, garantias e condições de pagamento foram tirados delas em novembro de 2026 e podem ter mudado.</small>
+    </div>
+    <div class="foot-note">
+      <b>Protótipo de apresentação</b>
+      <small>Esta não é a loja oficial e não realiza vendas. Os botões de WhatsApp mostram a mensagem que seria enviada — o número entra na versão final.</small>
+    </div>
+  </div>
+</footer>
+
+<div class="proto"><span class="dot" aria-hidden="true"></span>Protótipo · não é a loja oficial</div>
+
+<script>
+/*__IMAGES__*/
+(function(){
+  "use strict";
+
+  // n modelo · s GB · k condição · p total parcelado · v à vista · b bateria
+  // g garantia (meses) · r pronta entrega · img foto · y geração
+  var P = [
+    {n:'iPhone 11',s:256,k:'semi',p:1780,v:1549,b:100,bn:1,g:6,r:1,img:'ip11',y:11},
+    {n:'iPhone 12',s:128,k:'semi',p:2060,v:1799,b:100,bn:1,g:6,r:1,img:'ip12',y:12},
+    {n:'iPhone 13',s:128,k:'semi',p:2640,v:2299,g:6,img:'ip13',y:13},
+    {n:'iPhone 13',s:256,k:'semi',p:2985,v:2599,g:6,img:'ip13_256',y:13},
+    {n:'iPhone 13 Pro',s:128,k:'semi',p:3215,v:2799,g:6,img:'ip13pro',y:13},
+    {n:'iPhone 13 Pro',s:256,k:'semi',p:3560,v:3099,g:6,img:'ip13pro256',y:13},
+    {n:'iPhone 13 Pro Max',s:128,k:'semi',p:3560,v:3099,b:100,bn:1,g:6,r:1,img:'ip13pm',y:13},
+    {n:'iPhone 13 Pro Max',s:256,k:'semi',p:4135,v:3599,g:6,img:'ip13pm256',y:13},
+    {n:'iPhone 14',s:128,k:'semi',p:2985,v:2599,g:6,img:'ip14',y:14},
+    {n:'iPhone 14',s:256,k:'semi',p:3330,v:2899,g:6,img:'ip14_256',y:14},
+    {n:'iPhone 14 Plus',s:128,k:'semi',p:3100,v:2699,b:86,g:6,r:1,img:'ip14plus',y:14},
+    {n:'iPhone 14 Pro',s:128,k:'semi',p:3675,v:3199,g:6,img:'ip14pro',y:14},
+    {n:'iPhone 14 Pro',s:256,k:'semi',p:4020,v:3499,g:6,img:'ip14pro256',y:14},
+    {n:'iPhone 14 Pro Max',s:128,k:'semi',p:4250,v:3699,g:6,img:'ip14pm',y:14},
+    {n:'iPhone 14 Pro Max',s:256,k:'semi',p:4595,v:3999,g:6,img:'ip14pm256',y:14},
+    {n:'iPhone 15',s:128,k:'semi',p:3675,v:3199,b:100,bn:1,g:6,r:1,img:'ip15_pronta',y:15},
+    {n:'iPhone 15',s:256,k:'semi',p:3900,v:3399,b:89,g:6,r:1,img:'ip15',y:15},
+    {n:'iPhone 15 Pro',s:128,k:'semi',p:4365,v:3799,g:6,img:'ip15pro',y:15},
+    {n:'iPhone 15 Pro',s:256,k:'semi',p:4710,v:4099,g:6,img:'ip15pro256',y:15},
+    {n:'iPhone 15 Pro Max',s:256,k:'semi',p:5280,v:4599,g:6,img:'ip15pm',y:15},
+    {n:'iPhone 16',s:128,k:'semi',p:4595,v:3999,g:6,img:'ip16',y:16},
+    {n:'iPhone 16 Pro',s:128,k:'semi',p:5280,v:4599,g:6,img:'ip16pro',y:16},
+    {n:'iPhone 16 Pro',s:256,k:'semi',p:5630,v:4899,g:6,img:'ip16pro256',y:16},
+    {n:'iPhone 16 Pro Max',s:256,k:'semi',p:6030,v:5249,b:90,g:6,r:1,img:'ip16pm',y:16},
+    {n:'iPhone 17 Pro Max',s:256,k:'semi',p:8040,v:6999,b:96,g:6,r:1,img:'ip17pm',y:17},
+    {n:'iPad 9',s:64,k:'semi',p:2060,v:1799,b:97,g:6,r:1,img:'ipad9',y:9},
+    {n:'MacBook M2 8GB',s:256,k:'semi',p:5500,v:4799,b:89,g:6,r:1,img:'mac',y:15},
+    {n:'Apple Watch S5 Nike 44mm',s:0,k:'semi',p:1149,v:999,b:84,g:6,r:1,img:'watch5',y:5},
+    {n:'Apple Watch SE 2 44mm',s:0,k:'semi',p:1665,v:1449,b:100,g:6,r:1,img:'watchse',y:10,note:'Garantia Apple até 06/2027'},
+
+    {n:'iPhone 15',s:128,k:'lacrado',p:4940,v:4299,g:12,img:'ip15lac',y:15},
+    {n:'iPhone 16',s:128,k:'lacrado',p:5510,v:4799,g:12,img:'ip16',y:16},
+    {n:'iPhone 17',s:256,k:'lacrado',p:6660,v:5799,g:12,img:'ip17',y:17},
+    {n:'iPhone 17 Pro',s:256,k:'lacrado',p:8499,v:7399,g:12,img:'ip17pro',y:17},
+    {n:'iPhone 17 Pro Max',s:256,k:'lacrado',p:8960,v:7799,g:12,img:'ip17pm',y:17},
+    {n:'iPhone 17 Pro Max',s:512,k:'lacrado',p:10900,v:9499,g:12,img:'ip17pm512',y:17},
+    {n:'iPhone 18 Pro',s:256,k:'lacrado',p:10100,v:8799,g:12,img:'ip18pro',y:18},
+    {n:'iPhone 18 Pro',s:512,k:'lacrado',p:11700,v:10199,g:12,img:'ip18pro512',y:18},
+    {n:'iPhone 18 Pro Max',s:256,k:'lacrado',p:11250,v:9799,g:12,img:'ip18pm',y:18},
+    {n:'iPhone 18 Pro Max',s:512,k:'lacrado',p:13430,v:11699,g:12,img:'ip18pm512',y:18}
+  ];
+
+  var brl = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function label(p){ return p.n + (p.s ? ' ' + p.s + 'GB' : ''); }
+
+  document.getElementById('logo-nav').src  = IMG.logoh;
+  document.getElementById('logo-foot').src = IMG.logoh;
+  document.getElementById('hero-img').src  = IMG.ip17pm;
+
+  var state = {tab:'all', q:'', storage:'', sort:'low'};
+
+  function matches(p){
+    if(state.tab === 'ready'   && !p.r) return false;
+    if(state.tab === 'semi'    && (p.k !== 'semi')) return false;
+    if(state.tab === 'lacrado' && (p.k !== 'lacrado')) return false;
+    if(state.storage && String(p.s) !== state.storage) return false;
+    if(state.q){
+      var hay = (p.n + ' ' + (p.s ? p.s + 'gb ' : '') + (p.k === 'lacrado' ? 'lacrado novo' : 'seminovo usado')).toLowerCase();
+      var terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+      for(var i = 0; i < terms.length; i++){ if(hay.indexOf(terms[i]) === -1) return false; }
+    }
+    return true;
+  }
+
+  function card(p, i){
+    var bat;
+    if(p.b){
+      bat = '<div class="bat"><span>Bateria</span><span class="bat-track"><span class="bat-fill' + (p.b < 88 ? ' warn' : '') + '" style="width:' + p.b + '%"></span></span><span class="pct">' + p.b + '%</span></div>';
+    } else if(p.k === 'lacrado'){
+      bat = '<div class="bat"><span>Bateria</span><span class="bat-track"><span class="bat-fill" style="width:100%"></span></span><span class="pct">100%</span></div>';
+    } else {
+      bat = '<div class="bat"><span>Bateria conferida no vídeo do aparelho</span></div>';
+    }
+    return '<article class="card">'
+      + '<div class="plate">'
+      +   '<div class="flag">'
+      +     (p.r ? '<span class="badge ready">Pronta entrega</span>' : '')
+      +     (p.k === 'lacrado' ? '<span class="badge lacrado">Lacrado</span>' : '')
+      +     (p.bn ? '<span class="badge">Bateria nova</span>' : '')
+      +   '</div>'
+      +   '<div class="shot"><img src="' + IMG[p.img] + '" alt="' + esc(label(p)) + '" loading="lazy"></div>'
+      + '</div>'
+      + '<div class="body">'
+      +   '<div><h3>' + esc(p.n) + '</h3><div class="sub">' + (p.s ? p.s + ' GB · ' : '') + (p.k === 'lacrado' ? 'Lacrado' : 'Seminovo') + ' · ' + p.g + ' meses de garantia' + (p.note ? '<br>' + esc(p.note) : '') + '</div></div>'
+      +   bat
+      +   '<div class="price"><span class="v">' + brl.format(p.v) + '</span><span class="label">à vista</span></div>'
+      +   '<div class="inst">ou <b>10x ' + brl.format(Math.round(p.p / 10)) + '</b> sem juros</div>'
+      +   '<button class="btn btn-wa btn-sm" data-wa="' + i + '">'
+      +     '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.3-4.6c-.4-.6-.9-1.5-.9-2.4 0-.9.5-1.4.7-1.6.2-.2.4-.3.6-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.2 1.6 1.9 1 .9 1.8 1.2 2.1 1.3.2.1.4.1.6-.1l.8-.9c.2-.2.3-.2.6-.1l1.7.8c.2.1.4.2.4.3.1.1.1.4 0 .7Z"/></svg>'
+      +     'Falar sobre este</button>'
+      + '</div></article>';
+  }
+
+  var grid = document.getElementById('grid');
+  var countEl = document.getElementById('count');
+
+  function render(){
+    var list = P.map(function(p, i){ return {p:p, i:i}; }).filter(function(o){ return matches(o.p); });
+    if(state.sort === 'low')  list.sort(function(a, b){ return a.p.v - b.p.v; });
+    if(state.sort === 'high') list.sort(function(a, b){ return b.p.v - a.p.v; });
+    if(state.sort === 'new')  list.sort(function(a, b){ return b.p.y - a.p.y || b.p.v - a.p.v; });
+
+    grid.innerHTML = list.length
+      ? list.map(function(o){ return card(o.p, o.i); }).join('')
+      : '<div class="empty"><b>Nenhum aparelho com esse filtro.</b>A loja consulta outros estoques — peça o modelo no WhatsApp.</div>';
+    countEl.innerHTML = '<b>' + list.length + '</b> de ' + P.length + ' aparelhos';
+  }
+
+  function counts(){
+    var c = {all:P.length, ready:0, semi:0, lacrado:0};
+    P.forEach(function(p){
+      if(p.r) c.ready++;
+      if(p.k === 'semi') c.semi++; else c.lacrado++;
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-count]'), function(el){
+      el.textContent = c[el.getAttribute('data-count')];
+    });
+    document.getElementById('n-ready').textContent = c.ready;
+  }
+
+  document.querySelector('.tabs').addEventListener('click', function(e){
+    var t = e.target.closest('.tab');
+    if(!t) return;
+    Array.prototype.forEach.call(document.querySelectorAll('.tab'), function(x){ x.setAttribute('aria-selected', String(x === t)); });
+    state.tab = t.getAttribute('data-tab');
+    render();
+  });
+  document.getElementById('q').addEventListener('input', function(e){ state.q = e.target.value; render(); });
+  document.getElementById('storage').addEventListener('change', function(e){ state.storage = e.target.value; render(); });
+  document.getElementById('sort').addEventListener('change', function(e){ state.sort = e.target.value; render(); });
+
+  /* ---------- folha do WhatsApp ---------- */
+  var sheet = null, lastFocus = null;
+
+  function waMessage(key){
+    if(key === 'geral') return 'Olá, Auth Imports! Vi o site e queria falar sobre um aparelho.';
+    var p = P[Number(key)];
+    if(!p) return 'Olá, Auth Imports!';
+    return 'Olá, Auth Imports! Tenho interesse no ' + label(p) + ' (' + (p.k === 'lacrado' ? 'lacrado' : 'seminovo')
+      + ') por ' + brl.format(p.v) + ' à vista. Pode me mandar o vídeo do aparelho?';
+  }
+  function onKey(e){ if(e.key === 'Escape') closeSheet(); }
+  function closeSheet(){
+    if(!sheet) return;
+    sheet.remove(); sheet = null;
+    document.removeEventListener('keydown', onKey);
+    if(lastFocus) lastFocus.focus();
+  }
+  function openSheet(key){
+    closeSheet();
+    lastFocus = document.activeElement;
+    var msg = waMessage(key);
+    sheet = document.createElement('div');
+    sheet.className = 'sheet-bg';
+    sheet.innerHTML = '<div class="sheet" role="dialog" aria-modal="true" aria-label="Mensagem do WhatsApp">'
+      + '<h3>Mensagem pronta</h3>'
+      + '<div class="msg" id="wa-msg">' + esc(msg) + '</div>'
+      + '<p class="hint">No site final este botão abre o WhatsApp da loja com o texto já escrito. Aqui no protótipo o número ainda não está ligado.</p>'
+      + '<div class="sheet-actions"><button class="btn btn-green btn-sm" id="wa-copy">Copiar mensagem</button>'
+      + '<button class="btn btn-ghost btn-sm" id="wa-close">Fechar</button></div></div>';
+    document.body.appendChild(sheet);
+    sheet.addEventListener('click', function(e){ if(e.target === sheet) closeSheet(); });
+    document.getElementById('wa-close').addEventListener('click', closeSheet);
+
+    var copy = document.getElementById('wa-copy');
+    function select(){
+      var r = document.createRange();
+      r.selectNodeContents(document.getElementById('wa-msg'));
+      var sel = window.getSelection();
+      sel.removeAllRanges(); sel.addRange(r);
+      copy.textContent = 'Selecionado — copie';
+      setTimeout(function(){ copy.textContent = 'Copiar mensagem'; }, 2400);
+    }
+    copy.addEventListener('click', function(){
+      try{
+        navigator.clipboard.writeText(msg).then(function(){
+          copy.textContent = 'Copiado';
+          setTimeout(function(){ copy.textContent = 'Copiar mensagem'; }, 1600);
+        }, select);
+      }catch(err){ select(); }
+    });
+    document.addEventListener('keydown', onKey);
+    copy.focus();
+  }
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-wa]');
+    if(b) openSheet(b.getAttribute('data-wa'));
+  });
+
+  counts();
+  render();
+})();
+</script>

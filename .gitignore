@@ -1,0 +1,29 @@
+# saída dos verificadores da skill de design (recriável)
+.taste-skill/
+site/.taste-skill/
+
+# capturas de tela usadas na revisão
+site/shots/
+shots/
+
+# dependências
+node_modules/
+
+# --- kit de design: partes que a página não carrega ---
+# Recriar com: cp -r ~/.claude/skills/design-taste-frontend/assets/<pasta> site/assets/
+# Necessário só para rodar demos do kit ou usar efeitos/fotos/objetos dele.
+site/assets/photos/
+site/assets/scenes/
+site/assets/objects/
+site/assets/components/
+site/assets/diagrams/
+site/assets/backgrounds/
+site/assets/effects/
+site/assets/**/_demo/
+site/assets/icons/*
+!site/assets/icons/icon.css
+
+# sistema
+Thumbs.db
+desktop.ini
+.DS_Store
