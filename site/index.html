@@ -11,7 +11,7 @@
 <meta property="og:image" content="share.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/logo-dark.png" type="image/png">
-<meta name="theme-color" content="#f7f3ec">
+<meta name="theme-color" content="#ffffff">
 <meta name="site-kind" content="other">
 <meta name="page-type" content="product">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,10 +24,10 @@
 <link rel="stylesheet" href="assets/icons/icon.css">
 <style>
 :root {
-  --p-bg: #f7f3ec; --p-surface: #ede6da; --p-ink: #2a2622; --p-muted: #665e55;
-  --p-accent: #7a4a2c; --p-accent-ink: #ffffff; --p-action: #7a4a2c; --p-action-ink: #ffffff;
-  --p-inv-bg: #2a2622; --p-inv-surface: #36322e; --p-inv-ink: #f7f3ec; --p-inv-muted: #a29e98;
-  --p-inv-accent: #f7f3ec; --p-inv-accent-ink: #2a2622; --p-inv-action: #f7f3ec; --p-inv-action-ink: #2a2622;
+  --p-bg: #ffffff; --p-surface: #f4f4f5; --p-ink: #0a0a0a; --p-muted: #5c5c5e;
+  --p-accent: #0a0a0a; --p-accent-ink: #ffffff; --p-action: #0a0a0a; --p-action-ink: #ffffff;
+  --p-inv-bg: #0a0a0a; --p-inv-surface: #171717; --p-inv-ink: #ffffff; --p-inv-muted: #979797;
+  --p-inv-accent: #ffffff; --p-inv-accent-ink: #0a0a0a; --p-inv-action: #ffffff; --p-inv-action-ink: #0a0a0a;
   --font-display: "Instrument Serif", Georgia, serif;
   --font-text: "Instrument Sans", system-ui, sans-serif;
   --display-weight: 400;
@@ -53,8 +53,26 @@
          font-size: var(--t-label); line-height: 1.2; padding: 4px 8px; border-radius: var(--r-sm);
          background: var(--bg); border: 1px solid color-mix(in srgb, var(--ink) 14%, transparent) }
   .sel--agora { background: var(--accent); color: var(--accent-ink); border-color: transparent }
-  .prod .tile__price { font-family: var(--font-display); font-size: var(--t-h3);
-                       letter-spacing: var(--display-tracking) }
+  /* capacidades do modelo: no cartão são rótulo, na ficha viram botão */
+  .caps, .ficha__caps { display: flex; flex-wrap: wrap; gap: 6px }
+  .cap { font-size: var(--t-label); line-height: 1.2; padding: 4px 9px; border-radius: var(--r-sm);
+         border: 1px solid color-mix(in srgb, var(--ink) 16%, transparent); color: var(--muted);
+         font-variant-numeric: tabular-nums; white-space: nowrap }
+  .cap--btn { min-height: 36px; padding: 0 14px; display: inline-flex; align-items: center;
+              cursor: pointer; color: var(--ink); background: var(--bg);
+              transition: background var(--m-in) var(--ease), color var(--m-in) var(--ease),
+                          border-color var(--m-in) var(--ease) }
+  .cap--btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+  @media (hover: hover) and (pointer: fine) {
+    .cap--btn:hover:not([aria-pressed="true"]) { border-color: var(--ink) }
+  }
+  .prod__preco { margin-top: auto; padding-top: 2px }
+  /* no tablet e no telefone as capacidades ficam so na ficha: a grade nao cabe com elas */
+  @media (max-width: 1023px) { .caps { display: none } }
+  .prod__apd { display: block; font-size: var(--t-small); color: var(--muted) }
+  .prod__preco b { font-family: var(--font-display); font-weight: var(--display-weight);
+                   font-size: var(--t-h3); letter-spacing: var(--display-tracking);
+                   font-variant-numeric: tabular-nums }
 
   /* a linha de aparelhos e um recorte: cabe inteira no palco, nunca cortada */
   .hero--product .hero__stage img { object-fit: contain; object-position: center bottom }
@@ -76,6 +94,9 @@
     .pager { margin-top: var(--s-4) }
   }
   @media (min-width: 640px) and (max-width: 1023px) {
+    .filtros .field.span-6 { grid-column: auto / span 3 }
+    .filtros .field.span-2 { grid-column: auto / span 3 }
+    .filtros .field :is(input, select) { padding-inline: 10px; font-size: 14px }
     .prod { --tile-ratio: 16 / 9 }
     .prod .tile__media > img { padding: 5% 26% }
     .cat__conta { margin-bottom: var(--s-3) }
@@ -85,8 +106,12 @@
     .hero--product .hero__stage { height: 188px; min-height: 0 }
     .hero--product .hero__stage img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom }
     .sel { font-size: 11px; padding: 3px 6px }
+    .prod { --tile-ratio: 4 / 3 }
+    .prod .tile__media > img { padding: 8% 20% }
     .prod .f-gar { display: none }
-    .filtros .field.span-3 { grid-column: auto / span 6 }
+    .filtros .field.span-6 { grid-column: 1 / -1 }
+    .filtros .field.span-2 { grid-column: auto / span 4 }
+    .filtros .field label { font-size: 12px }
     .filtros { margin-bottom: var(--s-4) }
     .cat__conta { margin-bottom: var(--s-2) }
     .pager { margin-top: var(--s-4) }
@@ -164,7 +189,7 @@
     <div class="wrap">
       <div class="section-head">
         <h2 id="estoque-h">Aparelhos na loja hoje</h2>
-        <p>12 aparelhos prontos para retirada, com a bateria já medida.</p>
+        <p>11 modelos prontos para retirada, com a bateria já medida.</p>
       </div>
       <div class="grid" id="grade-estoque"></div>
       <div class="pager">
@@ -180,15 +205,25 @@
       <div class="group">
       <div class="section-head">
         <h2 id="catalogo-h">Tabela de encomenda</h2>
-        <p>27 modelos que a loja busca no estoque e entrega no mesmo dia.</p>
+        <p>16 modelos que a loja busca no estoque e entrega no mesmo dia.</p>
       </div>
       <div class="grid filtros">
         <div class="field span-6">
           <label for="busca">Buscar modelo</label>
           <input id="busca" name="busca" type="search" autocomplete="off" placeholder="13 Pro, 256 GB, lacrado">
         </div>
-        <div class="field span-3">
-          <label for="memoria">Armazenamento</label>
+        <div class="field span-2">
+          <label for="tipo">Aparelho</label>
+          <select id="tipo" name="tipo">
+            <option value="">Todos</option>
+            <option value="iphone">iPhone</option>
+            <option value="ipad">iPad</option>
+            <option value="mac">Mac</option>
+            <option value="watch">Watch</option>
+          </select>
+        </div>
+        <div class="field span-2">
+          <label for="memoria">Memória</label>
           <select id="memoria" name="memoria">
             <option value="">Qualquer</option>
             <option value="128">128 GB</option>
@@ -196,12 +231,12 @@
             <option value="512">512 GB</option>
           </select>
         </div>
-        <div class="field span-3">
-          <label for="ordem">Ordenar por</label>
+        <div class="field span-2">
+          <label for="ordem">Ordem</label>
           <select id="ordem" name="ordem">
-            <option value="low">Menor preço</option>
-            <option value="high">Maior preço</option>
-            <option value="new">Geração mais nova</option>
+            <option value="low">Mais barato</option>
+            <option value="high">Mais caro</option>
+            <option value="new">Mais novo</option>
           </select>
         </div>
       </div>
@@ -311,10 +346,11 @@
     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
   </button>
   <div class="ficha__in">
-    <div class="ficha__palco"></div>
+    <div class="ficha__palco"><img class="ficha__foto" alt=""></div>
     <div class="stack-4">
       <h2 class="ficha__nome" id="ficha-nome">iPhone</h2>
       <p class="ficha__linha t-small muted"></p>
+      <div class="ficha__caps" role="group" aria-label="Armazenamento"></div>
       <p class="ficha__preco"><b></b><span class="ficha__par"></span></p>
       <dl class="ficha__corpo"></dl>
       <a class="btn btn--primary ficha__wa" href="#f-modelo">Pedir o vídeo</a>
@@ -326,13 +362,12 @@
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
 <script type="module">
-import { P, montarCatalogo, abrirFicha, ligarFicha, nome } from './assets/catalogo.js';
+import { G, montarCatalogo, abrirFicha, ligarFicha } from './assets/catalogo.js';
 
-const idx = P.map((p, i) => ({ p, i }));
-const porPreco = (a, b) => a.p.v - b.p.v;
+const porPreco = (a, b) => a.min - b.min;
 
-// na loja hoje: oito por vez, em duas linhas de quatro
-const estoque = idx.filter(o => o.p.r).sort(porPreco);
+// na loja hoje: quatro por vez
+const estoque = G.filter(g => g.pronta).sort(porPreco);
 const eA = document.getElementById('grade-estoque');
 const eAnt = document.getElementById('est-ant');
 const eProx = document.getElementById('est-prox');
@@ -355,6 +390,7 @@ const grade = document.getElementById('grade-catalogo');
 const grade2 = document.getElementById('grade-catalogo-2');
 const conta = document.getElementById('conta');
 const campo = document.getElementById('busca');
+const tipo = document.getElementById('tipo');
 const memoria = document.getElementById('memoria');
 const ordem = document.getElementById('ordem');
 const ant = document.getElementById('pag-ant');
@@ -363,19 +399,21 @@ const pagN = document.getElementById('pag-n');
 const POR = 8;
 let pagina = 0, filtrada = [];
 
-const encomenda = idx.filter(o => !o.p.r);
+const encomenda = G.filter(g => !g.pronta);
 
 function filtrar() {
   const termos = campo.value.toLowerCase().split(/\s+/).filter(Boolean);
-  const mem = memoria.value;
-  filtrada = encomenda.filter(({ p }) => {
-    if (mem && String(p.s) !== mem) return false;
-    const palheiro = (p.n + ' ' + (p.s ? p.s + 'gb ' : '') + (p.k === 'lacrado' ? 'lacrado novo' : 'seminovo usado')).toLowerCase();
+  const mem = memoria.value, cat = tipo.value;
+  filtrada = encomenda.filter(g => {
+    if (cat && g.cat !== cat) return false;
+    if (mem && !g.vars.some(v => String(v.s) === mem)) return false;
+    const palheiro = (g.n + ' ' + g.vars.map(v => v.s + 'gb').join(' ') + ' '
+      + (g.k === 'lacrado' ? 'lacrado novo' : 'seminovo usado')).toLowerCase();
     return termos.every(t => palheiro.includes(t));
   });
   const o = ordem.value;
-  filtrada.sort(o === 'high' ? (a, b) => b.p.v - a.p.v
-    : o === 'new' ? (a, b) => b.p.y - a.p.y || b.p.v - a.p.v : porPreco);
+  filtrada.sort(o === 'high' ? (a, b) => b.min - a.min
+    : o === 'new' ? (a, b) => b.y - a.y || b.min - a.min : porPreco);
   pagina = 0;
   desenhar();
 }
@@ -391,12 +429,13 @@ function desenhar() {
     grade.innerHTML = '<p class="cat__vazio">Nenhum aparelho com esse filtro. A loja consulta outros estoques: peça o modelo no formulário.</p>';
     grade2.innerHTML = '';
   }
-  conta.textContent = filtrada.length + ' de ' + encomenda.length + ' aparelhos';
+  conta.textContent = filtrada.length + ' de ' + encomenda.length + ' modelos';
   pagN.textContent = 'Página ' + (pagina + 1) + ' de ' + paginas;
   ant.disabled = pagina === 0;
   prox.disabled = pagina >= paginas - 1;
 }
 campo.addEventListener('input', filtrar);
+tipo.addEventListener('change', filtrar);
 memoria.addEventListener('change', filtrar);
 ordem.addEventListener('change', filtrar);
 ant.addEventListener('click', () => { pagina--; desenhar(); });
@@ -407,15 +446,15 @@ filtrar();
 const dlg = document.querySelector('dialog.ficha');
 ligarFicha(dlg);
 document.addEventListener('click', e => {
-  const a = e.target.closest('[data-ficha]');
+  const a = e.target.closest('[data-grupo]');
   if (!a) return;
   e.preventDefault();
-  abrirFicha(Number(a.dataset.ficha));
+  abrirFicha(a.dataset.grupo);
 });
 dlg.querySelector('.ficha__wa').addEventListener('click', () => {
-  const p = P[Number(dlg.querySelector('.ficha__wa').dataset.wa)];
   const campoModelo = document.getElementById('f-modelo');
-  if (p && campoModelo) campoModelo.value = nome(p);
+  const modelo = dlg.querySelector('.ficha__wa').dataset.modelo;
+  if (modelo && campoModelo) campoModelo.value = modelo;
   dlg.close();
 });
 </script>
