@@ -1,0 +1,7 @@
+{
+  // O nome precisa ser escrito aqui: derivado da pasta "Auth Imports" o wrangler
+  // gera "uth -mports" e recusa.
+  "name": "auth-imports",
+  "pages_build_output_dir": "site",
+  "compatibility_date": "2026-11-13"
+}
