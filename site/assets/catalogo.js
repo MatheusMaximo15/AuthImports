@@ -195,6 +195,14 @@ function pintarFicha() {
     `<div class="nota"><h3>${esc(t)}</h3><p>${esc(c)}</p></div>`).join('');
 
   dlg.querySelector('.ficha__wa').dataset.modelo = nomeVar(gr, v);
+  dlg.querySelector('.ficha__copiar').dataset.msg = mensagem(gr, v);
+}
+
+/** A mensagem que o cliente manda para a loja, já com modelo e preço. */
+export function mensagem(gr, v) {
+  return 'Olá, Auth Imports! Tenho interesse no ' + nomeVar(gr, v)
+    + ' (' + (gr.k === 'lacrado' ? 'lacrado' : 'seminovo') + ') por '
+    + brl.format(v.v) + ' à vista. Pode me mandar o vídeo do aparelho?';
 }
 
 function notas(gr) {
@@ -246,6 +254,24 @@ export function ligarFicha(el) {
     iVar = Number(b.dataset.var);
     pintarFicha();
   });
+  const copiar = dlg.querySelector('.ficha__copiar');
+  copiar.addEventListener('click', async () => {
+    const texto = copiar.dataset.msg || '';
+    const avisar = palavra => {
+      copiar.textContent = palavra;
+      setTimeout(() => { copiar.textContent = 'Copiar mensagem'; }, 1800);
+    };
+    try {
+      await navigator.clipboard.writeText(texto);
+      avisar('Copiado');
+    } catch (_) {
+      // sem permissão de área de transferência: mostra o texto para copiar à mão
+      const p = dlg.querySelector('.ficha__aviso');
+      p.textContent = texto;
+      avisar('Selecione o texto abaixo');
+    }
+  });
+
   addEventListener('hashchange', rota);
   rota();
 }

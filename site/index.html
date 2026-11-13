@@ -75,7 +75,14 @@
                    font-variant-numeric: tabular-nums }
 
   /* a linha de aparelhos e um recorte: cabe inteira no palco, nunca cortada */
-  .hero--product .hero__stage img { object-fit: contain; object-position: center bottom }
+  /* com faixa ancorada o palco nao pode sangrar no rodape do hero */
+  .hero--product .hero__stage { margin-bottom: 0; min-height: 0 }
+  /* faixa de tres fatos ancorada sob o hero */
+  .hero-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: var(--s-6); margin: 0; padding-top: var(--s-4);
+                border-top: 1px solid color-mix(in srgb, var(--ink) 12%, transparent) }
+  .hero-strip dt { font-size: var(--t-small); color: var(--muted) }
+  .hero-strip dd { margin: 0; font-size: var(--t-card) }
 
   .filtros { margin-bottom: var(--s-5) }
   .filtros .field { margin: 0 }
@@ -90,15 +97,20 @@
   @media (min-width: 1024px) and (max-width: 1279px) {
     .prod { --tile-ratio: 3 / 2 }
     .prod .tile__media > img { padding: 6% 24% }
-    .cat__conta { margin-bottom: var(--s-3) }
-    .pager { margin-top: var(--s-4) }
+    .cat__conta { margin-bottom: var(--s-2) }
+    .pager { margin-top: var(--s-3) }
+    .filtros { margin-bottom: var(--s-4) }
+    .prod { gap: var(--s-2) }
   }
   @media (min-width: 640px) and (max-width: 1023px) {
     .filtros .field.span-6 { grid-column: auto / span 3 }
     .filtros .field.span-2 { grid-column: auto / span 3 }
     .filtros .field :is(input, select) { padding-inline: 10px; font-size: 14px }
-    .prod { --tile-ratio: 16 / 9 }
-    .prod .tile__media > img { padding: 5% 26% }
+    .prod { --tile-ratio: 2 / 1; gap: var(--s-2) }
+    .prod .tile__media > img { padding: 4% 28% }
+    .cat__conta { margin-bottom: var(--s-2) }
+    .pager { margin-top: var(--s-3) }
+    .filtros { margin-bottom: var(--s-4) }
     .cat__conta { margin-bottom: var(--s-3) }
   }
   @media (max-width: 639px) {
@@ -161,7 +173,7 @@
       <div class="nav__item"><a class="nav__link" href="#como">Entrega</a></div>
     </nav>
     <div class="nav__actions">
-      <a class="btn btn--primary" href="#contato">Pedir o vídeo</a>
+      <a class="btn btn--primary" href="#contato">Entrar em contato</a>
     </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -178,14 +190,20 @@
           <p class="hero__lead">Seminovos com 6 meses de garantia e lacrados com 12. A bateria é medida e o vídeo chega antes do pagamento.</p>
         </div>
         <div class="btn-row">
-          <a class="btn btn--primary" href="#contato">Pedir o vídeo</a>
+          <a class="btn btn--primary" href="#contato">Entrar em contato</a>
           <a class="btn btn--secondary" href="#catalogo">Ver o catálogo</a>
         </div>
       </div>
       <div class="hero__stage">
-        <img src="assets/img/hero-linha.webp" alt="iPhone 11, iPhone 15 e iPhone 17 Pro Max lado a lado, de frente e de costas" fetchpriority="high" width="1304" height="600">
+        <img class="is-cutout" src="assets/img/hero-linha.webp" alt="iPhone 11, iPhone 15 e iPhone 17 Pro Max lado a lado, de frente e de costas" fetchpriority="high" width="1304" height="600">
       </div>
-    </div></div>
+    </div>
+    <dl class="hero-strip">
+      <div><dt>Garantia</dt><dd>6 a 12 meses pela loja</dd></div>
+      <div><dt>Pagamento</dt><dd>Até 10x sem juros</dd></div>
+      <div><dt>Entrega</dt><dd>No mesmo dia do pedido</dd></div>
+    </dl>
+    </div>
   </section>
 
   <section class="section" id="estoque" aria-labelledby="estoque-h">
@@ -299,7 +317,7 @@
     <div class="closing__cta close--type">
       <div class="grid grid--top">
         <div class="span-6">
-          <h2 id="close-h">Pedir o vídeo</h2>
+          <h2 id="close-h">Entrar em contato</h2>
           <p class="t-lead">Diga o modelo e a loja responde com o vídeo do aparelho no mesmo dia.</p>
         </div>
         <div class="span-6 start-7">
@@ -313,7 +331,7 @@
             <div class="field field--full"><label for="f-modelo">Aparelho</label>
               <input id="f-modelo" name="modelo" type="text" autocomplete="off" required aria-describedby="f-modelo-err" placeholder="iPhone 14 Pro de 256 GB">
               <p class="field__error" id="f-modelo-err" hidden>Escreva o modelo e o armazenamento.</p></div>
-            <div class="btn-row"><button class="btn btn--primary" type="submit">Pedir o vídeo<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></button></div>
+            <div class="btn-row"><button class="btn btn--primary" type="submit">Entrar em contato<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></button></div>
             <p class="form__status" role="status" data-form-status></p>
             <p class="t-small muted">A loja responde no mesmo dia, pelo WhatsApp.</p>
           </form>
@@ -344,6 +362,12 @@
   </div>
 </footer>
 
+<!-- no telefone, a ação principal fica no pé; system.js só a mostra depois que o
+     botão do hero sai da tela, e a esconde onde a mesma ação já aparece -->
+<nav class="actionbar" aria-label="Ações rápidas">
+  <a class="btn btn--primary" href="#contato">Entrar em contato</a>
+</nav>
+
 <dialog class="ficha" aria-labelledby="ficha-nome">
   <button class="ficha__fechar" type="button" aria-label="Fechar a ficha">
     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
@@ -357,7 +381,11 @@
       <p class="ficha__preco"><b></b><span class="ficha__par"></span></p>
       <dl class="ficha__corpo"></dl>
       <div class="ficha__notas"></div>
-      <a class="btn btn--primary ficha__wa" href="#f-modelo">Pedir o vídeo</a>
+      <div class="btn-row">
+        <a class="btn btn--primary ficha__wa" href="#f-modelo">Entrar em contato</a>
+        <button class="btn btn--secondary ficha__copiar" type="button">Copiar mensagem</button>
+      </div>
+      <p class="ficha__aviso t-small muted">A mensagem sai pronta com o modelo e o preço. O número da loja entra na versão final.</p>
     </div>
   </div>
 </dialog>
