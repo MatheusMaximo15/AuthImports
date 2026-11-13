@@ -20,10 +20,12 @@ Documento de trabalho. Atualizado em 13 de novembro de 2026.
 | Troca de aparelho | **A loja faz.** Fase 5 confirmada, deixa de ser condicional. |
 | Quem alimenta o catálogo | **A própria loja.** Painel precisa ser para leigo, não para técnico. |
 
+Ação principal do site: **"Entrar em contato"**, idêntica em nav, hero, fechamento, formulário, ficha e barra do telefone — o kit exige que seja a mesma palavra em todos.
+
 ### O que ainda não foi decidido
 
 - Domínio (`authimports.com.br` ou outro) e quem registra
-- Número de WhatsApp da loja
+- Número de WhatsApp da loja (sem ele o botão copia a mensagem em vez de abrir a conversa)
 - Com que frequência a loja atualiza preço e estoque (ver seção 7, risco 1)
 - Formato da campanha promocional: faixa fechável, bloco no hero ou modal
 - Se a loja quer receber o pedido de troca por WhatsApp ou por e-mail
@@ -170,7 +172,7 @@ RLS ligada em tudo. Leitura pública apenas nas colunas que a vitrine usa. Escri
 12. Barra de ação fixa no rodapé do celular.
 13. Mensagem de WhatsApp pronta por aparelho.
 14. Faixa de confiança sob o hero.
-15. Meta Pixel e GA4. A Medina tem, a Auth Imports não.
+15. Meta Pixel e GA4 — **passo de deploy, não de protótipo.** Exigem IDs reais que a loja ainda não tem, e script de rastreio com ID falso não mede nada. Entra junto com o domínio.
 
 ### Fase 4 — Supabase e painel
 16. Projeto no Supabase, tabelas acima, RLS.
