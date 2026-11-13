@@ -135,9 +135,11 @@
   dialog.ficha::backdrop { background: color-mix(in srgb, #2a2622 62%, transparent) }
   .ficha__in { display: grid; gap: var(--s-6); padding: var(--s-6); overflow: auto; max-height: 88vh }
   @media (min-width: 760px) { .ficha__in { grid-template-columns: 5fr 7fr; gap: var(--s-8); padding: var(--s-8) } }
+  /* o palco nao estica com a tabela ao lado: moldura fixa, foto preenchendo */
   .ficha__palco { background: var(--surface); border-radius: var(--r-md); display: grid;
-                  place-items: center; min-height: 320px; padding: var(--s-5) }
-  .ficha__foto { max-width: 92%; max-height: 330px; width: auto; object-fit: contain }
+                  place-items: center; align-self: start; aspect-ratio: 1; min-height: 0;
+                  padding: 0; overflow: hidden }
+  .ficha__foto { width: 100%; height: 100%; object-fit: contain; padding: var(--s-4) }
   .ficha__row { display: flex; justify-content: space-between; gap: var(--s-4);
                 padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent) }
   .ficha__row dt { color: var(--muted); font-size: var(--t-small) }
