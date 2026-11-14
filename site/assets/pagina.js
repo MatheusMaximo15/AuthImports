@@ -63,8 +63,16 @@ export function ligarFichaPagina() {
   });
 }
 
+/** Ao atualizar, a página volta ao topo em vez de onde o usuário parou.
+    Endereço com âncora (#catalogo, #iphone-13-semi) segue indo ao lugar certo. */
+export function voltarAoTopo() {
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (!location.hash) scrollTo(0, 0);
+}
+
 /** Tudo que toda página liga ao abrir. */
 export function ligarPagina() {
+  voltarAoTopo();
   marcarMenu();
   ligarContatos();
   botaoFlutuante();
