@@ -122,6 +122,6 @@ export function mostrarCampanha(c = CAMPANHA, { forcar = false } = {}) {
   return dlg;
 }
 
-// espera o visitante ver o hero e a lista antes de abrir (4 s)
+// espera o visitante ver o hero antes de abrir (2 s; 4 s o usuário achou demorado)
 const forcar = new URLSearchParams(location.search).has('campanha');
-setTimeout(() => mostrarCampanha(CAMPANHA, { forcar }), 4000);
+setTimeout(() => mostrarCampanha(CAMPANHA, { forcar }), 2000);
