@@ -128,7 +128,7 @@ Fases **1, 2 e 3 prontas**, na branch `fase-1/catalogo-por-modelo`, no **PR #1**
 - **Fase 2** — endereço por modelo (`#iphone-13-pro-semi` abre a ficha direto), três blocos de informação na ficha.
 - **Fase 3** — barra de ação no celular, botão que copia a mensagem com modelo e preço, faixa de três fatos no hero.
 
-- **Fase 5 (adiantada, com valores fictícios)** — simulador de troca em `#troca`: 4 passos (aparelho desejado, aparelho do cliente, simulação, combinar). Faixa de ±10%, mostra quanto falta pagar, não pede contato antes do passo 4, botão "Simular troca" na ficha. Código em `site/assets/troca.js` e `troca.css`. **Os valores de `MODELOS`, `ESTADOS`, `BATERIAS` e `TELAS` são inventados**: a loja entrega a tabela real, é só trocar esses dados. Falta a tabela `avaliacoes` no Supabase (vem com a Fase 4).
+- **Fase 5 (adiantada, com valores fictícios)** — simulador de troca em `#troca`: 4 passos (aparelho desejado, aparelho do cliente, nome e WhatsApp, resultado). **Decisão do usuário: valores só aparecem no último passo, depois de avaliação e contato preenchidos.** Faixa de ±10%, mostra quanto falta pagar, botão "Simular troca" na ficha. Código em `site/assets/troca.js` e `troca.css`. **Os valores de `MODELOS`, `ESTADOS`, `BATERIAS` e `TELAS` são inventados**: a loja entrega a tabela real, é só trocar esses dados. Falta a tabela `avaliacoes` no Supabase (vem com a Fase 4).
 
 ### Próximo: Fase 4
 

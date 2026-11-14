@@ -103,9 +103,9 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const faixaTxt = (a, b) => a === b ? brl.format(a) : 'de ' + brl.format(a) + ' a ' + brl.format(b);
 const gbTxt = n => n >= 1024 ? (n / 1024) + ' TB' : n + ' GB';
 
-const PASSOS = ['Aparelho que você quer', 'Seu aparelho', 'Simulação', 'Combinar'];
+const PASSOS = ['Aparelho que você quer', 'Seu aparelho', 'Seus dados', 'Resultado'];
 
-const estado = { alvo: '', alvoVar: 0, modelo: '', gb: 0, estado: '', bateria: '', tela: '' };
+const estado = { alvo: '', alvoVar: 0, modelo: '', gb: 0, estado: '', bateria: '', tela: '', nome: '', zap: '' };
 let raiz, passo = 1;
 
 const q = s => raiz.querySelector(s);
@@ -149,7 +149,7 @@ function montar() {
 
   <section class="troca__painel" data-painel="2" aria-labelledby="tr-h2" hidden>
     <h3 id="tr-h2" tabindex="-1">Conte sobre o seu iPhone</h3>
-    <p class="t-small muted">Sem cadastro: o contato só é pedido no último passo.</p>
+    <p class="t-small muted">Responda com sinceridade: a loja confirma tudo na avaliação.</p>
     <div class="troca__campos">
       <div class="field"><label for="tr-modelo">Modelo</label><select id="tr-modelo">
         <option value="">Escolha o modelo</option>${MODELOS.map(m => `<option value="${m.id}">${esc(m.n)}</option>`).join('')}</select></div>
@@ -160,24 +160,33 @@ function montar() {
     ${radios('estado', 'Estado de conservação', '', ESTADOS)}
     <div class="btn-row">
       <button class="btn btn--secondary" type="button" data-ir="1">Voltar</button>
-      <button class="btn btn--secondary" type="button" data-ir="3" id="tr-ver" disabled>Ver a simulação</button>
+      <button class="btn btn--secondary" type="button" data-ir="3" id="tr-ver" disabled>Continuar</button>
     </div>
   </section>
 
   <section class="troca__painel" data-painel="3" aria-labelledby="tr-h3" hidden>
-    <h3 id="tr-h3" tabindex="-1">O que a loja pode pagar pelo seu aparelho</h3>
-    <div id="tr-sim"></div>
+    <h3 id="tr-h3" tabindex="-1">Para quem a loja manda a avaliação?</h3>
+    <p class="t-small muted">O valor da troca aparece logo depois.</p>
+    <div class="troca__campos">
+      <div class="field"><label for="tr-nome">Seu nome</label>
+        <input id="tr-nome" type="text" autocomplete="name" aria-describedby="tr-nome-err">
+        <p class="field__error" id="tr-nome-err" hidden>Escreva o nome que a loja deve chamar.</p></div>
+      <div class="field"><label for="tr-zap">Seu WhatsApp</label>
+        <input id="tr-zap" type="tel" autocomplete="tel" inputmode="tel" placeholder="(11) 91234-5678" aria-describedby="tr-zap-err">
+        <p class="field__error" id="tr-zap-err" hidden>Escreva o número com DDD.</p></div>
+    </div>
     <div class="btn-row">
-      <button class="btn btn--secondary" type="button" data-ir="2">Voltar e ajustar</button>
-      <button class="btn btn--secondary" type="button" data-ir="4">Combinar com a loja</button>
+      <button class="btn btn--secondary" type="button" data-ir="2">Voltar</button>
+      <button class="btn btn--secondary" type="button" id="tr-resultado">Ver o resultado</button>
     </div>
   </section>
 
   <section class="troca__painel" data-painel="4" aria-labelledby="tr-h4" hidden>
-    <h3 id="tr-h4" tabindex="-1">Combinar a troca</h3>
+    <h3 id="tr-h4" tabindex="-1">O que a loja pode pagar pelo seu aparelho</h3>
+    <div id="tr-sim"></div>
     <div id="tr-fim"></div>
     <div class="btn-row">
-      <button class="btn btn--secondary" type="button" data-ir="3">Voltar</button>
+      <button class="btn btn--secondary" type="button" data-ir="2">Voltar e ajustar</button>
       <a class="btn btn--primary" href="#contato" id="tr-contato">Entrar em contato</a>
       <button class="btn btn--secondary" type="button" id="tr-copiar">Copiar mensagem</button>
     </div>
@@ -191,6 +200,9 @@ const modeloAtual = () => MODELOS.find(m => m.id === estado.modelo);
 const grupoAlvo = () => G.find(g => g.id === estado.alvo);
 const faixa = () => calcular(estado);
 const completo = () => !!faixa();
+const nomeOk = () => estado.nome.trim().length >= 2;
+const zapOk = () => { const d = estado.zap.replace(/\D/g, ''); return d.length === 10 || d.length === 11; };
+const contatoOk = () => nomeOk() && zapOk();
 
 function pintarAlvo() {
   const gb = q('#tr-alvo-gb');
@@ -266,7 +278,7 @@ function mensagem() {
   const r = faixa();
   const alvo = grupoAlvo();
   const v = alvo && alvo.vars[estado.alvoVar];
-  return 'Olá, Auth Imports! Quero dar meu iPhone na troca'
+  return 'Olá, Auth Imports! Aqui é ' + estado.nome.trim() + '. Quero dar meu iPhone na troca'
     + (alvo ? ' por um ' + nomeVar(alvo, v) + ' (' + (alvo.k === 'lacrado' ? 'lacrado' : 'seminovo') + ')' : '')
     + '. Meu aparelho: ' + textoResumo() + '. A simulação do site deu '
     + faixaTxt(r.min, r.max) + '. Podem avaliar?';
@@ -275,12 +287,14 @@ function mensagem() {
 function pintarFim() {
   if (!completo()) return;
   q('#tr-fim').innerHTML = `
-    <p>A loja avalia o aparelho de perto e confirma o valor. Esta é a mensagem que vai com o seu pedido:</p>
+    <p class="troca__fim-txt">A loja avalia o aparelho de perto e confirma o valor. Esta é a mensagem que vai com o seu pedido:</p>
     <blockquote class="troca__msg">${esc(mensagem())}</blockquote>`;
 }
 
 function ir(n) {
+  // os valores só aparecem depois da avaliação e do contato preenchidos
   if (n >= 3 && !completo()) n = 2;
+  if (n >= 4 && !contatoOk()) n = 3;
   passo = n;
   qa('[data-painel]').forEach(p => { p.hidden = Number(p.dataset.painel) !== n; });
   qa('.troca__passos li').forEach(li => {
@@ -289,8 +303,7 @@ function ir(n) {
     li.classList.toggle('is-feito', i < n);
     if (i === n) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
   });
-  if (n === 3) pintarSimulacao();
-  if (n === 4) pintarFim();
+  if (n === 4) { pintarSimulacao(); pintarFim(); }
   const h = q(`[data-painel="${n}"] h3`);
   if (h) h.focus({ preventScroll: true });
   const topo = raiz.getBoundingClientRect().top;
@@ -339,10 +352,27 @@ export function ligarTroca(el) {
   ['bateria', 'tela', 'estado'].forEach(k =>
     qa(`input[name="tr-${k}"]`).forEach(r => r.addEventListener('change', () => { estado[k] = r.value; pintarMeu(); })));
 
-  // o contato só aparece aqui: leva o resumo para o formulário da loja
+  // passo 3: contato antes do resultado
+  const erro = (id, mostrar) => {
+    q('#' + id + '-err').hidden = !mostrar;
+    q('#' + id).setAttribute('aria-invalid', mostrar ? 'true' : 'false');
+  };
+  q('#tr-nome').addEventListener('input', e => { estado.nome = e.target.value; if (nomeOk()) erro('tr-nome', false); });
+  q('#tr-zap').addEventListener('input', e => { estado.zap = e.target.value; if (zapOk()) erro('tr-zap', false); });
+  q('#tr-resultado').addEventListener('click', () => {
+    erro('tr-nome', !nomeOk());
+    erro('tr-zap', !zapOk());
+    if (!contatoOk()) { q(nomeOk() ? '#tr-zap' : '#tr-nome').focus(); return; }
+    ir(4);
+  });
+
+  // leva nome, WhatsApp e o resumo para o formulário da loja
   q('#tr-contato').addEventListener('click', () => {
-    const campo = document.getElementById('f-modelo');
-    if (campo && completo()) campo.value = 'Troca: ' + textoResumo();
+    const preencher = (id, v) => { const c = document.getElementById(id); if (c) c.value = v; };
+    if (!completo() || !contatoOk()) return;
+    preencher('f-nome', estado.nome.trim());
+    preencher('f-zap', estado.zap.trim());
+    preencher('f-modelo', 'Troca: ' + textoResumo());
   });
 
   const copiar = q('#tr-copiar');

@@ -211,7 +211,7 @@ A Medina tem esse fluxo e **está quebrado agora**: o campo "Modelo do iPhone" m
 
 Duas melhorias sobre o deles:
 - Mostrar **quanto falta pagar** já na simulação, não só o valor do usado. É a pergunta que o cliente tem na cabeça.
-- Deixar simular **sem preencher contato**. Eles exigem nome e WhatsApp antes de mostrar qualquer número, o que faz muita gente desistir. Pedir o contato só na hora de combinar.
+- ~~Deixar simular sem preencher contato.~~ **Revisto:** o cliente pediu que os valores apareçam só no final, depois de avaliação e contato preenchidos. O contato vira o passo 3 e o resultado o passo 4. Diferença para a Medina: o nosso pede o contato depois das perguntas sobre o aparelho, não antes.
 
 ### Fase 6 — institucional
 27. Páginas de garantia, entrega, trocas e devoluções, privacidade, termos.
