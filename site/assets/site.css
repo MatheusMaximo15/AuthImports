@@ -82,3 +82,12 @@ footer.closing.rodape > .wrap { height: auto; display: block }
 }
 /* a lista vem logo depois do hero, sem o respiro de tela inteira */
 main.inicial > #estoque { padding-top: var(--s-7, 48px) }
+
+/* Ficha no celular: faixa fixa de 64px no topo para o botão fechar. A parte que
+   rola começa abaixo dela, então o texto nunca passa por baixo do X. */
+@media (max-width: 759px) {
+  dialog.ficha { display: none; flex-direction: column }
+  dialog.ficha[open] { display: flex }
+  dialog.ficha .ficha__in { margin-top: 64px; padding-top: var(--s-2); max-height: calc(88vh - 64px);
+                            border-top: 1px solid var(--line) }
+}
