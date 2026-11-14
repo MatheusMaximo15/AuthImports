@@ -161,28 +161,26 @@
   .demo-note { font-size: var(--t-small); color: var(--muted) }
 </style>
 </head>
+
 <body>
 <header class="nav nav--split">
   <div class="wrap nav__bar">
     <a class="skip-link" href="#top">Ir para o conteúdo</a>
     <a class="nav__logo" href="index.html"><img src="assets/img/logo-dark.png" alt="Auth Imports" width="496" height="120"></a>
     <nav class="nav__links" aria-label="Principal">
-      <div class="nav__item"><a class="nav__link" href="estoque.html">Estoque</a></div>
-      <div class="nav__item"><a class="nav__link" href="catalogo.html">Catálogo</a></div>
+      <div class="nav__item"><a class="nav__link" href="#estoque">Estoque</a></div>
+      <div class="nav__item"><a class="nav__link" href="#catalogo">Catálogo</a></div>
       <div class="nav__item"><a class="nav__link" href="troca.html">Troca</a></div>
       <div class="nav__item"><a class="nav__link" href="#garantia">Garantia</a></div>
       <div class="nav__item"><a class="nav__link" href="#como">Entrega</a></div>
     </nav>
-    <div class="nav__actions">
-      <a class="btn btn--primary" href="contato.html">Entrar em contato</a>
-    </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
   </div>
 </header>
 
-<main id="top">
+<main id="top" class="interna inicial">
   <section class="hero hero--product" data-enter aria-labelledby="hero-h">
     <div class="wrap"><div class="hero-text hero__in">
       <div class="hero__head">
@@ -191,8 +189,8 @@
           <p class="hero__lead">Seminovos com 6 meses de garantia e lacrados com 12. A bateria é medida e o vídeo chega antes do pagamento.</p>
         </div>
         <div class="btn-row">
-          <a class="btn btn--primary" href="contato.html">Entrar em contato</a>
-          <a class="btn btn--secondary" href="catalogo.html">Ver o catálogo</a>
+          <a class="btn btn--primary" href="#estoque">Ver os aparelhos</a>
+          <a class="btn btn--secondary" href="troca.html">Simular troca</a>
         </div>
       </div>
       <div class="hero__stage">
@@ -204,6 +202,75 @@
       <div><dt>Pagamento</dt><dd>Até 10x sem juros</dd></div>
       <div><dt>Entrega</dt><dd>No mesmo dia do pedido</dd></div>
     </dl>
+    </div>
+  </section>
+
+  <section class="section" id="estoque" aria-labelledby="estoque-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="estoque-h">Aparelhos na loja hoje</h2>
+        <p>11 modelos prontos para retirada, com a bateria já medida.</p>
+      </div>
+      <div class="grid" id="grade-estoque"></div>
+      <div class="pager">
+        <button class="btn btn--secondary" type="button" id="est-ant">Anteriores</button>
+        <button class="btn btn--secondary" type="button" id="est-prox">Próximos</button>
+        <span class="pager__n" id="est-n"></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="catalogo" aria-labelledby="catalogo-h">
+    <div class="wrap">
+      <div class="group">
+      <div class="section-head">
+        <h2 id="catalogo-h">Tabela de encomenda</h2>
+        <p>16 modelos que a loja busca no estoque e entrega no mesmo dia.</p>
+      </div>
+      <div class="grid filtros">
+        <div class="field span-6">
+          <label for="busca">Buscar modelo</label>
+          <input id="busca" name="busca" type="search" autocomplete="off" placeholder="13 Pro, 256 GB, lacrado">
+        </div>
+        <div class="field span-2">
+          <label for="tipo">Aparelho</label>
+          <select id="tipo" name="tipo">
+            <option value="">Todos</option>
+            <option value="iphone">iPhone</option>
+            <option value="ipad">iPad</option>
+            <option value="mac">Mac</option>
+            <option value="watch">Watch</option>
+          </select>
+        </div>
+        <div class="field span-2">
+          <label for="memoria">Memória</label>
+          <select id="memoria" name="memoria">
+            <option value="">Qualquer</option>
+            <option value="128">128 GB</option>
+            <option value="256">256 GB</option>
+            <option value="512">512 GB</option>
+          </select>
+        </div>
+        <div class="field span-2">
+          <label for="ordem">Ordem</label>
+          <select id="ordem" name="ordem">
+            <option value="low">Mais barato</option>
+            <option value="high">Mais caro</option>
+            <option value="new">Mais novo</option>
+          </select>
+        </div>
+      </div>
+      <p class="cat__conta" id="conta" role="status"></p>
+      <div class="grid" id="grade-catalogo"></div>
+      </div>
+      <div class="cat__mais">
+        <div class="grid" id="grade-catalogo-2"></div>
+        <div class="pager">
+          <button class="btn btn--secondary" type="button" id="pag-ant">Anteriores</button>
+          <button class="btn btn--secondary" type="button" id="pag-prox">Próximos</button>
+          <span class="pager__n" id="pag-n"></span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -245,17 +312,16 @@
   </section>
 </main>
 
-<footer class="footer closing" aria-labelledby="close-h">
+<footer class="footer closing rodape" aria-labelledby="close-h">
   <div class="wrap">
-    <div class="closing__cta close--type">
-      <div class="grid grid--top">
-        <div class="span-6">
-          <h2 id="close-h">Entrar em contato</h2>
-          <p class="t-lead">Diga o modelo que procura e a loja responde no mesmo dia.</p>
-        </div>
-        <div class="span-6 start-7 closing__acao">
-          <a class="btn btn--primary" href="contato.html">Entrar em contato</a>
-        </div>
+    <div class="rodape__cta">
+      <div>
+        <h2 class="rodape__titulo" id="close-h">Fale com a loja</h2>
+        <p class="rodape__linha">Diga o modelo que procura e a loja responde no mesmo dia.</p>
+      </div>
+      <div class="rodape__acoes">
+        <a class="btn btn--primary btn--zap" data-zap href="https://wa.me/"><span class="btn__icone" data-icone="whatsapp"></span>Falar no WhatsApp</a>
+        <a class="btn btn--secondary btn--insta" data-insta href="#"><span class="btn__icone" data-icone="instagram"></span>Instagram</a>
       </div>
     </div>
     <div class="closing__links">
@@ -265,41 +331,133 @@
           <p class="footer__lede">Loja de iPhone seminovo e lacrado, com garantia e entrega no mesmo dia.</p>
         </div>
         <div class="span-3 start-7 footer__col"><h3>Aparelhos</h3><ul>
-          <li><a href="estoque.html">Na loja hoje</a></li>
-          <li><a href="catalogo.html">Tabela de encomenda</a></li>
+          <li><a href="#estoque">Na loja hoje</a></li>
+          <li><a href="#catalogo">Tabela de encomenda</a></li>
           <li><a href="troca.html">Dar o seu na troca</a></li>
         </ul></div>
         <div class="span-3 start-10 footer__col"><h3>A compra</h3><ul>
           <li><a href="#garantia">Garantia</a></li>
           <li><a href="#como">Entrega</a></li>
-          <li><a href="contato.html">Contato</a></li>
+          <li><a data-insta href="#">Instagram</a></li>
         </ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Auth Imports</span>
-        <div class="socials"></div>
         <span class="demo-note">Demonstração de site. Modelos, preços e garantias vieram das páginas públicas da loja em novembro de 2026. Não é a loja oficial e não vende.</span>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- no telefone, a ação principal fica no pé; system.js só a mostra depois que o
-     botão do hero sai da tela, e a esconde onde a mesma ação já aparece -->
-<nav class="actionbar" aria-label="Ações rápidas">
-  <a class="btn btn--primary" href="contato.html">Entrar em contato</a>
-</nav>
-
+<dialog class="ficha" aria-labelledby="ficha-nome">
+  <button class="ficha__fechar" type="button" aria-label="Fechar a ficha">
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  </button>
+  <div class="ficha__in">
+    <div class="ficha__palco"><img class="ficha__foto" alt=""></div>
+    <div class="stack-4">
+      <h2 class="ficha__nome" id="ficha-nome">iPhone</h2>
+      <p class="ficha__linha t-small muted"></p>
+      <div class="ficha__caps" role="group" aria-label="Armazenamento"></div>
+      <p class="ficha__preco"><b></b><span class="ficha__par"></span></p>
+      <dl class="ficha__corpo"></dl>
+      <div class="ficha__notas"></div>
+      <div class="btn-row">
+        <a class="btn btn--primary btn--zap ficha__wa" href="#"><span class="btn__icone" data-icone="whatsapp"></span>Falar no WhatsApp</a>
+        <button class="btn btn--secondary ficha__troca" type="button">Simular troca</button>
+      </div>
+      <p class="ficha__aviso t-small muted">A mensagem abre pronta no WhatsApp da loja, com o modelo e o preço.</p>
+    </div>
+  </div>
+</dialog>
 
 <script type="module" src="assets/system.js"></script>
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
 <script type="module" src="assets/campanha.js"></script>
 <script type="module">
-import { marcarMenu, ligarFichaPagina, redirecionarFichaAntiga, preencherContato } from './assets/pagina.js';
-marcarMenu();
-// endereços antigos de ficha (#modelo) vão para a página do aparelho
-redirecionarFichaAntiga();
+import { G, montarCatalogo } from './assets/catalogo.js';
+import { ligarPagina, ligarFichaPagina } from './assets/pagina.js';
+ligarPagina();
+const porPreco = (a, b) => a.min - b.min;
+
+// na loja hoje: quatro por vez
+const estoque = G.filter(g => g.pronta).sort(porPreco);
+const eA = document.getElementById('grade-estoque');
+const eAnt = document.getElementById('est-ant');
+const eProx = document.getElementById('est-prox');
+const eN = document.getElementById('est-n');
+let ePag = 0;
+function desenharEstoque() {
+  const paginas = Math.max(1, Math.ceil(estoque.length / 4));
+  ePag = Math.min(Math.max(0, ePag), paginas - 1);
+  montarCatalogo(eA, estoque.slice(ePag * 4, ePag * 4 + 4));
+  eN.textContent = 'Página ' + (ePag + 1) + ' de ' + paginas;
+  eAnt.disabled = ePag === 0;
+  eProx.disabled = ePag >= paginas - 1;
+}
+eAnt.addEventListener('click', () => { ePag--; desenharEstoque(); });
+eProx.addEventListener('click', () => { ePag++; desenharEstoque(); });
+desenharEstoque();
+
+// catálogo completo: busca, filtro e oito por vez
+const grade = document.getElementById('grade-catalogo');
+const grade2 = document.getElementById('grade-catalogo-2');
+const conta = document.getElementById('conta');
+const campo = document.getElementById('busca');
+const tipo = document.getElementById('tipo');
+const memoria = document.getElementById('memoria');
+const ordem = document.getElementById('ordem');
+const ant = document.getElementById('pag-ant');
+const prox = document.getElementById('pag-prox');
+const pagN = document.getElementById('pag-n');
+const POR = 8;
+let pagina = 0, filtrada = [];
+
+const encomenda = G.filter(g => !g.pronta);
+
+function filtrar() {
+  const termos = campo.value.toLowerCase().split(/\s+/).filter(Boolean);
+  const mem = memoria.value, cat = tipo.value;
+  filtrada = encomenda.filter(g => {
+    if (cat && g.cat !== cat) return false;
+    if (mem && !g.vars.some(v => String(v.s) === mem)) return false;
+    const palheiro = (g.n + ' ' + g.vars.map(v => v.s + 'gb').join(' ') + ' '
+      + (g.k === 'lacrado' ? 'lacrado novo' : 'seminovo usado')).toLowerCase();
+    return termos.every(t => palheiro.includes(t));
+  });
+  const o = ordem.value;
+  filtrada.sort(o === 'high' ? (a, b) => b.min - a.min
+    : o === 'new' ? (a, b) => b.y - a.y || b.min - a.min : porPreco);
+  pagina = 0;
+  desenhar();
+}
+
+function desenhar() {
+  const paginas = Math.max(1, Math.ceil(filtrada.length / POR));
+  pagina = Math.min(Math.max(0, pagina), paginas - 1);
+  const fatia = filtrada.slice(pagina * POR, pagina * POR + POR);
+  if (fatia.length) {
+    montarCatalogo(grade, fatia.slice(0, 4));
+    montarCatalogo(grade2, fatia.slice(4, 8));
+  } else {
+    grade.innerHTML = '<p class="cat__vazio">Nenhum aparelho com esse filtro. A loja consulta outros estoques: peça o modelo no formulário.</p>';
+    grade2.innerHTML = '';
+  }
+  conta.textContent = filtrada.length + ' de ' + encomenda.length + ' modelos';
+  pagN.textContent = 'Página ' + (pagina + 1) + ' de ' + paginas;
+  ant.disabled = pagina === 0;
+  prox.disabled = pagina >= paginas - 1;
+}
+campo.addEventListener('input', filtrar);
+tipo.addEventListener('change', filtrar);
+memoria.addEventListener('change', filtrar);
+ordem.addEventListener('change', filtrar);
+ant.addEventListener('click', () => { pagina--; desenhar(); });
+prox.addEventListener('click', () => { pagina++; desenhar(); });
+filtrar();
+
+ligarFichaPagina();
 </script>
 </body>
 </html>

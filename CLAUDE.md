@@ -28,7 +28,7 @@ Fale **português** com o usuário.
 
 6. **Não prometa que a loja responde com vídeo.** O usuário pediu para tirar isso do contato. As outras menções ao "vídeo antes do pagamento" (hero, passos da compra, garantia, notas da ficha) vieram do Canva da loja e **ficaram**; o usuário ainda não decidiu se saem.
 
-7. **A ação principal é "Entrar em contato"**, idêntica em nav, hero, rodapé, ficha, troca e barra do telefone. Todas levam a `contato.html`.
+7. **Contato é direto no WhatsApp, sem formulário.** O WhatsApp aparece em **dois lugares só**: o botão verde flutuante (canto inferior direito, todas as páginas) e a chamada do rodapé, ao lado do Instagram. Além deles, a ficha e o resultado da troca têm botão próprio, que leva a mensagem pronta do aparelho. O usuário reclamou de **quatro botões de WhatsApp** na inicial: não ponha de volta no menu nem no hero. Número e Instagram ficam em `site/assets/loja.js`.
 
 8. **Teste no navegador antes de dizer que está pronto**, no desktop e no celular (375px). O usuário revisa por print e aponta sobreposição, espaço vazio e texto errado.
 
@@ -103,13 +103,12 @@ Além do kit, meça sobreposição nas cinco páginas em telas **largas e baixas
 
 | Caminho | O que é |
 |---|---|
-| `site/index.html` | início: hero e "Como a compra funciona" (com o bloco de garantia) |
-| `site/estoque.html` | aparelhos na loja hoje, com a ficha |
-| `site/catalogo.html` | tabela de encomenda com busca e filtros, com a ficha |
+| `site/index.html` | a vitrine: hero baixo, "Na loja hoje", tabela de encomenda com filtros, "Como a compra funciona" (com garantia) e a ficha |
 | `site/troca.html` | simulador de troca |
-| `site/contato.html` | formulário de contato |
+| `site/estoque.html`, `catalogo.html`, `contato.html` | só redirecionam para a inicial (endereços antigos, mantêm `#modelo`) |
+| `site/assets/loja.js` | **número do WhatsApp e Instagram da loja**, links e ícones |
 | `site/assets/catalogo.js` | dados dos aparelhos, agrupamento por modelo, ficha |
-| `site/assets/pagina.js` | o que as páginas dividem: menu, ficha, recado para o contato |
+| `site/assets/pagina.js` | o que as páginas dividem: menu, botões de WhatsApp/Instagram, botão flutuante, ficha |
 | `site/assets/troca.js` + `troca.css` | simulador de troca (tabela fictícia no topo do JS) |
 | `site/assets/campanha.js` + `campanha.css` | aviso de campanha, só na inicial |
 | `site/assets/site.css` | regras do site sobre o kit (alturas, garantia, catálogo) |
@@ -132,7 +131,7 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
 - **Fase 1** — catálogo por modelo: 39 SKUs viram 27 modelos, capacidades como variantes, "a partir de". Filtro por tipo de aparelho. Paleta preto e branco.
 - **Fase 2** — endereço por modelo: `catalogo.html#iphone-13-pro-semi` abre a ficha direto; `index.html#modelo` antigo redireciona. Ficha abre sempre do topo, foto presa ao rolar no desktop.
 - **Fase 3** — barra de ação no celular, mensagem pronta com modelo e preço (pergunta se está disponível), faixa de três fatos no hero. Pixel e GA4 ficaram para o deploy real (precisam de IDs da loja).
-- **Site em várias páginas** (pedido do usuário: "mais profissional"). A inicial tem só o hero e "Como a compra funciona", com a garantia dentro (bloco à esquerda, tabela de detalhes à direita). Estoque, catálogo, troca e contato têm página própria. Ficha e troca levam modelo, nome e WhatsApp para o contato por `sessionStorage`, nunca pela URL.
+- **Inicial virou vitrine** (feedback de um usuário de teste: "o cliente não quer clicar em 500 páginas", "igual marketplace", "é uma landing page, ele fecha no WhatsApp ou no Instagram"). Antes o site tinha cinco páginas; agora são duas: a inicial (hero baixo em duas colunas no desktop, lista de aparelhos na primeira tela, como a compra funciona) e a troca. Formulário e página de contato saíram. Rodapé compacto, sem a tela inteira que o kit dá ao fechamento.
 - **Fase 5 adiantada, com valores fictícios** — `troca.html`: 4 passos (aparelho desejado, seu aparelho, nome e WhatsApp, resultado). **Decisão do usuário: valores só no último passo, depois da avaliação e do contato.** Faixa de ±10%, quanto falta pagar, link que ensina a ver a saúde da bateria (guia da Apple `support.apple.com/pt-br/101575`), botão "Simular troca" na ficha.
 - **Campanha de demonstração** — janela "Black November" **só na inicial**, **uma vez por campanha** (`localStorage` pelo `id`). Leque com três aparelhos que não estão no hero e contagem regressiva real. `?campanha` força a exibição para apresentar. Campos de `CAMPANHA` = tabela `campanha` do Supabase. O usuário achou a primeira versão feia e invasiva; a atual foi aprovada.
 
@@ -147,7 +146,8 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
 ## Pendências com o cliente
 
 - domínio e quem registra
-- número de WhatsApp da loja
+- **número de WhatsApp e Instagram da loja** (o usuário vai mandar; preencher em `site/assets/loja.js`). Sem número, o botão abre o WhatsApp com a mensagem e a pessoa escolhe o contato; sem Instagram, o ícone some
+- **prova social**: prints dos destaques do Instagram (clientes, vendas) e fotos reais da loja, sugeridos pelo usuário de teste. Não inventar depoimento: esperar os prints reais
 - com que frequência atualizam preço e estoque
 - formato da campanha: na demonstração é janela na inicial; confirmar
 - se as menções ao vídeo antes do pagamento ficam (regra 6)

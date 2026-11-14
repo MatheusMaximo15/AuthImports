@@ -30,3 +30,55 @@
 
 /* a segunda fileira do catálogo vem logo abaixo da primeira, no espaço das grades */
 .cat__mais { margin-top: var(--card-gap) }
+
+/* Inicial como vitrine (feedback de usuário de teste): hero baixo e menor, e a
+   lista de aparelhos já aparece na primeira rolagem, como num marketplace. */
+main.inicial > .hero.hero--product { height: auto; min-height: 0; padding-bottom: var(--s-6) }
+.inicial .hero--product h1 { font-size: clamp(34px, 3.4vw, 52px); line-height: 1.02 }
+.inicial .hero--product .hero__lead { font-size: var(--t-body); max-width: 46ch }
+.inicial .hero--product .hero__stage { height: clamp(150px, 19vw, 250px); flex: none }
+.inicial .hero--product .hero__stage img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom }
+@media (max-width: 1023px) { .inicial .hero--product .hero__stage { margin-top: var(--s-5) } }
+@media (max-width: 639px) { .inicial .hero--product .hero__stage { height: 150px } }
+
+/* Rodapé compacto: chamada para WhatsApp e Instagram numa linha, sem a tela
+   inteira que o kit dá ao fechamento */
+footer.closing.rodape { height: auto; min-height: 0; padding: var(--s-8) 0 96px } /* 96px: o botão flutuante não cobre o fim do rodapé */
+footer.closing.rodape > .wrap { height: auto; display: block }
+.rodape__cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s-5);
+               padding-bottom: var(--s-6); margin-bottom: var(--s-6); border-bottom: 1px solid var(--line) }
+.rodape__titulo { font-family: var(--font-display); font-weight: var(--display-weight);
+                  font-size: var(--t-h2); letter-spacing: var(--display-tracking); line-height: 1.05 }
+.rodape__linha { color: var(--muted); margin-top: var(--s-2) }
+.rodape__acoes { display: flex; flex-wrap: wrap; gap: var(--s-3) }
+
+/* botões com ícone (WhatsApp, Instagram) */
+.btn__icone { display: inline-grid; place-items: center; width: 18px; height: 18px; margin-right: 8px; flex: none }
+.btn__icone svg { width: 100%; height: 100%; display: block }
+
+/* WhatsApp flutuante, canto inferior direito, em todas as páginas */
+.zap-flutua { position: fixed; z-index: 45; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom));
+              width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+              background: #25d366; color: #fff; box-shadow: 0 12px 28px -8px rgba(0,0,0,.4);
+              transition: transform 200ms ease, box-shadow 200ms ease }
+.zap-flutua svg { width: 30px; height: 30px }
+.zap-flutua:focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px }
+@media (hover: hover) and (pointer: fine) {
+  .zap-flutua:hover { transform: scale(1.06); box-shadow: 0 16px 32px -8px rgba(0,0,0,.45) }
+}
+@media (prefers-reduced-motion: reduce) { .zap-flutua { transition: none } }
+
+/* hero da inicial em duas colunas no desktop: texto e botões à esquerda, foto à
+   direita. Seletores mais fortes que os :has() do kit (layout.css 285-296). */
+@media (min-width: 1024px) {
+  main.inicial .hero.hero--product .hero__in { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+                                               align-items: center; column-gap: var(--s-8) }
+  main.inicial .hero.hero--product .hero__head { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-5) }
+  main.inicial .hero.hero--product .hero__head > :first-child { display: block }
+  main.inicial .hero.hero--product .hero__head :is(h1, .hero__lead, .btn-row) { grid-column: auto; grid-row: auto; margin: 0 }
+  main.inicial .hero.hero--product .hero__head .hero__lead { margin-top: var(--s-4) }
+  main.inicial .hero.hero--product .hero__head > .btn-row { justify-content: flex-start; flex-wrap: wrap }
+  main.inicial .hero.hero--product .hero__stage { margin-top: 0; height: clamp(240px, 24vw, 340px) }
+}
+/* a lista vem logo depois do hero, sem o respiro de tela inteira */
+main.inicial > #estoque { padding-top: var(--s-7, 48px) }

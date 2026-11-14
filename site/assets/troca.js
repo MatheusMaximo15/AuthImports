@@ -11,7 +11,7 @@
    valor final depende de avaliação presencial. */
 
 import { G, nomeVar } from './catalogo.js';
-import { levarParaContato } from './pagina.js';
+import { linkWhatsApp, ICONE_WHATSAPP } from './loja.js';
 
 /* ---------- dados fictícios (a loja substitui) ---------- */
 
@@ -197,10 +197,9 @@ function montar() {
     <div id="tr-fim"></div>
     <div class="btn-row">
       <button class="btn btn--secondary" type="button" data-ir="2">Voltar e ajustar</button>
-      <a class="btn btn--primary" href="contato.html" id="tr-contato">Entrar em contato</a>
-      <button class="btn btn--secondary" type="button" id="tr-copiar">Copiar mensagem</button>
+      <a class="btn btn--primary btn--zap" href="#" id="tr-contato"><span class="btn__icone">${ICONE_WHATSAPP}</span>Enviar no WhatsApp</a>
     </div>
-    <p class="t-small muted" id="tr-aviso">A mensagem sai pronta com a avaliação. O número da loja entra na versão final.</p>
+    <p class="t-small muted" id="tr-aviso">A mensagem abre pronta no WhatsApp da loja. É só enviar.</p>
   </section>`;
 }
 
@@ -299,6 +298,11 @@ function pintarFim() {
   q('#tr-fim').innerHTML = `
     <p class="troca__fim-txt">A loja avalia o aparelho de perto e confirma o valor. Esta é a mensagem que vai com o seu pedido:</p>
     <blockquote class="troca__msg">${esc(mensagem())}</blockquote>`;
+  // o botão abre o WhatsApp da loja com essa mensagem
+  const zap = q('#tr-contato');
+  zap.href = linkWhatsApp(mensagem());
+  zap.target = '_blank';
+  zap.rel = 'noopener';
 }
 
 function ir(n) {
@@ -376,26 +380,4 @@ export function ligarTroca(el) {
     ir(4);
   });
 
-  // leva nome, WhatsApp e o resumo para a página de contato
-  q('#tr-contato').addEventListener('click', () => {
-    if (!completo() || !contatoOk()) return;
-    levarParaContato({ nome: estado.nome.trim(), zap: estado.zap.trim(), modelo: 'Troca: ' + textoResumo() });
-  });
-
-  const copiar = q('#tr-copiar');
-  copiar.addEventListener('click', async () => {
-    if (!completo()) return;
-    const texto = mensagem();
-    const avisar = palavra => {
-      copiar.textContent = palavra;
-      setTimeout(() => { copiar.textContent = 'Copiar mensagem'; }, 1800);
-    };
-    try {
-      await navigator.clipboard.writeText(texto);
-      avisar('Copiado');
-    } catch (_) {
-      // sem permissão de área de transferência: a mensagem já está na tela
-      avisar('Selecione o texto acima');
-    }
-  });
 }

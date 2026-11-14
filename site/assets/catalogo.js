@@ -6,6 +6,8 @@
    como variantes. O preço do cartão é o menor das variantes.
    A ficha técnica é a do modelo; estado e bateria são da unidade e vão no vídeo. */
 
+import { linkWhatsApp } from './loja.js';
+
 const FICHAS = {
   'ip11':    { tela: '6,1" Liquid Retina', chip: 'A13 Bionic', cam: 'Dupla de 12 MP', porta: 'Lightning', extra: 'Face ID' },
   'ip12':    { tela: '6,1" Super Retina XDR', chip: 'A14 Bionic', cam: 'Dupla de 12 MP', porta: 'Lightning', extra: '5G, Ceramic Shield' },
@@ -194,11 +196,14 @@ function pintarFicha() {
   dlg.querySelector('.ficha__notas').innerHTML = notas(gr).map(([t, c]) =>
     `<div class="nota"><h3>${esc(t)}</h3><p>${esc(c)}</p></div>`).join('');
 
-  dlg.querySelector('.ficha__wa').dataset.modelo = nomeVar(gr, v);
+  // o botão abre o WhatsApp da loja com a mensagem do aparelho e da capacidade escolhidos
+  const zap = dlg.querySelector('.ficha__wa');
+  zap.href = linkWhatsApp(mensagem(gr, v));
+  zap.target = '_blank';
+  zap.rel = 'noopener';
   const troca = dlg.querySelector('.ficha__troca');
   troca.dataset.grupo = gr.id;
   troca.dataset.var = iVar;
-  dlg.querySelector('.ficha__copiar').dataset.msg = mensagem(gr, v);
 }
 
 /** A mensagem que o cliente manda para a loja, já com modelo e preço. */
@@ -260,24 +265,6 @@ export function ligarFicha(el) {
     iVar = Number(b.dataset.var);
     pintarFicha();
   });
-  const copiar = dlg.querySelector('.ficha__copiar');
-  copiar.addEventListener('click', async () => {
-    const texto = copiar.dataset.msg || '';
-    const avisar = palavra => {
-      copiar.textContent = palavra;
-      setTimeout(() => { copiar.textContent = 'Copiar mensagem'; }, 1800);
-    };
-    try {
-      await navigator.clipboard.writeText(texto);
-      avisar('Copiado');
-    } catch (_) {
-      // sem permissão de área de transferência: mostra o texto para copiar à mão
-      const p = dlg.querySelector('.ficha__aviso');
-      p.textContent = texto;
-      avisar('Selecione o texto abaixo');
-    }
-  });
-
   addEventListener('hashchange', rota);
   rota();
 }

@@ -1,50 +1,49 @@
-/* O que toda página do site divide: menu marcando a página atual, a ficha do
-   aparelho (estoque e catálogo) e o recado que vai para a página de contato.
+/* O que toda página do site divide: menu marcando a página atual, os botões
+   de WhatsApp e Instagram, o botão flutuante e a ficha do aparelho. */
 
-   O recado (modelo, nome, WhatsApp) passa por sessionStorage, nunca pelo
-   endereço: dado pessoal não deve ir parar na URL nem no histórico. */
+import { abrirFicha, ligarFicha } from './catalogo.js';
+import { linkWhatsApp, linkInstagram, ICONE_WHATSAPP, ICONE_INSTAGRAM } from './loja.js';
 
-import { G, abrirFicha, ligarFicha } from './catalogo.js';
-
-const CHAVE = 'authimports:contato';
-
-/** Guarda o que a página de contato deve preencher. */
-export function levarParaContato(dados) {
-  try { sessionStorage.setItem(CHAVE, JSON.stringify(dados)); } catch (_) { /* sem armazenamento: o cliente preenche à mão */ }
-}
-
-/** Na página de contato: preenche o formulário com o recado e o apaga. */
-export function preencherContato() {
-  let dados = null;
-  try {
-    dados = JSON.parse(sessionStorage.getItem(CHAVE) || 'null');
-    sessionStorage.removeItem(CHAVE);
-  } catch (_) { return; }
-  if (!dados) return;
-  const por = { nome: 'f-nome', zap: 'f-zap', modelo: 'f-modelo' };
-  Object.entries(por).forEach(([k, id]) => {
-    const campo = document.getElementById(id);
-    if (campo && dados[k]) campo.value = dados[k];
-  });
-}
-
-/** Marca no menu o link da página aberta. */
+/** Marca no menu o link da página aberta (só a troca é outra página). */
 export function marcarMenu() {
   const atual = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav__link').forEach(a => {
-    const destino = a.getAttribute('href') || '';
-    if (destino === atual) a.setAttribute('aria-current', 'page');
+    if ((a.getAttribute('href') || '') === atual) a.setAttribute('aria-current', 'page');
   });
 }
 
-/** Endereços antigos (index.html#iphone-13-pro-semi) seguem abrindo a ficha certa. */
-export function redirecionarFichaAntiga() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  const gr = G.find(g => g.id === id);
-  if (gr) location.replace((gr.pronta ? 'estoque.html' : 'catalogo.html') + '#' + gr.id);
+/** Liga todo [data-zap] ao WhatsApp da loja e todo [data-insta] ao Instagram. */
+export function ligarContatos() {
+  document.querySelectorAll('[data-zap]').forEach(a => {
+    a.href = linkWhatsApp(a.dataset.zap || undefined);
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+  const insta = linkInstagram();
+  document.querySelectorAll('[data-insta]').forEach(a => {
+    if (!insta) { a.hidden = true; return; }
+    a.href = insta;
+    a.target = '_blank';
+    a.rel = 'noopener';
+  });
+  document.querySelectorAll('[data-icone="whatsapp"]').forEach(s => { s.innerHTML = ICONE_WHATSAPP; });
+  document.querySelectorAll('[data-icone="instagram"]').forEach(s => { s.innerHTML = ICONE_INSTAGRAM; });
 }
 
-/** Liga a ficha do aparelho nas páginas que mostram cartões. */
+/** O botão verde do WhatsApp, fixo no canto inferior direito. */
+export function botaoFlutuante() {
+  if (document.querySelector('.zap-flutua')) return;
+  const a = document.createElement('a');
+  a.className = 'zap-flutua';
+  a.href = linkWhatsApp();
+  a.target = '_blank';
+  a.rel = 'noopener';
+  a.setAttribute('aria-label', 'Falar no WhatsApp');
+  a.innerHTML = ICONE_WHATSAPP;
+  document.body.appendChild(a);
+}
+
+/** Liga a ficha do aparelho na página que mostra cartões. */
 export function ligarFichaPagina() {
   const dlg = document.querySelector('dialog.ficha');
   if (!dlg) return;
@@ -58,11 +57,15 @@ export function ligarFichaPagina() {
       abrirFicha(a.dataset.grupo);
     }
   });
-  dlg.querySelector('.ficha__wa').addEventListener('click', () => {
-    levarParaContato({ modelo: dlg.querySelector('.ficha__wa').dataset.modelo || '' });
-  });
   dlg.querySelector('.ficha__troca').addEventListener('click', e => {
     const b = e.currentTarget;
     location.href = 'troca.html?alvo=' + encodeURIComponent(b.dataset.grupo) + '&var=' + encodeURIComponent(b.dataset.var);
   });
+}
+
+/** Tudo que toda página liga ao abrir. */
+export function ligarPagina() {
+  marcarMenu();
+  ligarContatos();
+  botaoFlutuante();
 }

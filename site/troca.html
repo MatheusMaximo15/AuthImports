@@ -160,21 +160,19 @@
   .demo-note { font-size: var(--t-small); color: var(--muted) }
 </style>
 </head>
+
 <body>
 <header class="nav nav--split">
   <div class="wrap nav__bar">
     <a class="skip-link" href="#top">Ir para o conteúdo</a>
     <a class="nav__logo" href="index.html"><img src="assets/img/logo-dark.png" alt="Auth Imports" width="496" height="120"></a>
     <nav class="nav__links" aria-label="Principal">
-      <div class="nav__item"><a class="nav__link" href="estoque.html">Estoque</a></div>
-      <div class="nav__item"><a class="nav__link" href="catalogo.html">Catálogo</a></div>
+      <div class="nav__item"><a class="nav__link" href="index.html#estoque">Estoque</a></div>
+      <div class="nav__item"><a class="nav__link" href="index.html#catalogo">Catálogo</a></div>
       <div class="nav__item"><a class="nav__link" href="troca.html">Troca</a></div>
       <div class="nav__item"><a class="nav__link" href="index.html#garantia">Garantia</a></div>
       <div class="nav__item"><a class="nav__link" href="index.html#como">Entrega</a></div>
     </nav>
-    <div class="nav__actions">
-      <a class="btn btn--primary" href="contato.html">Entrar em contato</a>
-    </div>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
@@ -193,17 +191,16 @@
   </section>
 </main>
 
-<footer class="footer closing" aria-labelledby="close-h">
+<footer class="footer closing rodape" aria-labelledby="close-h">
   <div class="wrap">
-    <div class="closing__cta close--type">
-      <div class="grid grid--top">
-        <div class="span-6">
-          <h2 id="close-h">Entrar em contato</h2>
-          <p class="t-lead">Diga o modelo que procura e a loja responde no mesmo dia.</p>
-        </div>
-        <div class="span-6 start-7 closing__acao">
-          <a class="btn btn--primary" href="contato.html">Entrar em contato</a>
-        </div>
+    <div class="rodape__cta">
+      <div>
+        <h2 class="rodape__titulo" id="close-h">Fale com a loja</h2>
+        <p class="rodape__linha">Diga o modelo que procura e a loja responde no mesmo dia.</p>
+      </div>
+      <div class="rodape__acoes">
+        <a class="btn btn--primary btn--zap" data-zap href="https://wa.me/"><span class="btn__icone" data-icone="whatsapp"></span>Falar no WhatsApp</a>
+        <a class="btn btn--secondary btn--insta" data-insta href="#"><span class="btn__icone" data-icone="instagram"></span>Instagram</a>
       </div>
     </div>
     <div class="closing__links">
@@ -213,39 +210,31 @@
           <p class="footer__lede">Loja de iPhone seminovo e lacrado, com garantia e entrega no mesmo dia.</p>
         </div>
         <div class="span-3 start-7 footer__col"><h3>Aparelhos</h3><ul>
-          <li><a href="estoque.html">Na loja hoje</a></li>
-          <li><a href="catalogo.html">Tabela de encomenda</a></li>
+          <li><a href="index.html#estoque">Na loja hoje</a></li>
+          <li><a href="index.html#catalogo">Tabela de encomenda</a></li>
           <li><a href="troca.html">Dar o seu na troca</a></li>
         </ul></div>
         <div class="span-3 start-10 footer__col"><h3>A compra</h3><ul>
           <li><a href="index.html#garantia">Garantia</a></li>
           <li><a href="index.html#como">Entrega</a></li>
-          <li><a href="contato.html">Contato</a></li>
+          <li><a data-insta href="#">Instagram</a></li>
         </ul></div>
       </div>
       <div class="footer__legal">
         <span>&copy; 2026 Auth Imports</span>
-        <div class="socials"></div>
         <span class="demo-note">Demonstração de site. Modelos, preços e garantias vieram das páginas públicas da loja em novembro de 2026. Não é a loja oficial e não vende.</span>
       </div>
     </div>
   </div>
 </footer>
 
-<!-- no telefone, a ação principal fica no pé; system.js só a mostra depois que o
-     botão do hero sai da tela, e a esconde onde a mesma ação já aparece -->
-<nav class="actionbar" aria-label="Ações rápidas">
-  <a class="btn btn--primary" href="contato.html">Entrar em contato</a>
-</nav>
-
-
 <script type="module" src="assets/system.js"></script>
 <script type="module" src="assets/motion/motion.js"></script>
 <script type="module" src="assets/layout/layout.js"></script>
 <script type="module">
 import { ligarTroca, escolherAlvo } from './assets/troca.js';
-import { marcarMenu, ligarFichaPagina, redirecionarFichaAntiga, preencherContato } from './assets/pagina.js';
-marcarMenu();
+import { ligarPagina } from './assets/pagina.js';
+ligarPagina();
 ligarTroca(document.getElementById('troca-app'));
 // vindo da ficha do aparelho: troca.html?alvo=iphone-15-semi&var=0
 const p = new URLSearchParams(location.search);
