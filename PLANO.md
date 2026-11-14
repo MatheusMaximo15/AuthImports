@@ -27,7 +27,7 @@ Ação principal do site: **"Entrar em contato"**, idêntica em nav, hero, fecha
 - Domínio (`authimports.com.br` ou outro) e quem registra
 - Número de WhatsApp da loja (sem ele o botão copia a mensagem em vez de abrir a conversa)
 - Com que frequência a loja atualiza preço e estoque (ver seção 7, risco 1)
-- Formato da campanha promocional: faixa fechável, bloco no hero ou modal
+- Formato da campanha promocional: **na demonstração ficou modal ao abrir** (`assets/campanha.js`); confirmar com a loja
 - Se a loja quer receber o pedido de troca por WhatsApp ou por e-mail
 
 ---
