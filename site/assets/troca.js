@@ -114,7 +114,7 @@ const qa = s => [...raiz.querySelectorAll(s)];
 
 function radios(nome, legenda, dica, lista) {
   return `<fieldset class="troca__grupo">
-    <legend>${legenda}</legend>${dica ? `<p class="t-small muted troca__dica">${dica}</p>` : ''}
+    <legend>${legenda}</legend>${dica ? `<div class="t-small troca__dica">${dica}</div>` : ''}
     <div class="troca__opcoes">${lista.map(o => `<label class="troca__op">
       <input type="radio" name="tr-${nome}" value="${o.id}">
       <span><b>${esc(o.n)}</b><small>${esc(o.d)}</small></span></label>`).join('')}</div>
@@ -156,7 +156,16 @@ function montar() {
         <option value="">Escolha o modelo</option>${MODELOS.map(m => `<option value="${m.id}">${esc(m.n)}</option>`).join('')}</select></div>
       <div class="field"><label for="tr-gb">Armazenamento</label><select id="tr-gb" disabled><option value="">Escolha o modelo</option></select></div>
     </div>
-    ${radios('bateria', 'Saúde da bateria', 'Em Ajustes, Bateria, Saúde da bateria.', BATERIAS)}
+    ${radios('bateria', 'Saúde da bateria', `<details class="troca__ajuda">
+      <summary>Como ver a porcentagem da bateria</summary>
+      <ol>
+        <li>Abra <b>Ajustes</b>.</li>
+        <li>Toque em <b>Bateria</b>.</li>
+        <li>Toque em <b>Saúde da Bateria</b>. Em alguns modelos o nome é <b>Saúde e Carregamento da Bateria</b>.</li>
+        <li>O número em <b>Capacidade Máxima</b> é a porcentagem que vale aqui.</li>
+      </ol>
+      <a href="https://support.apple.com/pt-br/101575" target="_blank" rel="noopener">Ver o guia da Apple</a>
+    </details>`, BATERIAS)}
     ${radios('tela', 'A tela é original?', '', TELAS)}
     ${radios('estado', 'Estado de conservação', '', ESTADOS)}
     <div class="btn-row">

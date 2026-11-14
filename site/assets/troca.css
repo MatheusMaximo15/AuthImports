@@ -27,6 +27,17 @@
 .troca__grupo { border: 0; margin: 0; padding: 0; display: grid; gap: var(--s-2) }
 .troca__grupo legend { padding: 0; font-weight: 500; margin-bottom: var(--s-1) }
 .troca__dica { margin: 0 }
+.troca__ajuda summary { display: inline-flex; align-items: center; min-height: 32px; cursor: pointer;
+                        text-decoration: underline; text-underline-offset: 3px; list-style: none }
+.troca__ajuda summary::-webkit-details-marker { display: none }
+.troca__ajuda summary::after { content: "+"; margin-left: 6px; text-decoration: none; display: inline-block }
+.troca__ajuda[open] summary::after { content: "−" }
+.troca__ajuda summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px }
+.troca__ajuda ol { margin: var(--s-2) 0; padding: var(--s-4) var(--s-4) var(--s-4) calc(var(--s-4) + 1.2em);
+                   border-radius: var(--r-md); background: var(--surface); display: grid; gap: 4px; color: var(--ink);
+                   list-style: decimal }
+.troca__ajuda li { display: list-item }
+.troca__ajuda a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px }
 .troca__opcoes { display: grid; gap: var(--s-2); grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)) }
 .troca__op { position: relative; display: block; cursor: pointer }
 .troca__op input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer }
