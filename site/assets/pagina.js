@@ -67,7 +67,12 @@ export function ligarFichaPagina() {
     Endereço com âncora (#catalogo, #iphone-13-semi) segue indo ao lugar certo. */
 export function voltarAoTopo() {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  if (!location.hash) scrollTo(0, 0);
+  if (!location.hash) { scrollTo(0, 0); return; }
+  // âncora de seção: rola até ela depois que as listas montarem (a ficha tem a própria rota)
+  const alvo = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+  if (alvo && alvo.tagName === 'SECTION') {
+    addEventListener('load', () => alvo.scrollIntoView({ block: 'start' }), { once: true });
+  }
 }
 
 /** Tudo que toda página liga ao abrir. */
