@@ -29,12 +29,11 @@ Não tem build, não tem dependência. É HTML, CSS e JS servidos direto.
 
 | Caminho | O que é |
 |---|---|
-| `site/index.html` | início: hero, garantia e como a compra funciona |
-| `site/estoque.html` | aparelhos na loja hoje, com a ficha |
-| `site/catalogo.html` | tabela de encomenda com busca e filtros, com a ficha |
+| `site/index.html` | a vitrine: hero, aparelhos na loja hoje, tabela de encomenda, como a compra funciona |
 | `site/troca.html` | simulador de troca |
-| `site/contato.html` | formulário de contato |
-| `site/assets/pagina.js` | o que as páginas dividem: menu, ficha, recado para o contato |
+| `site/estoque.html`, `catalogo.html`, `contato.html` | redirecionam para a inicial (endereços antigos) |
+| `site/assets/loja.js` | número do WhatsApp e Instagram da loja |
+| `site/assets/pagina.js` | menu, botões de WhatsApp e Instagram, botão flutuante, ficha |
 | `site/assets/catalogo.js` | os 39 aparelhos e a ficha técnica |
 | `site/assets/img/` | logo da loja e 38 recortes de produto |
 | `site/assets/` (resto) | kit de design (ver aviso abaixo) |
