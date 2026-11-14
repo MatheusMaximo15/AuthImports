@@ -205,7 +205,7 @@ function pintarFicha() {
 export function mensagem(gr, v) {
   return 'Olá, Auth Imports! Tenho interesse no ' + nomeVar(gr, v)
     + ' (' + (gr.k === 'lacrado' ? 'lacrado' : 'seminovo') + ') por '
-    + brl.format(v.v) + ' à vista. Pode me mandar o vídeo do aparelho?';
+    + brl.format(v.v) + ' à vista. Ainda está disponível?';
 }
 
 function notas(gr) {
