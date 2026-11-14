@@ -226,6 +226,9 @@ export function abrirFicha(id) {
   iVar = Math.max(0, gr.vars.findIndex(v => v.v === gr.min));
   pintarFicha();
   if (!dlg.open) dlg.showModal();
+  // cada ficha abre do topo, mesmo que a anterior tenha sido rolada até o fim
+  const corpo = dlg.querySelector('.ficha__in');
+  if (corpo) corpo.scrollTop = 0;
 }
 
 export function fecharFicha() {

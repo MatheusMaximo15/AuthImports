@@ -135,7 +135,9 @@
                  box-shadow: 0 40px 90px -30px rgba(0,0,0,.45) }
   dialog.ficha::backdrop { background: color-mix(in srgb, #2a2622 62%, transparent) }
   .ficha__in { display: grid; gap: var(--s-6); padding: var(--s-6); overflow: auto; max-height: 88vh }
-  @media (min-width: 760px) { .ficha__in { grid-template-columns: 5fr 7fr; gap: var(--s-8); padding: var(--s-8) } }
+  @media (min-width: 760px) { .ficha__in { grid-template-columns: 5fr 7fr; gap: var(--s-8); padding: var(--s-8) }
+    /* a foto acompanha a rolagem da ficha, em vez de sumir e deixar a coluna vazia */
+    dialog.ficha .ficha__palco { position: sticky; top: 0 } }
   /* o palco nao estica com a tabela ao lado: moldura fixa, foto preenchendo */
   .ficha__palco { position: relative; background: var(--surface); border-radius: var(--r-md);
                   align-self: start; aspect-ratio: 1; min-height: 0; padding: 0 }
