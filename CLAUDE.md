@@ -67,6 +67,7 @@ npx skills add wearescientist/awesome-design-md@awesome-design-md -g -y  # estil
 npx skills add shadcn-ui/ui@shadcn -g -y                                 # componentes, quando virar React/Astro
 npx skills add microsoft/playwright-cli@playwright-cli -g -y             # testar no navegador
 npx skills add dietrichgebert/ponytail@ponytail -g -y                    # modo dev sênior preguiçoso
+npx skills add vercel-labs/skills@find-skills -g -y                      # procura e instala outras skills
 ```
 
 **caveman** também está instalada; só ligue se o usuário pedir.
