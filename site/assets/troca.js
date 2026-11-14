@@ -176,7 +176,7 @@ function montar() {
 
   <section class="troca__painel" data-painel="3" aria-labelledby="tr-h3" hidden>
     <h3 id="tr-h3" tabindex="-1">Para quem a loja manda a avaliação?</h3>
-    <p class="t-small muted">O valor da troca aparece logo depois.</p>
+    <p class="t-small muted">O valor da troca aparece logo depois. Seu nome e WhatsApp não são enviados nem guardados pelo site: só entram na mensagem que você mesmo manda para a loja.</p>
     <div class="troca__campos">
       <div class="field"><label for="tr-nome">Seu nome</label>
         <input id="tr-nome" type="text" autocomplete="name" aria-describedby="tr-nome-err">

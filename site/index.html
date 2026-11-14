@@ -4,11 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Auth Imports: iPhone seminovo e lacrado com garantia</title>
-<meta name="description" content="Loja de iPhone seminovo e lacrado: bateria medida em cada aparelho, seis ou doze meses de garantia e entrega no mesmo dia do pedido.">
+<meta name="description" content="Loja de iPhone seminovo e lacrado: seminovos testados, seis ou doze meses de garantia e entrega no mesmo dia do pedido.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Auth Imports: iPhone seminovo e lacrado com garantia">
-<meta property="og:description" content="Bateria medida em cada aparelho, seis ou doze meses de garantia e entrega no mesmo dia.">
-<meta property="og:image" content="share.jpg">
+<meta property="og:description" content="Seminovos testados, seis ou doze meses de garantia e entrega no mesmo dia.">
+<meta property="og:image" content="https://authimports.pages.dev/share.jpg">
+<meta property="og:url" content="https://authimports.pages.dev/">
+<link rel="canonical" href="https://authimports.pages.dev/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="assets/img/logo-dark.png" type="image/png">
 <meta name="theme-color" content="#ffffff">
@@ -199,7 +201,7 @@
     </div>
     <dl class="hero-strip">
       <div><dt>Garantia</dt><dd>6 a 12 meses pela loja</dd></div>
-      <div><dt>Pagamento</dt><dd>Até 10x sem juros</dd></div>
+      <div><dt>Pagamento</dt><dd>Até 10x no cartão</dd></div>
       <div><dt>Entrega</dt><dd>No mesmo dia do pedido</dd></div>
     </dl>
     </div>
@@ -283,7 +285,7 @@
       <div class="grid">
         <article class="card card--open span-4">
           <h3>A escolha do aparelho</h3>
-          <p>Preço à vista, parcelado em 10x e a saúde da bateria aparecem em cada aparelho.</p>
+          <p>Cada aparelho mostra o preço à vista e o preço no cartão em até 10x. Nos que estão na loja, também a saúde da bateria.</p>
         </article>
         <article class="card card--open span-4">
           <h3>O vídeo do aparelho</h3>
@@ -298,13 +300,13 @@
         <div class="span-5 stack-4 garantia" id="garantia">
           <p class="t-label muted">Garantia</p>
           <h3 class="garantia__titulo">Seis meses no seminovo, doze no lacrado</h3>
-          <p>A garantia é da própria loja. Cada seminovo sai testado, com a saúde da bateria medida e escrita na tabela, e o vídeo do aparelho chega antes do pagamento.</p>
+          <p>A garantia é da própria loja. Cada seminovo sai testado, com a saúde da bateria medida, e o vídeo do aparelho chega antes do pagamento.</p>
         </div>
         <ul class="rows span-7 start-6">
           <li><span class="rows__name">Seminovo</span><p>Testado pela loja, com a saúde da bateria medida.</p><span class="rows__value">6 meses</span></li>
           <li><span class="rows__name">Lacrado</span><p>Caixa fechada, com nota e o prazo cheio de garantia.</p><span class="rows__value">12 meses</span></li>
           <li><span class="rows__name">Acompanha</span><p>Cabo, carregador e nota.</p><span class="rows__value">Todo aparelho</span></li>
-          <li><span class="rows__name">Pagamento</span><p>No cartão, sem juros, ou desconto à vista.</p><span class="rows__value">Até 10x</span></li>
+          <li><span class="rows__name">Pagamento</span><p>No cartão pelo preço do cartão, ou com desconto à vista.</p><span class="rows__value">Até 10x</span></li>
           <li><span class="rows__name">Fora da tabela</span><p>A loja consulta outros estoques e responde com preço.</p><span class="rows__value">No mesmo dia</span></li>
         </ul>
       </div>
@@ -378,6 +380,7 @@
 <script type="module">
 import { G, montarCatalogo } from './assets/catalogo.js';
 import { ligarPagina, ligarFichaPagina } from './assets/pagina.js';
+import { linkWhatsApp } from './assets/loja.js';
 ligarPagina();
 const porPreco = (a, b) => a.min - b.min;
 
@@ -441,7 +444,7 @@ function desenhar() {
     montarCatalogo(grade, fatia.slice(0, 4));
     montarCatalogo(grade2, fatia.slice(4, 8));
   } else {
-    grade.innerHTML = '<p class="cat__vazio">Nenhum aparelho com esse filtro. A loja consulta outros estoques: peça o modelo no formulário.</p>';
+    grade.innerHTML = '<p class="cat__vazio">Nenhum aparelho com esse filtro. A loja consulta outros estoques: <a href="' + linkWhatsApp('Olá, Auth Imports! Procuro um aparelho que não achei no site: ') + '" target="_blank" rel="noopener">peça o modelo no WhatsApp</a>.</p>';
     grade2.innerHTML = '';
   }
   conta.textContent = filtrada.length + ' de ' + encomenda.length + ' modelos';

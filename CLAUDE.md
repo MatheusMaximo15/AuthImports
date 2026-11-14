@@ -88,6 +88,16 @@ Precisa de Node 24+ e Chrome. Justificativas de falha ficam em `site/.taste-skil
 
 Além do kit, meça sobreposição nas cinco páginas em telas **largas e baixas** (1860x700, 1440x600, 1280x600) — foi onde o usuário achou texto encavalado. Um iframe por tamanho e checar se retângulos de texto/cartão se cruzam e se algo passa do fim da seção.
 
+### Segurança e publicação
+
+- `site/_headers`: CSP, `X-Frame-Options: SAMEORIGIN`, HSTS, `Permissions-Policy`. `frame-ancestors 'self'` e não `'none'`: a medição de layout usa iframe do próprio site. Script externo novo ou fonte nova exigem mudar a CSP, senão quebra no ar.
+- `site/404.html`: com ele o Cloudflare devolve 404 de verdade (antes devolvia a inicial para qualquer endereço). `robots.txt` bloqueia buscadores (demonstração) e aponta o `sitemap.xml`.
+- `serve.js` imita o Cloudflare: manda os cabeçalhos do `_headers`, serve `/troca` como `troca.html` e devolve o `404.html`. Testar a CSP aqui antes de publicar.
+
+### Preço
+
+A loja anuncia "R$ 3.215 até 10x sem juros no cartão, ou R$ 2.799 à vista". `p` é o total no cartão, `v` é à vista. **Nunca** escreva "10x sem juros" perto do preço à vista sem mostrar o total no cartão: um revisor leu como publicidade enganosa. A ficha mostra a parcela com centavos (R$ 321,50) para a conta fechar com o total.
+
 ### Armadilhas conhecidas
 
 - **O kit trava cada seção na altura exata da tela a partir de 1280px.** Em página de lista isso encavala a segunda fileira. `site/assets/site.css` libera: páginas internas (`<main class="interna">`) crescem com o conteúdo; na inicial cada seção tem pelo menos uma tela e cresce se precisar. Não use `.g2` nas páginas internas.
@@ -151,6 +161,7 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
 - com que frequência atualizam preço e estoque
 - formato da campanha: na demonstração é janela na inicial; confirmar
 - se as menções ao vídeo antes do pagamento ficam (regra 6)
+- **troca: pedir nome e WhatsApp antes do valor?** Decisão anterior do usuário: sim. Um revisor externo sugeriu mostrar o valor antes e pedir contato depois, e o telefone ficou redundante com o WhatsApp direto. Hoje há um aviso de que os dados não saem do aparelho. Perguntar antes de mudar
 
 ## Risco número um
 

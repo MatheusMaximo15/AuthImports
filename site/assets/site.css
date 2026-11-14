@@ -91,3 +91,10 @@ main.inicial > #estoque { padding-top: var(--s-7, 48px) }
   dialog.ficha .ficha__in { margin-top: 64px; padding-top: var(--s-2); max-height: calc(88vh - 64px);
                             border-top: 1px solid var(--line) }
 }
+
+/* Alvos de clique de pelo menos 44px (menu, logo, rodapé, capacidades da ficha) */
+.nav .nav__link, .nav .nav__logo, .closing__links .nav__logo { min-height: 44px; display: inline-flex; align-items: center }
+.footer__col li a { display: inline-flex; align-items: center; min-height: 44px }
+.footer__col ul { row-gap: 0; gap: 0 }
+.footer__col li { margin: 0 }
+dialog.ficha .cap--btn { min-height: 44px }

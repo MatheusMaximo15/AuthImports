@@ -1,0 +1,5 @@
+# Demonstração: fora dos buscadores. Na versão oficial, trocar por "Allow: /".
+User-agent: *
+Disallow: /
+
+Sitemap: https://authimports.pages.dev/sitemap.xml

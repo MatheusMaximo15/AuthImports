@@ -117,6 +117,9 @@ export const G = (() => {
 })();
 
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+// parcela com centavos quando não fecha em real: 10x de R$ 321,50 = R$ 3.215, a conta bate com o total
+const brlParcela = n => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL',
+  minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 }).format(n);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 export const desconto = v => Math.round((1 - v.v / v.p) * 100);
 export const nomeVar = (gr, v) => gr.n + (v.s ? ' de ' + v.s + ' GB' : '');
@@ -165,7 +168,7 @@ function linhas(gr, v) {
   if (v.b) rows.push(['Saúde da bateria', v.b + '%' + (v.bn ? ', bateria nova' : '')]);
   rows.push(['Disponibilidade', v.r ? 'Na loja hoje' : 'Sob encomenda, no mesmo dia']);
   const corte = desconto(v);
-  if (corte > 0) rows.push(['Desconto à vista', brl.format(v.p - v.v) + ' a menos que o parcelado']);
+  if (corte > 0) rows.push(['Desconto à vista', brl.format(v.p - v.v) + ' a menos que no cartão']);
   if (v.nota) rows.push(['Observação', v.nota]);
   if (!f) rows.push(['Ficha técnica', 'A loja confirma no WhatsApp.']);
   return rows;
@@ -177,7 +180,7 @@ function pintarFicha() {
   dlg.querySelector('.ficha__linha').textContent =
     (gr.k === 'lacrado' ? 'Lacrado' : 'Seminovo') + ' · ' + gr.g + ' meses de garantia pela loja';
   dlg.querySelector('.ficha__preco b').textContent = brl.format(v.v);
-  dlg.querySelector('.ficha__par').textContent = 'ou 10x de ' + brl.format(Math.round(v.p / 10)) + ' sem juros';
+  dlg.querySelector('.ficha__par').textContent = 'à vista, ou ' + brl.format(v.p) + ' no cartão em até 10x de ' + brlParcela(v.p / 10) + ' sem juros';
   dlg.querySelector('.ficha__corpo').innerHTML = linhas(gr, v)
     .map(([k, val]) => `<div class="ficha__row"><dt>${esc(k)}</dt><dd>${esc(val)}</dd></div>`).join('');
 
@@ -219,7 +222,7 @@ function notas(gr) {
     ['Garantia e procedência', lacrado
       ? 'Aparelho novo, caixa fechada, com nota e 12 meses de garantia pela loja.'
       : 'Testado pela loja, com a saúde da bateria medida e 6 meses de garantia. O vídeo do aparelho chega antes do pagamento.'],
-    ['Formas de pagamento', 'Até 10x sem juros no cartão, ou desconto à vista.'],
+    ['Formas de pagamento', 'No cartão em até 10x sem juros, pelo preço do cartão, ou com desconto à vista.'],
     ['Entrega e retirada', 'Retirada na loja ou entrega no mesmo dia do pedido.']
   ];
 }
