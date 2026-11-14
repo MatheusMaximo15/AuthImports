@@ -195,6 +195,9 @@ function pintarFicha() {
     `<div class="nota"><h3>${esc(t)}</h3><p>${esc(c)}</p></div>`).join('');
 
   dlg.querySelector('.ficha__wa').dataset.modelo = nomeVar(gr, v);
+  const troca = dlg.querySelector('.ficha__troca');
+  troca.dataset.grupo = gr.id;
+  troca.dataset.var = iVar;
   dlg.querySelector('.ficha__copiar').dataset.msg = mensagem(gr, v);
 }
 

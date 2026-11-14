@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="assets/motion/motion.css">
 <link rel="stylesheet" href="assets/layout/layout.css">
 <link rel="stylesheet" href="assets/icons/icon.css">
+<link rel="stylesheet" href="assets/troca.css">
 <style>
 :root {
   --p-bg: #ffffff; --p-surface: #f4f4f5; --p-ink: #0a0a0a; --p-muted: #5c5c5e;
@@ -174,6 +175,7 @@
     <nav class="nav__links" aria-label="Principal">
       <div class="nav__item"><a class="nav__link" href="#estoque">Estoque</a></div>
       <div class="nav__item"><a class="nav__link" href="#catalogo">Catálogo</a></div>
+      <div class="nav__item"><a class="nav__link" href="#troca">Troca</a></div>
       <div class="nav__item"><a class="nav__link" href="#garantia">Garantia</a></div>
       <div class="nav__item"><a class="nav__link" href="#como">Entrega</a></div>
     </nav>
@@ -280,6 +282,16 @@
     </div>
   </section>
 
+  <section class="section" id="troca" aria-labelledby="troca-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="troca-h">Dê seu iPhone na troca</h2>
+        <p>Simule em quatro passos quanto a loja pode pagar pelo seu aparelho e quanto falta para levar o novo. Sem cadastro.</p>
+      </div>
+      <div class="troca" id="troca-app"></div>
+    </div>
+  </section>
+
   <section class="section statement" id="garantia" data-moment="word-highlight" aria-label="Garantia">
     <div class="wrap">
       <p class="t-label">Garantia</p>
@@ -352,6 +364,7 @@
         <div class="span-3 start-7 footer__col"><h3>Aparelhos</h3><ul>
           <li><a href="#estoque">Na loja hoje</a></li>
           <li><a href="#catalogo">Tabela de encomenda</a></li>
+          <li><a href="#troca">Dar o seu na troca</a></li>
         </ul></div>
         <div class="span-3 start-10 footer__col"><h3>A compra</h3><ul>
           <li><a href="#garantia">Garantia</a></li>
@@ -389,6 +402,7 @@
       <div class="btn-row">
         <a class="btn btn--primary ficha__wa" href="#f-modelo">Entrar em contato</a>
         <button class="btn btn--secondary ficha__copiar" type="button">Copiar mensagem</button>
+        <button class="btn btn--secondary ficha__troca" type="button">Simular troca</button>
       </div>
       <p class="ficha__aviso t-small muted">A mensagem sai pronta com o modelo e o preço. O número da loja entra na versão final.</p>
     </div>
@@ -400,6 +414,7 @@
 <script type="module" src="assets/layout/layout.js"></script>
 <script type="module">
 import { G, montarCatalogo, abrirFicha, ligarFicha } from './assets/catalogo.js';
+import { ligarTroca, escolherAlvo } from './assets/troca.js';
 
 const porPreco = (a, b) => a.min - b.min;
 
@@ -490,6 +505,15 @@ document.addEventListener('click', e => {
     e.preventDefault();
     abrirFicha(a.dataset.grupo);
   }
+});
+// o simulador de troca
+ligarTroca(document.getElementById('troca-app'));
+dlg.querySelector('.ficha__troca').addEventListener('click', e => {
+  const b = e.currentTarget;
+  dlg.close();
+  history.replaceState(null, '', location.pathname + location.search + '#troca');
+  escolherAlvo(b.dataset.grupo, b.dataset.var);
+  document.getElementById('troca').scrollIntoView();
 });
 dlg.querySelector('.ficha__wa').addEventListener('click', () => {
   const campoModelo = document.getElementById('f-modelo');

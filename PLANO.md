@@ -187,6 +187,8 @@ RLS ligada em tudo. Leitura pública apenas nas colunas que a vitrine usa. Escri
 ### Fase 5 — troca de aparelho
 **Confirmado: a loja faz troca.**
 
+> **Estado:** simulador pronto na demonstração (`site/assets/troca.js`), com valores **fictícios**. Item 28 (tabela `avaliacoes`) e a tabela real da loja continuam pendentes.
+
 24. Assistente de 4 passos, com indicador numerado: escolher aparelho, avaliar o atual, ver a simulação, combinar a entrega.
 25. Avaliação do aparelho do cliente: modelo, armazenamento, saúde da bateria, tela original sim/não, estado de conservação em três níveis.
 26. **Faixa** de valor, nunca número fechado, com a ressalva de que depende de avaliação presencial. Exemplo: "de R$ 1.400 a R$ 1.700".
