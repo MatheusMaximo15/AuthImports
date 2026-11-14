@@ -7,7 +7,7 @@
    pronta e a pessoa escolhe o contato. Sem Instagram, o ícone some. */
 
 export const LOJA = {
-  whatsapp: '',
+  whatsapp: '553198880979',
   instagram: 'auth_imports'
 };
 
