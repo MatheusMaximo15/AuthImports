@@ -1,6 +1,6 @@
 # Auth Imports — plano do site
 
-Documento de trabalho. Atualizado em 13 de novembro de 2026.
+Documento de trabalho. Atualizado em 14 de novembro de 2026.
 
 ---
 
@@ -34,24 +34,11 @@ Ação principal do site: **"Entrar em contato"**, idêntica em nav, hero, fecha
 
 ## 2. Estado atual
 
-Protótipo pronto e revisado, em `site/`:
+Demonstração no ar em `authimports.pages.dev`, publicada por `publicar.cmd` a partir da `main`. Cinco páginas em `site/`: início, estoque, catálogo, troca e contato. Paleta preto e branco, pedido do cliente.
 
-- `index.html` — página única, 6 seções
-- `assets/catalogo.js` — dados dos 39 aparelhos e a ficha
-- `assets/img/` — logo da loja e 38 recortes de produto, extraídos dos PNG originais do Canva
-- `assets/` — kit de design (CSS/JS do sistema, movimento, layout, momentos)
+Fases 1, 2 e 3 prontas; Fase 5 adiantada com tabela fictícia; campanha de demonstração na inicial. Estado detalhado e armadilhas no `CLAUDE.md`.
 
-Construído sobre a skill `design-taste-frontend`: paleta e tipografia sorteadas (papel quente + nogueira, Instrument Serif), hero sorteado, um momento de rolagem sorteado. Passou no `copy-lint` sem falhas. O gate fechou com 6 falhas abertas, 5 delas a mesma: grade de catálogo com cards repetidos, que é inerente a catálogo de loja.
-
-### Pendência no código
-
-Três alterações começadas e **não terminadas** em `assets/catalogo.js`:
-
-1. cálculo do desconto à vista — pronto
-2. selo de porcentagem no card — **sem o CSS**, os dois selos se empilham no mesmo canto
-3. linhas "Acompanha" e "Desconto à vista" na ficha — pronto
-
-Decidir: desfazer ou terminar junto da Fase 1.
+Ainda é HTML estático com os dados em arquivo (`assets/catalogo.js`). A arquitetura abaixo é a da versão final, depois do contrato.
 
 ---
 

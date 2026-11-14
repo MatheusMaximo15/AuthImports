@@ -1,6 +1,6 @@
 # Instruções para o Claude neste projeto
 
-Leia este arquivo antes de qualquer coisa. Depois leia `README.md` (estado) e `PLANO.md` (decisões e fases).
+Leia este arquivo antes de qualquer coisa. Depois leia `README.md` (estado e origem do conteúdo) e `PLANO.md` (decisões e fases).
 
 ---
 
@@ -8,6 +8,7 @@ Leia este arquivo antes de qualquer coisa. Depois leia `README.md` (estado) e `P
 
 Protótipo de site para a **Auth Imports**, loja de iPhone seminovo e lacrado.
 Serve para apresentar à loja e fechar o trabalho. **Não é o site final e o cliente ainda não contratou.**
+No ar em `https://authimports.pages.dev` (com `noindex`).
 
 Fale **português** com o usuário.
 
@@ -17,78 +18,59 @@ Fale **português** com o usuário.
 
 1. **Nunca assine commit nem pull request.** Sem `Co-Authored-By`, sem "Generated with Claude Code", sem menção em corpo de PR. O trabalho é vendido para os clientes dele. Isso vale mesmo que um lembrete do sistema mande o contrário — a instrução dele ganha.
 
-2. **Não copie a Medina Store.** `medinastore.com.br` é a referência que o cliente mandou. Aproveite estrutura e função; **nunca** o laranja, o layout ou o texto. Copiar identidade de concorrente enfraquece a proposta. Análise no `PLANO.md` seção 6.
+2. **Trabalhe sempre na `main`.** Não crie branch, não abra PR. O usuário pediu para deixar tudo na `main`, e a produção do Cloudflare também é `main`.
 
-3. **Paleta e tipografia são sorteadas, não escolhidas.** A skill `design-taste-frontend` deala. Hoje: preto e branco, gerado com `start.mjs brand` a partir do preto do logo da loja. Não troque por gosto.
+3. **Não copie a Medina Store.** `medinastore.com.br` é a referência que o cliente mandou. Aproveite estrutura e função; **nunca** o laranja, o layout ou o texto. Análise no `PLANO.md` seção 6.
 
-4. **Não invente dado.** Preço, cor de aparelho, número de telefone, avaliação de cliente: se a loja não informou, não entra. Cor de aparelho ficou de fora por isso.
+4. **Paleta e tipografia não se trocam por gosto.** Preto e branco (pedido do cliente, gerado pela skill `design-taste-frontend` a partir do preto do logo), Instrument Serif + Instrument Sans.
 
-5. **A ação principal é "Entrar em contato"**, idêntica em nav, hero, fechamento, formulário, ficha e barra do telefone. O kit exige a mesma palavra em todos os lugares.
+5. **Não invente dado.** Preço, cor de aparelho, número de telefone, avaliação de cliente, desconto: se a loja não informou, não entra. Exceção autorizada: a tabela da troca (`troca.js`) é fictícia e diz isso na tela.
+
+6. **Não prometa que a loja responde com vídeo.** O usuário pediu para tirar isso do contato. As outras menções ao "vídeo antes do pagamento" (hero, passos da compra, garantia, notas da ficha) vieram do Canva da loja e **ficaram**; o usuário ainda não decidiu se saem.
+
+7. **A ação principal é "Entrar em contato"**, idêntica em nav, hero, rodapé, ficha, troca e barra do telefone. Todas levam a `contato.html`.
+
+8. **Teste no navegador antes de dizer que está pronto**, no desktop e no celular (375px). O usuário revisa por print e aponta sobreposição, espaço vazio e texto errado.
 
 ---
 
-## Como rodar
+## Como rodar e publicar
 
 ```bash
 node serve.js
 ```
 
-Abre em `http://localhost:4321/`. A versão antiga fica em `http://localhost:4321/antigo/`.
+Abre em `http://localhost:4321/` (o site) e `http://localhost:4321/antigo/` (versão antiga). Precisa de servidor: as páginas usam módulo ES, e `file://` bloqueia. Não tem build nem dependência.
 
-## Como publicar
+**Publicar:** dois cliques em `publicar.cmd`, ou `.\publicar` no PowerShell dentro da pasta do projeto. O `wrangler.jsonc` diz o projeto (`authimports`) e a pasta (`site`). Só `site/` vai para o ar; `PLANO.md`, `CLAUDE.md` e `antigo/` não. `RAMO=main` no `publicar.cmd` é a branch de produção; outro nome gera só prévia (`<ramo>.authimports.pages.dev`).
 
-Dois cliques em `publicar.cmd`, ou `.\publicar` no terminal dentro da pasta do projeto. Não precisa entrar em `site/`: o `wrangler.jsonc` já diz o projeto (`authimports`) e a pasta. Só `site/` vai para o ar; `PLANO.md`, `CLAUDE.md` e `antigo/` ficam de fora.
+O Cloudflare **não** está ligado ao GitHub: o site foi criado por envio direto (`wrangler`). Enviar ao GitHub não publica; tem que rodar o `publicar.cmd`. O usuário roda — publicar mexe na conta dele.
 
-Na primeira vez o `wrangler` pede login no Cloudflare pelo navegador. A variável `RAMO` no topo do `publicar.cmd` precisa ser a branch de **produção** do projeto (`main`); com outro nome sai só uma prévia (`<ramo>.authimports.pages.dev`).
+### Máquinas
 
-Precisa de servidor: o `index.html` usa módulo ES, e `file://` bloqueia. Não tem build nem dependência.
+- **Casa:** `E:\AuthImports`. Sem `gh`; `git push` funciona.
+- **Trabalho:** `C:\Users\matheus.maximo\Documents\Projetos\Auth Imports`. `gh` autenticado como `MatheusMaximo15`. O npm no PowerShell de lá falha com `UNABLE_TO_VERIFY_LEAF_SIGNATURE` (firewall intercepta TLS): use `NODE_OPTIONS=--use-system-ca`.
+
+Comece com `git pull` — a outra máquina pode ter commits.
 
 ---
 
-## Skills e ferramentas
+## Skills
 
-Já instaladas na máquina dele. Se faltar alguma, o comando está aqui.
-
-```bash
-# a que construiu o site; fiscaliza com gate
-npx skills add Leonxlnx/taste-skill -g -y
-
-# base pesquisável de paleta, tipo e regra de UX
-npx skills add nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max -g -y
-
-# revisão de acessibilidade e UX
-npx skills add vercel-labs/agent-skills@web-design-guidelines -g -y
-
-# estilos de referência de empresa
-npx skills add wearescientist/awesome-design-md@awesome-design-md -g -y
-
-# componentes, quando virar React
-npx skills add shadcn-ui/ui@shadcn -g -y
-
-# testar no navegador
-npx skills add microsoft/playwright-cli@playwright-cli -g -y
-
-# modo dev sênior preguiçoso
-npx skills add dietrichgebert/ponytail@ponytail -g -y
-```
-
-**caveman** está ativa por hook (`~/.claude/.caveman-active` = `full`). Responda comprimido: sem artigo, sem floreio, fragmento serve. Código, commit e aviso de segurança continuam em prosa normal.
-
-**context-mode** é plugin, não skill:
+Instaladas globalmente (`~/.claude/skills`). Se faltar alguma:
 
 ```bash
-npm i -g context-mode
-claude plugin marketplace add mksglu/context-mode
-claude plugin install context-mode@context-mode
+npx skills add Leonxlnx/taste-skill -g -y                                # design-taste-frontend: construiu o site; checker e gate
+npx skills add nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max -g -y  # base de paleta, tipo e regra de UX
+npx skills add vercel-labs/agent-skills@web-design-guidelines -g -y      # revisão de acessibilidade e UX
+npx skills add wearescientist/awesome-design-md@awesome-design-md -g -y  # estilos de referência de empresa
+npx skills add shadcn-ui/ui@shadcn -g -y                                 # componentes, quando virar React/Astro
+npx skills add microsoft/playwright-cli@playwright-cli -g -y             # testar no navegador
+npx skills add dietrichgebert/ponytail@ponytail -g -y                    # modo dev sênior preguiçoso
 ```
 
-Precisa do CLI `claude` no PATH (`npm i -g @anthropic-ai/claude-code`). Depois reinicie o app.
-
-### Armadilha de rede
-
-O npm no PowerShell dele falha com `UNABLE_TO_VERIFY_LEAF_SIGNATURE` — o firewall da empresa intercepta o TLS. Contorno: `NODE_OPTIONS=--use-system-ca`, ou rode pelo shell do Claude, que passa.
-
-O `gh` já está instalado e autenticado como `MatheusMaximo15`.
+**caveman** também está instalada; só ligue se o usuário pedir.
+**context-mode** (plugin) foi **descartado**: o usuário achou inútil. Não reinstale.
 
 ---
 
@@ -102,11 +84,18 @@ node $S/assets/layout/check.mjs --url index.html --profile .taste-skill/chrome -
 node $S/scripts/gate.mjs index.html
 ```
 
-Precisa de Node 24+ e Chrome. Hoje: `copy-lint` sem falhas, checker limpo nas quatro larguras.
+Precisa de Node 24+ e Chrome. Justificativas de falha ficam em `site/.taste-skill/waivers.json` (não versionado).
 
-Em **320px** seguem três achados de altura e de linha do h1. Largura abaixo da faixa de projeto do kit — ali ele só exige não estourar e não colidir, e isso passa.
+Além do kit, meça sobreposição nas cinco páginas em telas **largas e baixas** (1860x700, 1440x600, 1280x600) — foi onde o usuário achou texto encavalado. Um iframe por tamanho e checar se retângulos de texto/cartão se cruzam e se algo passa do fim da seção.
 
-Justificativas de falha ficam em `site/.taste-skill/waivers.json` (não versionado; recriar se rodar o gate).
+### Armadilhas conhecidas
+
+- **O kit trava cada seção na altura exata da tela a partir de 1280px.** Em página de lista isso encavala a segunda fileira. `site/assets/site.css` libera: páginas internas (`<main class="interna">`) crescem com o conteúdo; na inicial cada seção tem pelo menos uma tela e cresce se precisar. Não use `.g2` nas páginas internas.
+- **O menu é fixo** e o kit calcula as alturas com ele. Nada de faixa no topo da página.
+- **`--error` do kit só existe dentro de `.form`.** Fora disso a borda de campo inválido some (`troca.css` define a variável).
+- **O kit zera `list-style`.** Lista numerada precisa de `list-style: decimal` explícito.
+- **O painel de navegador do app às vezes captura tela em branco** em rolagem profunda no desktop. É do painel, não da página: confira pelo DOM ou em 375px.
+- As cinco páginas têm `<head>`, menu e rodapé **copiados** (não há build). Mudou um, mude nos cinco.
 
 ---
 
@@ -114,51 +103,44 @@ Justificativas de falha ficam em `site/.taste-skill/waivers.json` (não versiona
 
 | Caminho | O que é |
 |---|---|
-| `site/index.html` | início: hero, garantia e como a compra funciona |
+| `site/index.html` | início: hero e "Como a compra funciona" (com o bloco de garantia) |
 | `site/estoque.html` | aparelhos na loja hoje, com a ficha |
 | `site/catalogo.html` | tabela de encomenda com busca e filtros, com a ficha |
 | `site/troca.html` | simulador de troca |
 | `site/contato.html` | formulário de contato |
-| `site/assets/pagina.js` | o que as páginas dividem: menu, ficha, recado para o contato |
 | `site/assets/catalogo.js` | dados dos aparelhos, agrupamento por modelo, ficha |
+| `site/assets/pagina.js` | o que as páginas dividem: menu, ficha, recado para o contato |
+| `site/assets/troca.js` + `troca.css` | simulador de troca (tabela fictícia no topo do JS) |
+| `site/assets/campanha.js` + `campanha.css` | aviso de campanha, só na inicial |
+| `site/assets/site.css` | regras do site sobre o kit (alturas, garantia, catálogo) |
 | `site/assets/img/` | logo e 38 recortes de produto |
 | `site/assets/` (resto) | kit de design |
-| `PLANO.md` | decisões de arquitetura e as seis fases |
+| `PLANO.md` | decisões de arquitetura, modelo de dados e as seis fases |
 | `README.md` | estado, de onde veio o conteúdo, avisos |
 | `antigo/` | versão antiga de arquivo único e a fonte dela; "antes e depois" |
-| `publicar.cmd` + `wrangler.jsonc` | publicação no Cloudflare Pages sem entrar em `site/` |
+| `publicar.cmd` + `wrangler.jsonc` | publicação no Cloudflare Pages |
+| `serve.js` | servidor local |
 
-O kit foi podado no Git: `photos`, `scenes`, `objects`, `components`, `diagrams`, `backgrounds`, `effects` e os `_demo` estão no `.gitignore`, com o comando de restauração lá dentro. A página não carrega nada disso.
+O kit foi podado no Git: `photos`, `scenes`, `objects`, `components`, `diagrams`, `backgrounds`, `effects` e os `_demo` estão no `.gitignore`, com o comando de restauração lá dentro.
 
 ---
 
 ## Onde paramos
 
-Fases **1, 2 e 3 prontas**, na branch `main` (o PR #1 foi mesclado). **Trabalhe sempre na `main`**: não crie branch.
+Tudo na `main`, publicado em `authimports.pages.dev`.
 
 - **Fase 1** — catálogo por modelo: 39 SKUs viram 27 modelos, capacidades como variantes, "a partir de". Filtro por tipo de aparelho. Paleta preto e branco.
-- **Fase 2** — endereço por modelo (`#iphone-13-pro-semi` abre a ficha direto), três blocos de informação na ficha.
-- **Fase 3** — barra de ação no celular, botão que copia a mensagem com modelo e preço, faixa de três fatos no hero.
+- **Fase 2** — endereço por modelo: `catalogo.html#iphone-13-pro-semi` abre a ficha direto; `index.html#modelo` antigo redireciona. Ficha abre sempre do topo, foto presa ao rolar no desktop.
+- **Fase 3** — barra de ação no celular, mensagem pronta com modelo e preço (pergunta se está disponível), faixa de três fatos no hero. Pixel e GA4 ficaram para o deploy real (precisam de IDs da loja).
+- **Site em várias páginas** (pedido do usuário: "mais profissional"). A inicial tem só o hero e "Como a compra funciona", com a garantia dentro (bloco à esquerda, tabela de detalhes à direita). Estoque, catálogo, troca e contato têm página própria. Ficha e troca levam modelo, nome e WhatsApp para o contato por `sessionStorage`, nunca pela URL.
+- **Fase 5 adiantada, com valores fictícios** — `troca.html`: 4 passos (aparelho desejado, seu aparelho, nome e WhatsApp, resultado). **Decisão do usuário: valores só no último passo, depois da avaliação e do contato.** Faixa de ±10%, quanto falta pagar, link que ensina a ver a saúde da bateria (guia da Apple `support.apple.com/pt-br/101575`), botão "Simular troca" na ficha.
+- **Campanha de demonstração** — janela "Black November" **só na inicial**, **uma vez por campanha** (`localStorage` pelo `id`). Leque com três aparelhos que não estão no hero e contagem regressiva real. `?campanha` força a exibição para apresentar. Campos de `CAMPANHA` = tabela `campanha` do Supabase. O usuário achou a primeira versão feia e invasiva; a atual foi aprovada.
 
-- **Fase 5 (adiantada, com valores fictícios)** — simulador de troca em `#troca`: 4 passos (aparelho desejado, aparelho do cliente, nome e WhatsApp, resultado). **Decisão do usuário: valores só aparecem no último passo, depois de avaliação e contato preenchidos.** Faixa de ±10%, mostra quanto falta pagar, botão "Simular troca" na ficha. Código em `site/assets/troca.js` e `troca.css`. **Os valores de `MODELOS`, `ESTADOS`, `BATERIAS` e `TELAS` são inventados**: a loja entrega a tabela real, é só trocar esses dados. Falta a tabela `avaliacoes` no Supabase (vem com a Fase 4).
+### Próximos passos
 
-- **Site em várias páginas** (pedido do usuário: "mais profissional"). A inicial tem só hero, garantia e como a compra funciona. Estoque, catálogo, troca e contato têm página própria; o rodapé de todas chama para `contato.html`. Ficha e troca levam modelo, nome e WhatsApp para o contato por `sessionStorage`, nunca pela URL. Endereço antigo `index.html#modelo` redireciona para a ficha certa.
-
-- **Campanha de demonstração** (`site/assets/campanha.js` e `campanha.css`): janela "Black November" **só na página inicial**, **uma vez por campanha** (fechou, não volta; `localStorage` pelo `id`). Leque com três aparelhos que não estão no hero e contagem regressiva real até `fim`. `?campanha` força a exibição para apresentar. Os campos de `CAMPANHA` são os da tabela `campanha` do Supabase; texto de demonstração, sem desconto ou preço inventado. Faixa no topo foi descartada: o menu é fixo e o kit calcula as alturas em cima dele.
-
-### Próximo: Fase 4
-
-Supabase e painel de administração. Detalhe no `PLANO.md` seções 4 e 5.
-
-Resumo: Cloudflare Pages + Astro + Supabase, custo zero na largada. Catálogo sai do arquivo e vai para o banco, com `/admin` protegido por login. O painel precisa ser **para leigo e pensado para celular** — quem alimenta é a própria loja.
-
-### Fase 5 só depois de três números da loja
-
-A loja **faz troca de aparelho**, confirmado. Mas o simulador não calcula sem:
-
-1. tabela de quanto pagam por modelo e estado
-2. quanto bateria e tela trocada derrubam
-3. quem dá a palavra final e em quanto tempo
+- **Fase 4** — Supabase e painel `/admin` para leigo, pensado para celular; campanha e textos editáveis; Cloudflare ligado ao GitHub. É o sistema de verdade: fica para **depois que o cliente fechar**. Detalhe no `PLANO.md`.
+- **Fase 5** — trocar a tabela fictícia pela da loja e gravar cada simulação (tabela `avaliacoes`). Depende de três números da loja: quanto pagam por modelo e estado, quanto bateria e tela trocada derrubam, quem dá a palavra final.
+- **Fase 6** — páginas institucionais (garantia, entrega, trocas e devoluções, privacidade, termos). Dá para fazer rascunho na demonstração.
 
 ---
 
@@ -167,10 +149,11 @@ A loja **faz troca de aparelho**, confirmado. Mas o simulador não calcula sem:
 - domínio e quem registra
 - número de WhatsApp da loja
 - com que frequência atualizam preço e estoque
-- formato da campanha promocional: faixa fechável, bloco no hero ou modal
+- formato da campanha: na demonstração é janela na inicial; confirmar
+- se as menções ao vídeo antes do pagamento ficam (regra 6)
 
-## Risco number um
+## Risco número um
 
-**O catálogo desatualizar.** Quem alimenta é a loja. Evidência de que o processo já falha: nas três páginas do Canva, o iPhone 13 Pro Max de 128 GB aparece a R$ 3.099 numa e R$ 3.199 na outra. Dois preços para o mesmo aparelho.
+**O catálogo desatualizar.** Quem alimenta é a loja. Evidência de que o processo já falha: nas três páginas do Canva, o iPhone 13 Pro Max de 128 GB aparece a R$ 3.099 numa e R$ 3.199 na outra.
 
 Os preços daqui são de **novembro de 2026**. Confira antes de qualquer apresentação.

@@ -66,14 +66,14 @@ As páginas do Canva não usam `<img>`: renderizam a partir de um JSON embutido.
 
 ## Como foi construído
 
-Sobre a skill [`design-taste-frontend`](https://skills.sh) (tasteskill 2.5). Paleta, tipografia, hero e momento de rolagem foram **sorteados pela skill**, não escolhidos por gosto — é o método dela.
+Sobre a skill `design-taste-frontend` (tasteskill 2.5). Estrutura, hero e ritmo vieram do método dela.
 
-- Paleta `warm-paper-walnut`: papel quente `#f7f3ec`, tinta `#2a2622`, nogueira `#7a4a2c`
-- Tipografia `instrument-serif`: Instrument Serif + Instrument Sans
-- Hero `product`, nav `nav-split`, close `close-type`, botões `pill`
-- Momento `word-highlight`: a frase da garantia acende palavra por palavra ao rolar
+- Paleta **preto e branco**: pedido do cliente, gerada a partir do preto do logo da loja
+- Tipografia Instrument Serif + Instrument Sans
+- Hero `product`, nav `nav-split`, botões `pill`
+- Cinco páginas: início, estoque, catálogo, troca e contato
 
-A primeira versão era preto com verde neon. O cliente achou "cara de IA" — com razão: near-black com um verde ácido é um dos padrões que as próprias regras de design do Claude listam como marca de página gerada por IA.
+A primeira versão era preto com verde neon e o cliente achou "cara de IA". A segunda foi papel quente com nogueira; o cliente pediu preto e branco.
 
 ### Verificação
 
@@ -84,32 +84,31 @@ node $S/assets/layout/check.mjs --url site/index.html --profile .taste-skill/chr
 node $S/scripts/gate.mjs site/index.html
 ```
 
-`copy-lint` passa sem falhas. O gate fechou com **6 falhas abertas**, 5 delas a mesma: grade de catálogo com cards repetidos — inerente a catálogo de loja. As justificativas estão em `site/.taste-skill/waivers.json` (não versionado; recriar se precisar rodar o gate).
+O gate tem falhas conhecidas na grade de catálogo (cards repetidos, inerente a loja). Justificativas em `site/.taste-skill/waivers.json` (não versionado). Veja também "Armadilhas conhecidas" no `CLAUDE.md`.
 
 ---
 
 ## Avisos para quem continuar
 
-**1. Três alterações pendentes em `assets/catalogo.js`.**
-Cálculo de desconto à vista e duas linhas novas na ficha estão prontos. O **selo de porcentagem no card está sem CSS** — os dois selos se empilham no mesmo canto. Terminar ou desfazer.
+**1. Não copiar a Medina Store.**
+`medinastore.com.br` é a referência que o cliente mandou. Analisada em 13/11/2026, com o que aproveitar e o que evitar no `PLANO.md` seção 6. **A paleta laranja é a identidade deles.**
 
-**2. O kit de design pesa 37 MB e a página usa uma fração.**
-Carregado de verdade: `system.css`, `ui/cards.css`, `ui/base.css`, `motion/motion.css`, `layout/layout.css`, `icons/icon.css`, `system.js`, `motion/motion.js`, `layout/layout.js`, `ui/ui.js`, `moments/moments.js`, `moments/lib.js`, `moments/word-highlight/*`.
-As pastas `photos`, `scenes`, `objects`, `components`, `diagrams` e `backgrounds` não são usadas. Dá para podar.
+**2. O 3D foi removido, de propósito.**
+Render parado e aparelho feito de primitivas não convenceram, e modelo real esbarra em direito de desenho industrial da Apple. Decisão: usar as fotos reais da loja.
 
-**3. Não copiar a Medina Store.**
-`medinastore.com.br` é a referência que o cliente mandou. Analisada em 13/11/2026, com o que aproveitar e o que evitar no `PLANO.md` seção 6. **A paleta laranja é a identidade deles** — copiar enfraquece justamente o argumento da proposta.
+**3. Divergência de preço no site atual deles.**
+iPhone 13 Pro Max 128GB: R$ 3.099 numa página, R$ 3.199 na outra. Mantive o da pronta entrega. É argumento de venda e precisa ser resolvido na migração.
 
-**4. O 3D foi removido, de propósito.**
-Teve render parado e teve aparelho feito de primitivas. Nenhum dos dois convenceu. Modelo de verdade precisa de malha real (Blender ou um glTF licenciado) e esbarra em direito de desenho industrial da Apple. Decisão: usar as fotos reais da loja.
+**4. A troca usa valores fictícios.**
+Tabela no topo de `site/assets/troca.js`, avisada na tela. Trocar pela tabela real da loja.
 
-**5. Divergência de preço no site atual deles.**
-iPhone 13 Pro Max 128GB: R$ 3.099 numa página, R$ 3.199 na outra. Mantive o da pronta entrega. É bom argumento de venda e precisa ser resolvido na migração.
+**5. Publicar não é automático.**
+O Cloudflare Pages não está ligado ao GitHub. Rode `publicar.cmd`.
 
 ---
 
-## Próximo passo
+## Onde paramos e próximo passo
 
-Fase 1 do `PLANO.md`: agrupar o catálogo **por modelo com variantes**, em vez de 39 SKUs soltos. Vira cerca de 24 cards com chips de capacidade e "a partir de R$ X".
+Estado detalhado no `CLAUDE.md`, seção "Onde paramos". Fases 1, 2 e 3 prontas, Fase 5 adiantada com valores fictícios, campanha de demonstração na inicial.
 
-É a maior melhoria estrutural pendente, e a que mais aproxima do que a referência faz bem.
+Próximo: Fase 4 (Supabase e painel), só depois que o cliente fechar. Antes disso, dá para fazer rascunho das páginas institucionais (Fase 6).
