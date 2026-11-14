@@ -108,7 +108,12 @@ Justificativas de falha ficam em `site/.taste-skill/waivers.json` (não versiona
 
 | Caminho | O que é |
 |---|---|
-| `site/index.html` | a página. Uma só, seis seções |
+| `site/index.html` | início: hero, garantia e como a compra funciona |
+| `site/estoque.html` | aparelhos na loja hoje, com a ficha |
+| `site/catalogo.html` | tabela de encomenda com busca e filtros, com a ficha |
+| `site/troca.html` | simulador de troca |
+| `site/contato.html` | formulário de contato |
+| `site/assets/pagina.js` | o que as páginas dividem: menu, ficha, recado para o contato |
 | `site/assets/catalogo.js` | dados dos aparelhos, agrupamento por modelo, ficha |
 | `site/assets/img/` | logo e 38 recortes de produto |
 | `site/assets/` (resto) | kit de design |
@@ -129,6 +134,8 @@ Fases **1, 2 e 3 prontas**, na branch `fase-1/catalogo-por-modelo`, no **PR #1**
 - **Fase 3** — barra de ação no celular, botão que copia a mensagem com modelo e preço, faixa de três fatos no hero.
 
 - **Fase 5 (adiantada, com valores fictícios)** — simulador de troca em `#troca`: 4 passos (aparelho desejado, aparelho do cliente, nome e WhatsApp, resultado). **Decisão do usuário: valores só aparecem no último passo, depois de avaliação e contato preenchidos.** Faixa de ±10%, mostra quanto falta pagar, botão "Simular troca" na ficha. Código em `site/assets/troca.js` e `troca.css`. **Os valores de `MODELOS`, `ESTADOS`, `BATERIAS` e `TELAS` são inventados**: a loja entrega a tabela real, é só trocar esses dados. Falta a tabela `avaliacoes` no Supabase (vem com a Fase 4).
+
+- **Site em várias páginas** (pedido do usuário: "mais profissional"). A inicial tem só hero, garantia e como a compra funciona. Estoque, catálogo, troca e contato têm página própria; o rodapé de todas chama para `contato.html`. Ficha e troca levam modelo, nome e WhatsApp para o contato por `sessionStorage`, nunca pela URL. Endereço antigo `index.html#modelo` redireciona para a ficha certa.
 
 ### Próximo: Fase 4
 

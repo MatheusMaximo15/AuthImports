@@ -23,7 +23,12 @@ Não tem build, não tem dependência. É HTML, CSS e JS servidos direto.
 
 | Caminho | O que é |
 |---|---|
-| `site/index.html` | a página. Uma só, seis seções |
+| `site/index.html` | início: hero, garantia e como a compra funciona |
+| `site/estoque.html` | aparelhos na loja hoje, com a ficha |
+| `site/catalogo.html` | tabela de encomenda com busca e filtros, com a ficha |
+| `site/troca.html` | simulador de troca |
+| `site/contato.html` | formulário de contato |
+| `site/assets/pagina.js` | o que as páginas dividem: menu, ficha, recado para o contato |
 | `site/assets/catalogo.js` | os 39 aparelhos e a ficha técnica |
 | `site/assets/img/` | logo da loja e 38 recortes de produto |
 | `site/assets/` (resto) | kit de design (ver aviso abaixo) |

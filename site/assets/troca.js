@@ -11,6 +11,7 @@
    valor final depende de avaliação presencial. */
 
 import { G, nomeVar } from './catalogo.js';
+import { levarParaContato } from './pagina.js';
 
 /* ---------- dados fictícios (a loja substitui) ---------- */
 
@@ -187,7 +188,7 @@ function montar() {
     <div id="tr-fim"></div>
     <div class="btn-row">
       <button class="btn btn--secondary" type="button" data-ir="2">Voltar e ajustar</button>
-      <a class="btn btn--primary" href="#contato" id="tr-contato">Entrar em contato</a>
+      <a class="btn btn--primary" href="contato.html" id="tr-contato">Entrar em contato</a>
       <button class="btn btn--secondary" type="button" id="tr-copiar">Copiar mensagem</button>
     </div>
     <p class="t-small muted" id="tr-aviso">A mensagem sai pronta com a avaliação. O número da loja entra na versão final.</p>
@@ -366,13 +367,10 @@ export function ligarTroca(el) {
     ir(4);
   });
 
-  // leva nome, WhatsApp e o resumo para o formulário da loja
+  // leva nome, WhatsApp e o resumo para a página de contato
   q('#tr-contato').addEventListener('click', () => {
-    const preencher = (id, v) => { const c = document.getElementById(id); if (c) c.value = v; };
     if (!completo() || !contatoOk()) return;
-    preencher('f-nome', estado.nome.trim());
-    preencher('f-zap', estado.zap.trim());
-    preencher('f-modelo', 'Troca: ' + textoResumo());
+    levarParaContato({ nome: estado.nome.trim(), zap: estado.zap.trim(), modelo: 'Troca: ' + textoResumo() });
   });
 
   const copiar = q('#tr-copiar');
