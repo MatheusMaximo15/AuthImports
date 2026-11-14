@@ -8,7 +8,7 @@
 
 export const LOJA = {
   whatsapp: '',
-  instagram: ''
+  instagram: 'auth_imports'
 };
 
 export const MENSAGEM_PADRAO = 'Olá, Auth Imports! Vim pelo site e quero saber dos aparelhos disponíveis.';

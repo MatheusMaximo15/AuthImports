@@ -146,7 +146,7 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
 ## Pendências com o cliente
 
 - domínio e quem registra
-- **número de WhatsApp e Instagram da loja** (o usuário vai mandar; preencher em `site/assets/loja.js`). Sem número, o botão abre o WhatsApp com a mensagem e a pessoa escolhe o contato; sem Instagram, o ícone some
+- **número de WhatsApp da loja** (o usuário vai mandar; preencher em `site/assets/loja.js`). Sem número, o botão abre o WhatsApp com a mensagem e a pessoa escolhe o contato. Instagram já preenchido: `auth_imports`
 - **prova social**: prints dos destaques do Instagram (clientes, vendas) e fotos reais da loja, sugeridos pelo usuário de teste. Não inventar depoimento: esperar os prints reais
 - com que frequência atualizam preço e estoque
 - formato da campanha: na demonstração é janela na inicial; confirmar
