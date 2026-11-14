@@ -20,5 +20,13 @@
     flex: 1 0 auto; height: auto; min-height: 0;
   }
 }
+/* Como a compra funciona: a garantia fica dentro, ao lado da tabela de detalhes */
+.compra__base { margin-top: var(--s-8); align-items: start; row-gap: var(--s-6) }
+.garantia { scroll-margin-top: 96px }
+.garantia__titulo { font-family: var(--font-display); font-weight: var(--display-weight);
+                    font-size: var(--t-h3); letter-spacing: var(--display-tracking); line-height: 1.15 }
+.garantia > p:last-child { color: var(--muted); max-width: 44ch }
+.compra__base > .rows > li:first-child { padding-top: var(--s-4); border-top: 1px solid var(--line) }
+
 /* a segunda fileira do catálogo vem logo abaixo da primeira, no espaço das grades */
 .cat__mais { margin-top: var(--card-gap) }

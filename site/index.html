@@ -42,9 +42,6 @@
 </style>
 <script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
 <script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
-<link rel="modulepreload" href="assets/moments/moments.js">
-<link rel="modulepreload" href="assets/moments/lib.js">
-<link rel="modulepreload" href="assets/moments/word-highlight/moment.js">
 <style>
   /* page CSS: inside the product cards, the catalogue's controls and the spec dialog only */
   .nav__logo img, .footer .nav__logo img { height: 26px; width: auto; display: block }
@@ -207,13 +204,6 @@
     </div>
   </section>
 
-  <section class="section statement" id="garantia" data-moment="word-highlight" aria-label="Garantia">
-    <div class="wrap">
-      <p class="t-label">Garantia</p>
-      <p class="mo-wh__text">Cada seminovo sai testado, com a saúde <strong>da bateria medida</strong> e escrita na tabela, seis meses de garantia da loja e um vídeo do aparelho que você vai receber.</p>
-    </div>
-  </section>
-
   <section class="section" id="como" aria-labelledby="como-h">
     <div class="wrap">
       <div class="section-head">
@@ -234,12 +224,20 @@
           <p>Retirada na loja ou entrega no mesmo dia do pedido, com cabo e carregador.</p>
         </article>
       </div>
-      <ul class="rows">
-        <li><span class="rows__name">Acompanha</span><p>Cabo, carregador e nota.</p><span class="rows__value">Todo aparelho</span></li>
-        <li><span class="rows__name">Pagamento</span><p>No cartão, sem juros, ou desconto à vista.</p><span class="rows__value">Até 10x</span></li>
-        <li><span class="rows__name">Fora da tabela</span><p>A loja consulta outros estoques e responde com preço.</p><span class="rows__value">No mesmo dia</span></li>
-        <li><span class="rows__name">Lacrado</span><p>Caixa fechada, com o prazo cheio de garantia.</p><span class="rows__value">12 meses</span></li>
-      </ul>
+      <div class="grid compra__base">
+        <div class="span-5 stack-4 garantia" id="garantia">
+          <p class="t-label muted">Garantia</p>
+          <h3 class="garantia__titulo">Seis meses no seminovo, doze no lacrado</h3>
+          <p>A garantia é da própria loja. Cada seminovo sai testado, com a saúde da bateria medida e escrita na tabela, e o vídeo do aparelho chega antes do pagamento.</p>
+        </div>
+        <ul class="rows span-7 start-6">
+          <li><span class="rows__name">Seminovo</span><p>Testado pela loja, com a saúde da bateria medida.</p><span class="rows__value">6 meses</span></li>
+          <li><span class="rows__name">Lacrado</span><p>Caixa fechada, com nota e o prazo cheio de garantia.</p><span class="rows__value">12 meses</span></li>
+          <li><span class="rows__name">Acompanha</span><p>Cabo, carregador e nota.</p><span class="rows__value">Todo aparelho</span></li>
+          <li><span class="rows__name">Pagamento</span><p>No cartão, sem juros, ou desconto à vista.</p><span class="rows__value">Até 10x</span></li>
+          <li><span class="rows__name">Fora da tabela</span><p>A loja consulta outros estoques e responde com preço.</p><span class="rows__value">No mesmo dia</span></li>
+        </ul>
+      </div>
     </div>
   </section>
 </main>
