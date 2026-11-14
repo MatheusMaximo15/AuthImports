@@ -25,6 +25,7 @@
 <link rel="stylesheet" href="assets/layout/layout.css">
 <link rel="stylesheet" href="assets/icons/icon.css">
 <link rel="stylesheet" href="assets/troca.css">
+<link rel="stylesheet" href="assets/site.css">
 <style>
 :root {
   --p-bg: #ffffff; --p-surface: #f4f4f5; --p-ink: #0a0a0a; --p-muted: #5c5c5e;
@@ -100,13 +101,13 @@
     .cat__conta { margin-bottom: var(--s-2) }
     .pager { margin-top: var(--s-3) }
     .filtros { margin-bottom: var(--s-4) }
-    .prod { gap: var(--s-2) }
+
   }
   @media (min-width: 640px) and (max-width: 1023px) {
     .filtros .field.span-6 { grid-column: auto / span 3 }
     .filtros .field.span-2 { grid-column: auto / span 3 }
     .filtros .field :is(input, select) { padding-inline: 10px; font-size: 14px }
-    .prod { --tile-ratio: 2 / 1; gap: var(--s-2) }
+    .prod { --tile-ratio: 2 / 1 }
     .prod .tile__media > img { padding: 4% 28% }
     .cat__conta { margin-bottom: var(--s-2) }
     .pager { margin-top: var(--s-3) }
@@ -178,8 +179,8 @@
   </div>
 </header>
 
-<main id="top">
-  <section class="section g2" id="catalogo" style="--hm: 2" aria-labelledby="catalogo-h">
+<main id="top" class="interna">
+  <section class="section" id="catalogo" aria-labelledby="catalogo-h">
     <div class="wrap">
       <div class="group">
       <div class="section-head">
@@ -222,7 +223,7 @@
       <p class="cat__conta" id="conta" role="status"></p>
       <div class="grid" id="grade-catalogo"></div>
       </div>
-      <div>
+      <div class="cat__mais">
         <div class="grid" id="grade-catalogo-2"></div>
         <div class="pager">
           <button class="btn btn--secondary" type="button" id="pag-ant">Anteriores</button>

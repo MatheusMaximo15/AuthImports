@@ -1,0 +1,24 @@
+/* Regras do site que valem para todas as páginas.
+
+   Páginas internas (estoque, catálogo, troca, contato): o kit trava cada seção
+   na altura exata da tela (uma ou duas telas) a partir de 1280px. Isso serve
+   à página inicial, feita de telas; numa lista de aparelhos o conteúdo cresce
+   com a largura (cartões quadrados mais altos) e passava por cima da fileira
+   seguinte em telas largas e baixas. Aqui a seção cresce com o conteúdo. */
+@media (min-width: 640px) {
+  main.interna > :is(section, .section) { height: auto; min-height: 0; }
+  main.interna > :is(section, .section) > :is(.wrap, .container) { height: auto; }
+}
+/* Página inicial: cada seção segue com pelo menos uma tela, mas cresce quando
+   a tela é baixa demais para o conteúdo (o kit só faz isso até 1279px). */
+@media (min-width: 1280px) {
+  main:not(.interna) > :is(section, .section):not(.hero, .section--hero) {
+    height: auto; min-height: calc(var(--h, 1) * 100vh); min-height: calc(var(--h, 1) * 100svh);
+    display: flex; flex-direction: column;
+  }
+  main:not(.interna) > :is(section, .section):not(.hero, .section--hero) > :is(.wrap, .container) {
+    flex: 1 0 auto; height: auto; min-height: 0;
+  }
+}
+/* a segunda fileira do catálogo vem logo abaixo da primeira, no espaço das grades */
+.cat__mais { margin-top: var(--card-gap) }
