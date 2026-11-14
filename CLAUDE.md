@@ -137,7 +137,7 @@ Fases **1, 2 e 3 prontas**, na branch `fase-1/catalogo-por-modelo`, no **PR #1**
 
 - **Site em várias páginas** (pedido do usuário: "mais profissional"). A inicial tem só hero, garantia e como a compra funciona. Estoque, catálogo, troca e contato têm página própria; o rodapé de todas chama para `contato.html`. Ficha e troca levam modelo, nome e WhatsApp para o contato por `sessionStorage`, nunca pela URL. Endereço antigo `index.html#modelo` redireciona para a ficha certa.
 
-- **Campanha de demonstração** (`site/assets/campanha.js`): aviso "Black November" ao abrir o site, em todas as páginas. Uma vez por visita, só dentro das datas, nunca por cima da ficha aberta por link. `?campanha` no endereço força a exibição para apresentar. Os campos do objeto `CAMPANHA` são os da tabela `campanha` do Supabase; o texto é de demonstração, sem desconto ou preço inventado.
+- **Campanha de demonstração** (`site/assets/campanha.js` e `campanha.css`): janela "Black November" **só na página inicial**, **uma vez por campanha** (fechou, não volta; `localStorage` pelo `id`). Leque com três aparelhos que não estão no hero e contagem regressiva real até `fim`. `?campanha` força a exibição para apresentar. Os campos de `CAMPANHA` são os da tabela `campanha` do Supabase; texto de demonstração, sem desconto ou preço inventado. Faixa no topo foi descartada: o menu é fixo e o kit calcula as alturas em cima dele.
 
 ### Próximo: Fase 4
 

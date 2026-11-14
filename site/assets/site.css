@@ -28,35 +28,5 @@
 .garantia > p:last-child { color: var(--muted); max-width: 44ch }
 .compra__base > .rows > li:first-child { padding-top: var(--s-4); border-top: 1px solid var(--line) }
 
-/* Campanha promocional (assets/campanha.js): painel preto, texto branco */
-dialog.campanha { width: min(100% - 32px, 560px); padding: 0; border: 0; border-radius: var(--r-lg);
-                  background: var(--p-inv-bg); color: var(--p-inv-ink);
-                  box-shadow: 0 40px 90px -30px rgba(0,0,0,.6); overflow: hidden }
-dialog.campanha::backdrop { background: color-mix(in srgb, #0a0a0a 55%, transparent) }
-dialog.campanha[open] { animation: campanha-entra 420ms var(--ease, ease-out) both }
-dialog.campanha[open]::backdrop { animation: campanha-fundo 420ms ease-out both }
-@keyframes campanha-entra { from { opacity: 0; transform: translateY(16px) scale(.98) } to { opacity: 1; transform: none } }
-@keyframes campanha-fundo { from { opacity: 0 } to { opacity: 1 } }
-@media (prefers-reduced-motion: reduce) {
-  dialog.campanha[open], dialog.campanha[open]::backdrop { animation: none }
-}
-.campanha__in { display: grid; gap: var(--s-4); padding: var(--s-8) var(--s-6) var(--s-6) }
-@media (min-width: 640px) { .campanha__in { padding: var(--s-10, 64px) var(--s-8) var(--s-8) } }
-.campanha__selo { font-size: var(--t-label); letter-spacing: .04em; text-transform: uppercase; color: var(--p-inv-muted) }
-.campanha__titulo { font-family: var(--font-display); font-weight: var(--display-weight);
-                    font-size: clamp(44px, 9vw, 76px); line-height: .95; letter-spacing: var(--display-tracking-xl);
-                    color: var(--p-inv-ink) }
-.campanha__linha { font-size: var(--t-lead, 18px); line-height: 1.45; color: var(--p-inv-ink); max-width: 40ch }
-.campanha__validade { font-size: var(--t-small); color: var(--p-inv-muted);
-                      padding-top: var(--s-3); border-top: 1px solid color-mix(in srgb, var(--p-inv-ink) 18%, transparent) }
-.campanha .btn-row { margin-top: var(--s-2) }
-.campanha__acao { background: var(--p-inv-action); color: var(--p-inv-action-ink) }
-.campanha__depois { background: transparent; color: var(--p-inv-ink);
-                    border: 1px solid color-mix(in srgb, var(--p-inv-ink) 30%, transparent) }
-.campanha__fechar { position: absolute; top: 12px; right: 12px; width: 44px; height: 44px; border-radius: 999px;
-                    display: grid; place-items: center; cursor: pointer; color: var(--p-inv-ink); background: transparent;
-                    border: 1px solid color-mix(in srgb, var(--p-inv-ink) 25%, transparent) }
-.campanha :is(.btn, .campanha__fechar):focus-visible { outline: 2px solid var(--p-inv-ink); outline-offset: 3px }
-
 /* a segunda fileira do catálogo vem logo abaixo da primeira, no espaço das grades */
 .cat__mais { margin-top: var(--card-gap) }
