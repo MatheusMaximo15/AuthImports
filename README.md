@@ -19,7 +19,7 @@ Abre em `http://localhost:4321/`. A versão antiga fica em `http://localhost:432
 
 Dois cliques em `publicar.cmd`, ou `.\publicar` no terminal dentro da pasta do projeto. Não precisa entrar em `site/`: o `wrangler.jsonc` já diz o projeto (`authimports`) e a pasta. Só `site/` vai para o ar; `PLANO.md`, `CLAUDE.md` e `antigo/` ficam de fora.
 
-Na primeira vez o `wrangler` pede login no Cloudflare pelo navegador. A variável `RAMO` no topo do `publicar.cmd` precisa ser a branch de **produção** do projeto (hoje `fase-1/catalogo-por-modelo`); com outro nome sai só uma prévia (`<ramo>.authimports.pages.dev`).
+Na primeira vez o `wrangler` pede login no Cloudflare pelo navegador. A variável `RAMO` no topo do `publicar.cmd` precisa ser a branch de **produção** do projeto (`main`); com outro nome sai só uma prévia (`<ramo>.authimports.pages.dev`).
 
 Não tem build, não tem dependência. É HTML, CSS e JS servidos direto.
 

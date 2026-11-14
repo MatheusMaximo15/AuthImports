@@ -39,7 +39,7 @@ Abre em `http://localhost:4321/`. A versão antiga fica em `http://localhost:432
 
 Dois cliques em `publicar.cmd`, ou `.\publicar` no terminal dentro da pasta do projeto. Não precisa entrar em `site/`: o `wrangler.jsonc` já diz o projeto (`authimports`) e a pasta. Só `site/` vai para o ar; `PLANO.md`, `CLAUDE.md` e `antigo/` ficam de fora.
 
-Na primeira vez o `wrangler` pede login no Cloudflare pelo navegador. A variável `RAMO` no topo do `publicar.cmd` precisa ser a branch de **produção** do projeto (hoje `fase-1/catalogo-por-modelo`); com outro nome sai só uma prévia (`<ramo>.authimports.pages.dev`).
+Na primeira vez o `wrangler` pede login no Cloudflare pelo navegador. A variável `RAMO` no topo do `publicar.cmd` precisa ser a branch de **produção** do projeto (`main`); com outro nome sai só uma prévia (`<ramo>.authimports.pages.dev`).
 
 Precisa de servidor: o `index.html` usa módulo ES, e `file://` bloqueia. Não tem build nem dependência.
 
@@ -134,7 +134,7 @@ O kit foi podado no Git: `photos`, `scenes`, `objects`, `components`, `diagrams`
 
 ## Onde paramos
 
-Fases **1, 2 e 3 prontas**, na branch `fase-1/catalogo-por-modelo`, no **PR #1**.
+Fases **1, 2 e 3 prontas**, na branch `main` (o PR #1 foi mesclado). **Trabalhe sempre na `main`**: não crie branch.
 
 - **Fase 1** — catálogo por modelo: 39 SKUs viram 27 modelos, capacidades como variantes, "a partir de". Filtro por tipo de aparelho. Paleta preto e branco.
 - **Fase 2** — endereço por modelo (`#iphone-13-pro-semi` abre a ficha direto), três blocos de informação na ficha.
