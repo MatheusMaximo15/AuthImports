@@ -13,7 +13,13 @@ O cliente ainda não contratou. Tudo aqui serve para mostrar como o site *pode* 
 node serve.js
 ```
 
-Abre em `http://localhost:4321/site/`.
+Abre em `http://localhost:4321/`. A versão antiga fica em `http://localhost:4321/antigo/`.
+
+## Como publicar
+
+Dois cliques em `publicar.cmd`, ou `.\publicar` no terminal dentro da pasta do projeto. Não precisa entrar em `site/`: o `wrangler.jsonc` já diz o projeto (`authimports`) e a pasta. Só `site/` vai para o ar; `PLANO.md`, `CLAUDE.md` e `antigo/` ficam de fora.
+
+Na primeira vez o `wrangler` pede login no Cloudflare pelo navegador. A variável `RAMO` no topo do `publicar.cmd` precisa ser a branch de **produção** do projeto; com outro nome sai só uma prévia (`<ramo>.authimports.pages.dev`).
 
 Não tem build, não tem dependência. É HTML, CSS e JS servidos direto.
 
@@ -33,8 +39,9 @@ Não tem build, não tem dependência. É HTML, CSS e JS servidos direto.
 | `site/assets/img/` | logo da loja e 38 recortes de produto |
 | `site/assets/` (resto) | kit de design (ver aviso abaixo) |
 | `PLANO.md` | **leia antes de mexer** — decisões, fases, modelo de dados |
-| `authimports-demo.html` | versão antiga, arquivo único. Serve de "antes e depois" |
-| `src/` | fonte da versão antiga |
+| `antigo/` | versão antiga, arquivo único (`authimports-demo.html`) e a fonte dela (`src/`). Serve de "antes e depois" |
+| `publicar.cmd` | publica o site no Cloudflare Pages |
+| `wrangler.jsonc` | configuração da publicação: projeto e pasta |
 | `serve.js` | servidor local de teste |
 
 ---

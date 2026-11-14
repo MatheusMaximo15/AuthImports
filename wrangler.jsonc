@@ -1,7 +1,9 @@
 {
-  // O nome precisa ser escrito aqui: derivado da pasta "Auth Imports" o wrangler
-  // gera "uth -mports" e recusa.
-  "name": "auth-imports",
+  // Configuração da publicação no Cloudflare Pages (authimports.pages.dev).
+  // Com ela, `npx wrangler pages deploy` na raiz do projeto já sabe o projeto e
+  // a pasta: não precisa digitar "site". Use o publicar.cmd, que faz isso.
+  // Só a pasta "site" vai para o ar; PLANO.md, CLAUDE.md e antigo/ ficam de fora.
+  "name": "authimports",
   "pages_build_output_dir": "site",
   "compatibility_date": "2026-11-13"
 }

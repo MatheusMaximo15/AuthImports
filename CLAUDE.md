@@ -33,7 +33,13 @@ Fale **português** com o usuário.
 node serve.js
 ```
 
-Abre em `http://localhost:4321/site/`.
+Abre em `http://localhost:4321/`. A versão antiga fica em `http://localhost:4321/antigo/`.
+
+## Como publicar
+
+Dois cliques em `publicar.cmd`, ou `.\publicar` no terminal dentro da pasta do projeto. Não precisa entrar em `site/`: o `wrangler.jsonc` já diz o projeto (`authimports`) e a pasta. Só `site/` vai para o ar; `PLANO.md`, `CLAUDE.md` e `antigo/` ficam de fora.
+
+Na primeira vez o `wrangler` pede login no Cloudflare pelo navegador. A variável `RAMO` no topo do `publicar.cmd` precisa ser a branch de **produção** do projeto; com outro nome sai só uma prévia (`<ramo>.authimports.pages.dev`).
 
 Precisa de servidor: o `index.html` usa módulo ES, e `file://` bloqueia. Não tem build nem dependência.
 
@@ -119,7 +125,8 @@ Justificativas de falha ficam em `site/.taste-skill/waivers.json` (não versiona
 | `site/assets/` (resto) | kit de design |
 | `PLANO.md` | decisões de arquitetura e as seis fases |
 | `README.md` | estado, de onde veio o conteúdo, avisos |
-| `authimports-demo.html` | versão antiga de arquivo único, serve de "antes e depois" |
+| `antigo/` | versão antiga de arquivo único e a fonte dela; "antes e depois" |
+| `publicar.cmd` + `wrangler.jsonc` | publicação no Cloudflare Pages sem entrar em `site/` |
 
 O kit foi podado no Git: `photos`, `scenes`, `objects`, `components`, `diagrams`, `backgrounds`, `effects` e os `_demo` estão no `.gitignore`, com o comando de restauração lá dentro. A página não carrega nada disso.
 
