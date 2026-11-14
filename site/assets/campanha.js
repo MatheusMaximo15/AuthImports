@@ -8,8 +8,8 @@
    Regras de exibição (pensadas para não incomodar):
    - só na página inicial (este arquivo só é carregado nela);
    - só com `ativa: true` e dentro do período (inicio/fim);
-   - uma vez por campanha: fechou, não volta, nem em outra aba nem amanhã.
-     Uma campanha nova (outro `id`) aparece de novo;
+   - toda vez que a inicial carrega (decisão do usuário: só seria chato se
+     abrisse em todas as páginas);
    - nunca por cima de outra janela aberta;
    - `?campanha` no endereço força a exibição, para apresentar ao cliente. */
 
@@ -20,7 +20,7 @@ export const CAMPANHA = {
   titulo: 'Black November',
   linha: 'Condições especiais em iPhones seminovos e lacrados. Fale com a loja antes que o mês acabe.',
   acao: 'Ver o catálogo',
-  link: 'catalogo.html',
+  link: '#catalogo',
   // três aparelhos em leque: o do meio vai na frente. Diferentes da foto do hero.
   imagens: ['assets/img/ip15pm.webp', 'assets/img/ip18pm.webp', 'assets/img/ip16pm.webp'],
   imagensAlt: 'iPhone 15 Pro Max, iPhone 18 Pro Max e iPhone 16 Pro Max em leque',
@@ -30,18 +30,11 @@ export const CAMPANHA = {
 };
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const chave = c => 'authimports:campanha:' + c.id;
 
 function noPeriodo(c, agora = Date.now()) {
   const ini = c.inicio ? Date.parse(c.inicio) : -Infinity;
   const fim = c.fim ? Date.parse(c.fim) : Infinity;
   return agora >= ini && agora <= fim;
-}
-function jaVista(c) {
-  try { return localStorage.getItem(chave(c)) === '1'; } catch (_) { return false; }
-}
-function marcarVista(c) {
-  try { localStorage.setItem(chave(c), '1'); } catch (_) { /* sem armazenamento: nada a lembrar */ }
 }
 
 /* ---------- contagem regressiva ---------- */
@@ -108,19 +101,19 @@ function montar(c) {
     relogio = setInterval(tique, 1000);
   }
 
-  const fechar = () => { marcarVista(c); dlg.close(); };
+  const fechar = () => dlg.close();
   dlg.querySelector('.campanha__fechar').addEventListener('click', fechar);
   dlg.querySelector('.campanha__depois').addEventListener('click', fechar);
-  dlg.addEventListener('cancel', () => marcarVista(c));
   dlg.addEventListener('click', e => { if (e.target === dlg) fechar(); });
+  // o catálogo está na própria inicial: a ação fecha a janela e o link rola até ele
   const acao = dlg.querySelector('.campanha__acao');
-  if (acao) acao.addEventListener('click', () => marcarVista(c));
+  if (acao) acao.addEventListener('click', fechar);
   dlg.addEventListener('close', () => { clearInterval(relogio); dlg.remove(); });
   return dlg;
 }
 
 export function mostrarCampanha(c = CAMPANHA, { forcar = false } = {}) {
-  if (!forcar && (!c.ativa || !noPeriodo(c) || jaVista(c))) return null;
+  if (!forcar && (!c.ativa || !noPeriodo(c))) return null;
   if (document.querySelector('dialog[open]')) return null;
   const dlg = montar(c);
   dlg.showModal();
