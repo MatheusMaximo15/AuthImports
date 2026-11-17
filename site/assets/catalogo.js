@@ -258,11 +258,12 @@ function notas(gr) {
   ];
 }
 
-export function abrirFicha(id) {
+export function abrirFicha(id, cap) {
   const gr = G.find(x => x.id === id);
   if (!gr || !dlg) return;
   atual = gr;
-  iVar = Math.max(0, gr.vars.findIndex(v => v.v === gr.min));
+  const pedida = cap ? gr.vars.findIndex(v => String(v.s) === String(cap)) : -1;
+  iVar = pedida >= 0 ? pedida : Math.max(0, gr.vars.findIndex(v => v.v === gr.min));
   pintarFicha();
   if (!dlg.open) dlg.showModal();
   // cada ficha abre do topo, mesmo que a anterior tenha sido rolada até o fim
@@ -279,9 +280,17 @@ export function fecharFicha() {
 }
 
 /** O endereço carrega o modelo: #iphone-13-pro-semi abre a ficha daquele modelo. */
+/** O endereco desta ficha, com a capacidade escolhida. Sem ela, o link
+    compartilhado abria no preco da variante mais barata e nao no que a
+    pessoa estava vendo. */
+function enderecoFicha(gr, i) {
+  const v = gr.vars[i];
+  return '#' + gr.id + (v && v.s ? '/' + v.s : '');
+}
+
 function rota() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  if (G.some(g => g.id === id)) abrirFicha(id);
+  const [id, cap] = decodeURIComponent(location.hash.slice(1)).split('/');
+  if (G.some(g => g.id === id)) abrirFicha(id, cap);
   else fecharFicha();
 }
 
@@ -289,7 +298,7 @@ export function ligarFicha(el) {
   dlg = el;
   const sair = () => {
     // tira o modelo do endereço, mantendo a posição na página
-    if (G.some(g => g.id === decodeURIComponent(location.hash.slice(1)))) {
+    if (G.some(g => g.id === decodeURIComponent(location.hash.slice(1)).split('/')[0])) {
       history.replaceState(null, '', location.pathname + location.search);
     }
     fecharFicha();
@@ -302,6 +311,7 @@ export function ligarFicha(el) {
     if (!b) return;
     iVar = Number(b.dataset.var);
     pintarFicha();
+    history.replaceState(null, '', location.pathname + location.search + enderecoFicha(atual, iVar));
   });
   addEventListener('hashchange', rota);
   rota();

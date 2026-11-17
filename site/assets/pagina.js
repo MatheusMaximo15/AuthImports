@@ -8,10 +8,14 @@ import { LOJA, linkWhatsApp, linkInstagram, cnpjFormatado, enderecoLinha, ICONE_
     Na inicial os links são âncoras (#estoque, #catalogo), então comparar com o
     nome do arquivo nunca marcava nada: quem diz a seção atual é `seguirSecoes`. */
 export function marcarMenu() {
-  const atual = location.pathname.split('/').pop() || 'index.html';
+  // o Cloudflare serve /troca e /politicas sem o .html, então os dois lados
+  // são normalizados antes de comparar
+  const nu = s => (s || '').split('#')[0].split('?')[0].replace(/\.html$/, '').replace(/^\.?\//, '');
+  const atual = nu(location.pathname.split('/').pop()) || 'index';
   document.querySelectorAll('.nav__link').forEach(a => {
     const href = a.getAttribute('href') || '';
-    if (href === atual || (atual === 'index.html' && href === './')) a.setAttribute('aria-current', 'page');
+    if (href.startsWith('#')) return;
+    if (nu(href) === atual) a.setAttribute('aria-current', 'page');
   });
 }
 

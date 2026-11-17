@@ -119,6 +119,7 @@ A loja anuncia "R$ 3.215 até 10x sem juros no cartão, ou R$ 2.799 à vista". `
 |---|---|
 | `site/index.html` | a vitrine: hero baixo, "Aparelhos na loja hoje" (4 destaques), "Todos os aparelhos" (busca e filtros sobre o catálogo inteiro), "Como a compra funciona" (com garantia) e a ficha |
 | `site/troca.html` | simulador de troca |
+| `site/politicas.html` | garantia, entrega, trocas e devoluções, privacidade. Quatro blocos ancorados numa página só |
 | `site/estoque.html`, `catalogo.html`, `contato.html` | só redirecionam para a inicial (endereços antigos, mantêm `#modelo`) |
 | `site/assets/loja.js` | **número do WhatsApp e Instagram da loja**, links e ícones |
 | `site/assets/catalogo.js` | dados dos aparelhos, agrupamento por modelo, ficha |
@@ -170,7 +171,11 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
 
 - **Fase 4** — Supabase e painel `/admin` para leigo, pensado para celular; campanha e textos editáveis; Cloudflare ligado ao GitHub. É o sistema de verdade: fica para **depois que o cliente fechar**. Detalhe no `PLANO.md`.
 - **Fase 5** — trocar a tabela fictícia pela da loja e gravar cada simulação (tabela `avaliacoes`). Depende de três números da loja: quanto pagam por modelo e estado, quanto bateria e tela trocada derrubam, quem dá a palavra final.
-- **Fase 6** — páginas institucionais (garantia, entrega, trocas e devoluções, privacidade, termos). Dá para fazer rascunho na demonstração.
+- **Fase 6** — **rascunho feito** em `site/politicas.html` (17/11/2026), numa página só com quatro blocos ancorados em vez de cinco páginas: o `<head>`, o menu e o rodapé são copiados, e cada página nova multiplica a manutenção. Foi o que levantou *Help and Documentation*, que a crítica deu **1** porque o site não respondia "e se chegar com defeito?".
+  - O que está escrito vem de duas fontes, nenhuma inventada: **o que a loja já diz no site** (6 e 12 meses, vídeo antes do pagamento, entrega no mesmo dia, endereço) e **o CDC** (art. 49 para arrependimento em 7 dias, art. 18 e 26 para defeito, 90 dias de prazo legal). Lei não é dado da loja; pode escrever.
+  - O que a loja **não** informou está num bloco `.pol__pendente`, **visível na tela**: área da entrega no mesmo dia, frete fora de Juatuba, horário, quem paga o frete da devolução por arrependimento e a política de troca sem defeito na compra presencial. Serve de lista para a reunião.
+  - **Antes de publicar de verdade, um advogado precisa ler.** O texto é rascunho de demonstração, não parecer jurídico.
+  - Falta ainda: termos de uso.
 
 ---
 

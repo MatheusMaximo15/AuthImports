@@ -26,6 +26,8 @@
 .garantia__titulo { font-family: var(--font-display); font-weight: var(--display-weight);
                     font-size: var(--t-h3); letter-spacing: var(--display-tracking); line-height: 1.15 }
 .garantia > p:last-child { color: var(--muted); max-width: 44ch }
+/* link solto, não dentro de um parágrafo: vale o alvo de 44px */
+.garantia__mais { min-height: 44px; display: inline-flex; align-items: center }
 .compra__base > .rows > li:first-child { padding-top: var(--s-4); border-top: 1px solid var(--line) }
 
 /* a segunda fileira do catálogo vem logo abaixo da primeira, no espaço das grades */
@@ -63,6 +65,17 @@ footer.closing.rodape > .wrap { height: auto; display: block }
               transition: transform 200ms ease, box-shadow 200ms ease }
 .zap-flutua svg { width: 30px; height: 30px }
 .zap-flutua:focus-visible { outline: 3px solid #0a0a0a; outline-offset: 3px }
+/* com a ficha ou a campanha abertas o botão é redundante — a ficha tem o seu —
+   e só ficava por cima do que a pessoa foi ler */
+body:has(dialog[open]) .zap-flutua { opacity: 0; pointer-events: none; transform: scale(.9) }
+@media (max-width: 639px) {
+  /* no telefone ele encolhe e encosta mais no canto: era ele que cobria o
+     preço do cartão de baixo e os botões de paginação */
+  .zap-flutua { width: 48px; height: 48px;
+                right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)) }
+  .zap-flutua svg { width: 26px; height: 26px }
+  .pager { padding-bottom: 64px }
+}
 @media (hover: hover) and (pointer: fine) {
   .zap-flutua:hover { transform: scale(1.06); box-shadow: 0 16px 32px -8px rgba(0,0,0,.45) }
 }
