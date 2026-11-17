@@ -139,7 +139,7 @@ function montar() {
   </ol>
 
   <section class="troca__painel" data-painel="1" aria-labelledby="tr-h1">
-    <h3 id="tr-h1" tabindex="-1">Qual aparelho você quer levar?</h3>
+    <h2 id="tr-h1" tabindex="-1">Qual aparelho você quer levar?</h2>
     <p class="t-small muted">Opcional. Serve para mostrar quanto falta pagar depois da troca.</p>
     <div class="troca__campos">
       <div class="field"><label for="tr-alvo">Aparelho</label><select id="tr-alvo">${opcoesAlvo()}</select></div>
@@ -149,7 +149,7 @@ function montar() {
   </section>
 
   <section class="troca__painel" data-painel="2" aria-labelledby="tr-h2" hidden>
-    <h3 id="tr-h2" tabindex="-1">Conte sobre o seu iPhone</h3>
+    <h2 id="tr-h2" tabindex="-1">Conte sobre o seu iPhone</h2>
     <p class="t-small muted">Responda com sinceridade: a loja confirma tudo na avaliação.</p>
     <div class="troca__campos">
       <div class="field"><label for="tr-modelo">Modelo</label><select id="tr-modelo">
@@ -175,7 +175,7 @@ function montar() {
   </section>
 
   <section class="troca__painel" data-painel="3" aria-labelledby="tr-h3" hidden>
-    <h3 id="tr-h3" tabindex="-1">Para quem a loja manda a avaliação?</h3>
+    <h2 id="tr-h3" tabindex="-1">Para quem a loja manda a avaliação?</h2>
     <p class="t-small muted">O valor da troca aparece logo depois. Seu nome e WhatsApp não são enviados nem guardados pelo site: só entram na mensagem que você mesmo manda para a loja.</p>
     <div class="troca__campos">
       <div class="field"><label for="tr-nome">Seu nome</label>
@@ -192,7 +192,7 @@ function montar() {
   </section>
 
   <section class="troca__painel" data-painel="4" aria-labelledby="tr-h4" hidden>
-    <h3 id="tr-h4" tabindex="-1">O que a loja pode pagar pelo seu aparelho</h3>
+    <h2 id="tr-h4" tabindex="-1">O que a loja pode pagar pelo seu aparelho</h2>
     <div id="tr-sim"></div>
     <div id="tr-fim"></div>
     <div class="btn-row">
@@ -318,7 +318,7 @@ function ir(n) {
     if (i === n) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
   });
   if (n === 4) { pintarSimulacao(); pintarFim(); }
-  const h = q(`[data-painel="${n}"] h3`);
+  const h = q(`[data-painel="${n}"] h2`);
   if (h) h.focus({ preventScroll: true });
   const topo = raiz.getBoundingClientRect().top;
   if (topo < 0 || topo > innerHeight * 0.5) {

@@ -53,15 +53,19 @@ dialog.campanha::backdrop { background: rgba(10,10,10,.62); backdrop-filter: blu
                     font-variant-numeric: tabular-nums; color: var(--c-ink) }
 .campanha__casa span { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--c-muted) }
 
+/* saídas e nota andam juntas: em tela baixa elas grudam no rodapé da janela */
+.campanha__fim { display: grid; gap: 0 }
 .campanha__acoes { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; margin-top: 6px }
 .campanha__acao { background: #fff; color: #0a0a0a; min-height: 52px; padding-inline: 26px; font-weight: 500 }
 .campanha__acao .m-arrow { stroke: currentColor }
-.campanha__depois { background: none; border: 0; padding: 8px 2px; cursor: pointer; color: var(--c-muted);
+.campanha__depois { background: none; border: 0; padding: 8px 12px; cursor: pointer; color: var(--c-muted);
+                    min-height: 44px; display: inline-flex; align-items: center;
                     font: 400 15px/1 var(--font-text); text-decoration: underline; text-underline-offset: 4px }
-.campanha__nota { font-size: 12px; color: #6f6f6f; padding-top: 14px; border-top: 1px solid var(--c-line) }
+/* #9a9a9a sobre #0a0a0a da 7:1; o #6f6f6f anterior reprovava em WCAG AA */
+.campanha__nota { font-size: 12px; color: var(--c-muted); padding-top: 14px; border-top: 1px solid var(--c-line) }
 
 .campanha__fechar {
-  position: absolute; top: 14px; right: 14px; z-index: 2; width: 40px; height: 40px; border-radius: 999px;
+  position: absolute; top: 14px; right: 14px; z-index: 4; width: 44px; height: 44px; border-radius: 999px;
   display: grid; place-items: center; cursor: pointer; color: #fff;
   background: rgba(255,255,255,.08); border: 1px solid var(--c-line);
   backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
@@ -101,4 +105,25 @@ dialog.campanha[open] .campanha__ap--3 { animation: campanha-leque-d 1000ms 260m
   .campanha__casa b { font-size: 26px }
   .campanha__acao { flex: 1 1 100%; justify-content: center }
   .campanha__depois { margin-inline: auto }
+}
+
+/* Tela baixa (notebook com a barra do navegador, telefone deitado): o palco
+   encolhe e as saídas grudam no rodapé da janela. Antes os dois botões ficavam
+   abaixo da dobra da rolagem interna e a pessoa não tinha como saber que
+   existiam — o foco do teclado ia para um elemento invisível. */
+@media (max-height: 760px) {
+  .campanha__palco { height: 132px; padding: 14px 0 }
+  .campanha__palco::after { bottom: 14px }
+  .campanha__titulo { font-size: clamp(38px, 7vw, 54px) }
+  .campanha__linha { font-size: 15px }
+  .campanha__in { gap: 12px; padding: 22px 28px 0 }
+  .campanha__casa { padding: 8px 4px 6px }
+  .campanha__casa b { font-size: 24px }
+  .campanha__fim { position: sticky; bottom: 0; z-index: 3; background: #0a0a0a; padding-bottom: 18px }
+}
+@media (max-height: 560px) {
+  .campanha__palco { display: none }
+  .campanha__relogio { grid-template-columns: repeat(4, minmax(0, 1fr)) }
+  .campanha__casa { padding: 6px 4px 5px }
+  .campanha__casa b { font-size: 20px }
 }

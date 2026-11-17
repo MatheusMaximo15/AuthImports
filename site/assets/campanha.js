@@ -74,12 +74,14 @@ function montar(c) {
           ${[['d', 'dias'], ['h', 'horas'], ['m', 'min'], ['s', 'seg']].map(([k, r]) =>
             `<div class="campanha__casa"><b data-t="${k}">00</b><span>${r}</span></div>`).join('')}
         </div>` : ''}
-        <div class="campanha__acoes">
-          ${c.link ? `<a class="btn campanha__acao" href="${esc(c.link)}">${esc(c.acao || 'Saiba mais')}
-            <svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>` : ''}
-          <button class="campanha__depois" type="button">Agora não</button>
+        <div class="campanha__fim">
+          <div class="campanha__acoes">
+            ${c.link ? `<a class="btn campanha__acao" href="${esc(c.link)}">${esc(c.acao || 'Saiba mais')}
+              <svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>` : ''}
+            <button class="campanha__depois" type="button">Agora não</button>
+          </div>
+          ${c.nota ? `<p class="campanha__nota">${esc(c.nota)}</p>` : ''}
         </div>
-        ${c.nota ? `<p class="campanha__nota">${esc(c.nota)}</p>` : ''}
       </div>
     </div>`;
   document.body.appendChild(dlg);
@@ -115,6 +117,9 @@ function montar(c) {
 export function mostrarCampanha(c = CAMPANHA, { forcar = false } = {}) {
   if (!forcar && (!c.ativa || !noPeriodo(c))) return null;
   if (document.querySelector('dialog[open]')) return null;
+  // quem chegou por âncora (#como, #garantia, um modelo) pediu uma parte da
+  // página: a campanha não cobre o que a pessoa veio ver
+  if (!forcar && location.hash) return null;
   const dlg = montar(c);
   dlg.showModal();
   const acao = dlg.querySelector('.campanha__acao');

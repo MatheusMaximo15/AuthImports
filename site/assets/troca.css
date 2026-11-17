@@ -18,7 +18,7 @@
 }
 
 .troca__painel { display: grid; gap: var(--s-4); align-content: start }
-.troca__painel > h3 { outline: none }
+.troca__painel > h2 { outline: none }
 .troca__painel[hidden] { display: none }
 .troca__campos { display: grid; gap: var(--s-4); grid-template-columns: 1fr }
 @media (min-width: 640px) { .troca__campos { grid-template-columns: 3fr 2fr } }

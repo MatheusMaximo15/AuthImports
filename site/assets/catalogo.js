@@ -139,9 +139,9 @@ function cartao(gr) {
   return `<a class="tile prod span-3" href="#${gr.id}" id="${gr.id}" data-grupo="${gr.id}">
   <div class="tile__media">${selo}<img src="assets/img/${gr.img}.webp" alt="${esc(gr.n)}, de frente e de costas" loading="lazy" width="320" height="320"></div>
   <div class="tile__head"><h3>${esc(gr.n)}</h3></div>
-  <p class="tile__facts">${gr.k === 'lacrado' ? 'Lacrado' : 'Seminovo'}<span class="f-gar"> · ${gr.g} meses de garantia</span></p>
+  <p class="tile__facts">${gr.k === 'lacrado' ? 'Lacrado' : 'Seminovo'}<span class="f-sep"> · </span><span class="f-gar">${gr.g} meses de garantia</span></p>
   ${chips ? `<div class="caps">${chips}</div>` : ''}
-  <p class="prod__preco">${varios ? '<span class="prod__apd">A partir de</span>' : ''}<b>${brl.format(gr.min)}</b></p>
+  <p class="prod__preco">${varios ? '<span class="prod__apd">A partir de</span>' : ''}<b>${brl.format(gr.min)}</b><span class="prod__avista">à vista</span></p>
 </a>`;
 }
 
@@ -181,6 +181,13 @@ function pintarFicha() {
     (gr.k === 'lacrado' ? 'Lacrado' : 'Seminovo') + ' · ' + gr.g + ' meses de garantia pela loja';
   dlg.querySelector('.ficha__preco b').textContent = brl.format(v.v);
   dlg.querySelector('.ficha__par').textContent = 'à vista, ou ' + brl.format(v.p) + ' no cartão em até 10x de ' + brlParcela(v.p / 10) + ' sem juros';
+  // a barra de ação repete o preço, inteiro: ela é o que fica na tela quando o
+  // preço lá de cima já rolou para fora, e nunca mostra o à vista sozinho
+  const barra = dlg.querySelector('.ficha__barra-preco');
+  if (barra) {
+    barra.querySelector('b').textContent = brl.format(v.v);
+    barra.querySelector('span').textContent = ' à vista · ' + brl.format(v.p) + ' no cartão';
+  }
   dlg.querySelector('.ficha__corpo').innerHTML = linhas(gr, v)
     .map(([k, val]) => `<div class="ficha__row"><dt>${esc(k)}</dt><dd>${esc(val)}</dd></div>`).join('');
 

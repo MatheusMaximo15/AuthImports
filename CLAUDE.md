@@ -117,7 +117,7 @@ A loja anuncia "R$ 3.215 até 10x sem juros no cartão, ou R$ 2.799 à vista". `
 
 | Caminho | O que é |
 |---|---|
-| `site/index.html` | a vitrine: hero baixo, "Na loja hoje", tabela de encomenda com filtros, "Como a compra funciona" (com garantia) e a ficha |
+| `site/index.html` | a vitrine: hero baixo, "Aparelhos na loja hoje" (4 destaques), "Todos os aparelhos" (busca e filtros sobre o catálogo inteiro), "Como a compra funciona" (com garantia) e a ficha |
 | `site/troca.html` | simulador de troca |
 | `site/estoque.html`, `catalogo.html`, `contato.html` | só redirecionam para a inicial (endereços antigos, mantêm `#modelo`) |
 | `site/assets/loja.js` | **número do WhatsApp e Instagram da loja**, links e ícones |
@@ -147,7 +147,16 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
 - **Fase 3** — barra de ação no celular, mensagem pronta com modelo e preço (pergunta se está disponível), faixa de três fatos no hero. Pixel e GA4 ficaram para o deploy real (precisam de IDs da loja).
 - **Inicial virou vitrine** (feedback de um usuário de teste: "o cliente não quer clicar em 500 páginas", "igual marketplace", "é uma landing page, ele fecha no WhatsApp ou no Instagram"). Antes o site tinha cinco páginas; agora são duas: a inicial (hero baixo em duas colunas no desktop, lista de aparelhos na primeira tela, como a compra funciona) e a troca. Formulário e página de contato saíram. Rodapé compacto, sem a tela inteira que o kit dá ao fechamento.
 - **Fase 5 adiantada, com valores fictícios** — `troca.html`: 4 passos (aparelho desejado, seu aparelho, nome e WhatsApp, resultado). **Decisão do usuário: valores só no último passo, depois da avaliação e do contato.** Faixa de ±10%, quanto falta pagar, link que ensina a ver a saúde da bateria (guia da Apple `support.apple.com/pt-br/101575`), botão "Simular troca" na ficha.
-- **Campanha de demonstração** — janela "Black November" **só na inicial**, abrindo **toda vez que a inicial carrega**. O usuário só achava chato ela abrir em todas as páginas; "uma vez por campanha" foi um mal-entendido e foi desfeito. Nunca por cima da ficha aberta por link. "Ver o catálogo" fecha a janela e rola até `#catalogo`. Leque com três aparelhos que não estão no hero e contagem regressiva real. Campos de `CAMPANHA` = tabela `campanha` do Supabase.
+- **Campanha de demonstração** — janela "Black November" **só na inicial**, abrindo **toda vez que a inicial carrega**. O usuário só achava chato ela abrir em todas as páginas; "uma vez por campanha" foi um mal-entendido e foi desfeito. Nunca por cima da ficha aberta por link, **nem quando o endereço tem âncora** (`#como`, `#garantia`, um modelo): quem chegou por âncora pediu uma seção. `?campanha` força a abertura para apresentar. "Ver o catálogo" fecha a janela e rola até `#catalogo`. Leque com três aparelhos que não estão no hero e contagem regressiva real. Campos de `CAMPANHA` = tabela `campanha` do Supabase.
+- **Rodada da crítica `impeccable`** (17/11/2026, nota 23/36 antes das correções). O que mudou:
+  - **A busca varre o catálogo inteiro.** Antes `filtrar()` varria só `G.filter(g => !g.pronta)`: quem digitava "13 Pro Max" recebia "0 de 16 modelos" sobre um aparelho que estava na loja, e iPad/Mac/Watch eram três opções de filtro que nunca retornavam nada. Agora varre `G`, com um filtro novo de **Disponibilidade** e o selo do cartão dizendo onde o aparelho está. **Não volte a filtrar a lista antes da busca.**
+  - "Na loja hoje" virou **vitrine de 4 destaques** sem paginação, com botão que leva à lista inteira já filtrada. "Tabela de encomenda" virou **"Todos os aparelhos"**. Os rótulos do menu passaram a bater com os títulos das seções.
+  - **Ordenação padrão é "Mais novo".** Com "Mais barato" as duas listas abriam em dois Apple Watch e iPhones antigos.
+  - **Barra de ação na ficha** (`.ficha__barra`, `position: sticky`): preço à vista **e** no cartão mais os dois botões, sempre na tela. O botão de WhatsApp ficava 287px (desktop) a 1484px (celular) abaixo da borda. No celular o palco da foto deita (`aspect-ratio: 2/1`) para o nome e o preço caberem acima da barra. As notas de confiança subiram para antes da ficha técnica.
+  - **A faixa de garantia voltou no celular.** `system.css:309` escondia `.hero-strip` abaixo de 640px e o `.f-gar` dos cartões também sumia: acima da dobra, no telefone, "garantia" só existia dentro do H1.
+  - Campanha: botões presos ao rodapé da janela em tela baixa (`max-height: 760px`), alvos de 44px, nota em `--c-muted` (3,94:1 reprovava em AA).
+  - Menores: `<h2>` nos passos da troca (era `h1`→`h3`), contagens "11/16 modelos" agora calculadas do `G`, rótulo "à vista" no preço do cartão.
+  - **Achados do detector que continuam e são conhecidos:** `broken-image` (é o `<img>` da ficha, preenchido por JS ao abrir — falso positivo), `cramped-padding` ×5 nas `.rows` do kit, `pulsing-dot` e `radial-halo` na campanha. Nenhum foi introduzido nesta rodada.
 
 ### Próximos passos
 
