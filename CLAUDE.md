@@ -61,6 +61,7 @@ Instaladas globalmente (`~/.claude/skills`). Se faltar alguma:
 
 ```bash
 npx skills add Leonxlnx/taste-skill -g -y                                # design-taste-frontend: construiu o site; checker e gate
+npx skills add pbakaus/impeccable@impeccable -g -y                       # impeccable: critica e acabamento de interface
 npx skills add nextlevelbuilder/ui-ux-pro-max-skill@ui-ux-pro-max -g -y  # base de paleta, tipo e regra de UX
 npx skills add vercel-labs/agent-skills@web-design-guidelines -g -y      # revisão de acessibilidade e UX
 npx skills add wearescientist/awesome-design-md@awesome-design-md -g -y  # estilos de referência de empresa
@@ -72,6 +73,8 @@ npx skills add vercel-labs/skills@find-skills -g -y                      # procu
 
 **caveman** também está instalada; só ligue se o usuário pedir.
 **context-mode** (plugin) foi **descartado**: o usuário achou inútil. Não reinstale.
+
+**impeccable e design-taste-frontend se sobrepõem.** Quem construiu o site foi a `design-taste-frontend`, e a paleta, a tipografia e as alturas de seção vêm dela (regra 4 e "Armadilhas conhecidas"). Use a `impeccable` para **revisar e dar acabamento** — crítica, hierarquia, microinterações, acessibilidade. Não a deixe redesenhar o site por conta própria: se ela propuser trocar o mundo visual, pergunte antes. Dois avisos práticos: o Snyk marcou o pacote como **Critical Risk** (o Gen marcou como seguro; o usuário foi avisado e mandou manter) e o lançador dela baixa um binário próprio na primeira execução, o que pode esbarrar no firewall da máquina do trabalho — se falhar, ela mesma manda seguir lendo o projeto direto.
 
 ---
 
