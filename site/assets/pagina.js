@@ -2,13 +2,71 @@
    de WhatsApp e Instagram, o botão flutuante e a ficha do aparelho. */
 
 import { abrirFicha, ligarFicha } from './catalogo.js';
-import { linkWhatsApp, linkInstagram, ICONE_WHATSAPP, ICONE_INSTAGRAM } from './loja.js';
+import { LOJA, linkWhatsApp, linkInstagram, cnpjFormatado, enderecoLinha, ICONE_WHATSAPP, ICONE_INSTAGRAM } from './loja.js';
 
-/** Marca no menu o link da página aberta (só a troca é outra página). */
+/** Marca no menu o link da página aberta (só a troca é outra página).
+    Na inicial os links são âncoras (#estoque, #catalogo), então comparar com o
+    nome do arquivo nunca marcava nada: quem diz a seção atual é `seguirSecoes`. */
 export function marcarMenu() {
   const atual = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav__link').forEach(a => {
-    if ((a.getAttribute('href') || '') === atual) a.setAttribute('aria-current', 'page');
+    const href = a.getAttribute('href') || '';
+    if (href === atual || (atual === 'index.html' && href === './')) a.setAttribute('aria-current', 'page');
+  });
+}
+
+/** Numa página só, o menu marca a seção que está na tela.
+    Por rolagem e não por IntersectionObserver: o observador não entrega
+    enquanto a aba está em segundo plano, e aí o menu ficava mudo. */
+export function seguirSecoes() {
+  const links = [...document.querySelectorAll('.nav__link')]
+    .filter(a => (a.getAttribute('href') || '').startsWith('#'));
+  const alvos = links.map(a => ({ a, el: document.getElementById(a.getAttribute('href').slice(1)) }))
+                     .filter(x => x.el);
+  if (!alvos.length) return;
+
+  // a linha de leitura fica a 40% da altura da tela, abaixo do menu fixo
+  const pintar = () => {
+    const linha = innerHeight * 0.4;
+    let atual = null;
+    for (const x of alvos) {
+      const r = x.el.getBoundingClientRect();
+      if (r.top <= linha && r.bottom > linha) { atual = x; break; }
+    }
+    // o fim da página marca a última seção, que pode ser curta demais
+    if (!atual && scrollY + innerHeight >= document.documentElement.scrollHeight - 4) {
+      atual = alvos[alvos.length - 1];
+    }
+    alvos.forEach(x => {
+      if (x === atual) x.a.setAttribute('aria-current', 'true');
+      else if (x.a.getAttribute('aria-current') === 'true') x.a.removeAttribute('aria-current');
+    });
+  };
+
+  // limite por relógio e não por requestAnimationFrame, que também para quando
+  // a aba está em segundo plano. São quatro medidas por quadro, não pesa.
+  let ultimo = 0;
+  const agendar = () => {
+    const agora = Date.now();
+    if (agora - ultimo < 100) return;
+    ultimo = agora;
+    pintar();
+  };
+  addEventListener('scroll', agendar, { passive: true });
+  addEventListener('resize', agendar);
+  pintar();
+}
+
+/** Preenche endereço e CNPJ onde a página pedir. Dados em loja.js. */
+export function ligarIdentidade() {
+  const linha = enderecoLinha(), cnpj = cnpjFormatado();
+  document.querySelectorAll('[data-loja-endereco]').forEach(e => { e.textContent = linha; });
+  document.querySelectorAll('[data-loja-cnpj]').forEach(e => {
+    if (!cnpj) { e.hidden = true; return; }
+    e.textContent = 'CNPJ ' + cnpj;
+  });
+  document.querySelectorAll('[data-loja-cidade]').forEach(e => {
+    e.textContent = LOJA.cidade + (LOJA.uf ? ' e região' : '');
   });
 }
 
@@ -79,6 +137,8 @@ export function voltarAoTopo() {
 export function ligarPagina() {
   voltarAoTopo();
   marcarMenu();
+  seguirSecoes();
+  ligarIdentidade();
   ligarContatos();
   botaoFlutuante();
 }

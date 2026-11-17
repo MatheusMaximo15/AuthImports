@@ -8,8 +8,31 @@
 
 export const LOJA = {
   whatsapp: '553198880979',
-  instagram: 'auth_imports'
+  instagram: 'auth_imports',
+  // Identidade da loja, passada pelo dono. Quem compra seminovo de um
+  // desconhecido procura endereço e CNPJ antes de qualquer outra coisa.
+  razao: 'Auth Imports',
+  cnpj: '37815326000187',
+  endereco: 'R. José Monteiro, 440 — Sala 5',
+  bairro: 'Centro',
+  cidade: 'Juatuba',
+  uf: 'MG',
+  cep: '35675-000'
 };
+
+/** CNPJ no formato que o brasileiro reconhece: 00.000.000/0000-00. */
+export function cnpjFormatado() {
+  const d = (LOJA.cnpj || '').replace(/\D/g, '');
+  if (d.length !== 14) return '';
+  return d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8, 12) + '-' + d.slice(12);
+}
+
+/** O endereço em uma linha, sem os campos que a loja não preencheu. */
+export function enderecoLinha() {
+  const l = LOJA;
+  const partes = [l.endereco, l.bairro, [l.cidade, l.uf].filter(Boolean).join(' ')].filter(Boolean);
+  return partes.join(' · ') + (l.cep ? ' · ' + l.cep : '');
+}
 
 export const MENSAGEM_PADRAO = 'Olá, Auth Imports! Vim pelo site e quero saber dos aparelhos disponíveis.';
 

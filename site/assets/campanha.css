@@ -94,6 +94,11 @@ dialog.campanha[open] .campanha__ap--3 { animation: campanha-leque-d 1000ms 260m
   .campanha__ponto { animation: none }
 }
 
+/* abaixo de 400px o leque de tres vira um amontoado ilegivel: fica so o do meio */
+@media (max-width: 400px) {
+  .campanha__ap--1, .campanha__ap--3 { display: none }
+  .campanha__ap--2 { height: 100%; margin: 0 }
+}
 @media (max-width: 520px) {
   .campanha__palco { height: 170px }
   .campanha__palco { padding: 18px 0 }

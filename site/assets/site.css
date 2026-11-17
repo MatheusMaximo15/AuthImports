@@ -92,6 +92,24 @@ main.inicial > #estoque { padding-top: var(--s-7, 48px) }
                             border-top: 1px solid var(--line) }
 }
 
+/* Endereço e CNPJ da loja, no rodapé das duas páginas (dados em loja.js).
+   Quem compra seminovo de um desconhecido procura isto antes do preço. */
+/* o kit dá 1.25 de entrelinha a esta chamada; abaixo de 1.3 o texto fecha demais */
+.footer__lede { line-height: 1.35 }
+.loja { font-style: normal; display: grid; gap: 2px; font-size: var(--t-small); color: var(--muted) }
+.loja__cnpj { font-variant-numeric: tabular-nums }
+
+/* O menu marca a seção que está na tela (pagina.js, seguirSecoes). O kit só
+   desenha o traço para aria-current="page"; numa página só o valor certo é
+   "true", que é "item atual de um conjunto", então o traço vale para os dois. */
+.nav__link[aria-current="true"]::after { content: ""; position: absolute; left: var(--s-3); right: var(--s-3);
+                                         bottom: -2px; height: 2px; border-radius: 2px; background: currentColor }
+@media (max-width: 1023px) {
+  .nav__link[aria-current="true"]::after { left: var(--s-2); right: var(--s-2) }
+  .nav.is-open .nav__link[aria-current="true"]::after { left: 0; right: auto; width: 24px; bottom: 10px }
+}
+.nav--split .nav__links > .nav__item:nth-child(1 of .nav__item) > .nav__link[aria-current="true"]::after { left: 0 }
+
 /* Alvos de clique de pelo menos 44px (menu, logo, rodapé, capacidades da ficha) */
 .nav .nav__link, .nav .nav__logo, .closing__links .nav__logo { min-height: 44px; display: inline-flex; align-items: center }
 .footer__col li a { display: inline-flex; align-items: center; min-height: 44px }

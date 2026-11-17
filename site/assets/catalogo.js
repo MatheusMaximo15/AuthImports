@@ -6,7 +6,7 @@
    como variantes. O preço do cartão é o menor das variantes.
    A ficha técnica é a do modelo; estado e bateria são da unidade e vão no vídeo. */
 
-import { linkWhatsApp } from './loja.js';
+import { LOJA, linkWhatsApp } from './loja.js';
 
 const FICHAS = {
   'ip11':    { tela: '6,1" Liquid Retina', chip: 'A13 Bionic', cam: 'Dupla de 12 MP', porta: 'Lightning', extra: 'Face ID' },
@@ -153,32 +153,48 @@ export function montarCatalogo(alvo, lista) {
 
 let dlg, atual = null, iVar = 0;
 
-function linhas(gr, v) {
-  const f = FICHAS[v.f];
+/* A ficha separa duas coisas que estavam misturadas:
+   - os fatos DESTA unidade (bateria, disponibilidade, o que acompanha), que é
+     o que convence quem está inseguro, e por isso fica junto do preço;
+   - a ficha técnica do MODELO (tela, chip, câmera), que a pessoa lê no site da
+     Apple e por isso vai recolhida.
+   Antes a tabela abria pela segunda e empurrava a primeira para fora da tela. */
+
+/* Condição, garantia, bateria e disponibilidade saem na linha sob o nome, que
+   cabe acima da dobra em toda tela. Aqui fica só o que ela não carrega — senão
+   a tabela repete quatro vezes o que a pessoa acabou de ler. */
+function fatosDaUnidade(gr, v) {
   const rows = [];
   if (v.s) rows.push(['Armazenamento', v.s + ' GB']);
-  if (f && f.tela) rows.push(['Tela', f.tela]);
-  if (f && f.chip) rows.push(['Chip', f.chip]);
-  if (f && f.cam) rows.push(['Câmera', f.cam]);
-  if (f && f.porta) rows.push(['Conexão', f.porta]);
-  if (f && f.extra) rows.push(['Também tem', f.extra]);
-  rows.push(['Condição', gr.k === 'lacrado' ? 'Lacrado, caixa fechada' : 'Seminovo, testado pela loja']);
-  rows.push(['Garantia', gr.g + ' meses pela loja']);
   rows.push(['Acompanha', gr.k === 'lacrado' ? 'Caixa fechada e nota' : 'Cabo, carregador e nota']);
-  if (v.b) rows.push(['Saúde da bateria', v.b + '%' + (v.bn ? ', bateria nova' : '')]);
-  rows.push(['Disponibilidade', v.r ? 'Na loja hoje' : 'Sob encomenda, no mesmo dia']);
   const corte = desconto(v);
   if (corte > 0) rows.push(['Desconto à vista', brl.format(v.p - v.v) + ' a menos que no cartão']);
   if (v.nota) rows.push(['Observação', v.nota]);
-  if (!f) rows.push(['Ficha técnica', 'A loja confirma no WhatsApp.']);
+  return rows;
+}
+
+function especificacoes(v) {
+  const f = FICHAS[v.f];
+  if (!f) return [['Ficha técnica', 'A loja confirma no WhatsApp.']];
+  const rows = [];
+  if (f.tela) rows.push(['Tela', f.tela]);
+  if (f.chip) rows.push(['Chip', f.chip]);
+  if (f.cam) rows.push(['Câmera', f.cam]);
+  if (f.porta) rows.push(['Conexão', f.porta]);
+  if (f.extra) rows.push(['Também tem', f.extra]);
   return rows;
 }
 
 function pintarFicha() {
   const gr = atual, v = gr.vars[iVar];
   dlg.querySelector('.ficha__nome').textContent = nomeVar(gr, v);
-  dlg.querySelector('.ficha__linha').textContent =
-    (gr.k === 'lacrado' ? 'Lacrado' : 'Seminovo') + ' · ' + gr.g + ' meses de garantia pela loja';
+  // A linha sob o nome é o único lugar que cabe acima da dobra em toda tela, e
+  // por isso carrega o que mais se pergunta sobre um seminovo: a bateria e se
+  // o aparelho está na loja. O resto fica na lista de fatos logo abaixo.
+  const marcas = [gr.k === 'lacrado' ? 'Lacrado' : 'Seminovo', gr.g + ' meses de garantia'];
+  if (v.b) marcas.push('bateria ' + v.b + '%' + (v.bn ? ' (nova)' : ''));
+  marcas.push(v.r ? 'na loja hoje' : 'sob encomenda, no mesmo dia');
+  dlg.querySelector('.ficha__linha').textContent = marcas.join(' · ');
   dlg.querySelector('.ficha__preco b').textContent = brl.format(v.v);
   dlg.querySelector('.ficha__par').textContent = 'à vista, ou ' + brl.format(v.p) + ' no cartão em até 10x de ' + brlParcela(v.p / 10) + ' sem juros';
   // a barra de ação repete o preço, inteiro: ela é o que fica na tela quando o
@@ -188,8 +204,15 @@ function pintarFicha() {
     barra.querySelector('b').textContent = brl.format(v.v);
     barra.querySelector('span').textContent = ' à vista · ' + brl.format(v.p) + ' no cartão';
   }
-  dlg.querySelector('.ficha__corpo').innerHTML = linhas(gr, v)
-    .map(([k, val]) => `<div class="ficha__row"><dt>${esc(k)}</dt><dd>${esc(val)}</dd></div>`).join('');
+  const linha = ([k, val]) => `<div class="ficha__row"><dt>${esc(k)}</dt><dd>${esc(val)}</dd></div>`;
+  dlg.querySelector('.ficha__fatos').innerHTML = fatosDaUnidade(gr, v).map(linha).join('');
+  const spec = dlg.querySelector('.ficha__spec');
+  if (spec) {
+    const rows = especificacoes(v);
+    spec.hidden = !rows.length;
+    spec.open = false;
+    spec.querySelector('.ficha__corpo').innerHTML = rows.map(linha).join('');
+  }
 
   const img = dlg.querySelector('.ficha__foto');
   img.src = 'assets/img/' + v.img + '.webp';
@@ -230,7 +253,8 @@ function notas(gr) {
       ? 'Aparelho novo, caixa fechada, com nota e 12 meses de garantia pela loja.'
       : 'Testado pela loja, com a saúde da bateria medida e 6 meses de garantia. O vídeo do aparelho chega antes do pagamento.'],
     ['Formas de pagamento', 'No cartão em até 10x sem juros, pelo preço do cartão, ou com desconto à vista.'],
-    ['Entrega e retirada', 'Retirada na loja ou entrega no mesmo dia do pedido.']
+    ['Entrega e retirada', 'Retirada na loja em ' + LOJA.cidade + (LOJA.uf ? '/' + LOJA.uf : '')
+      + ', ou entrega no mesmo dia do pedido.']
   ];
 }
 
@@ -244,6 +268,10 @@ export function abrirFicha(id) {
   // cada ficha abre do topo, mesmo que a anterior tenha sido rolada até o fim
   const corpo = dlg.querySelector('.ficha__in');
   if (corpo) corpo.scrollTop = 0;
+  // sem isto o foco cai no botão fechar e um leitor de tela anuncia "Fechar a
+  // ficha" antes do nome do aparelho
+  const nome = dlg.querySelector('.ficha__nome');
+  if (nome) nome.focus({ preventScroll: true });
 }
 
 export function fecharFicha() {

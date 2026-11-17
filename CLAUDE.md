@@ -157,6 +157,14 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
   - Campanha: botões presos ao rodapé da janela em tela baixa (`max-height: 760px`), alvos de 44px, nota em `--c-muted` (3,94:1 reprovava em AA).
   - Menores: `<h2>` nos passos da troca (era `h1`→`h3`), contagens "11/16 modelos" agora calculadas do `G`, rótulo "à vista" no preço do cartão.
   - **Achados do detector que continuam e são conhecidos:** `broken-image` (é o `<img>` da ficha, preenchido por JS ao abrir — falso positivo), `cramped-padding` ×5 nas `.rows` do kit, `pulsing-dot` e `radial-halo` na campanha. Nenhum foi introduzido nesta rodada.
+- **Segunda rodada da crítica** (17/11/2026, 25/40 = 62% contra 23/36 = 64% da primeira — a nota não subiu porque desta vez a revisão pontuou *Help and Documentation* em vez de marcar `n/a`, e deu 1). As quatro correções da primeira rodada foram confirmadas por medição. O que mudou agora:
+  - **Identidade da loja**, com os dados reais que o dono passou (ver Pendências). `loja.js` ganhou `cnpj`, `endereco`, `bairro`, `cidade`, `uf`, `cep` e as funções `cnpjFormatado()` e `enderecoLinha()`; `pagina.js` preenche `[data-loja-endereco]`, `[data-loja-cnpj]` e `[data-loja-cidade]` no rodapé das duas páginas.
+  - **A ficha foi enxugada: 1711px → 1184px de conteúdo no celular.** A linha sob o nome virou o carregador dos fatos que cabem acima da dobra em toda tela: `Seminovo · 6 meses de garantia · bateria 100% (nova) · na loja hoje`. A tabela de fatos ficou só com o que a linha não diz (armazenamento, o que acompanha, desconto, observação), e a **ficha técnica do modelo** (tela, chip, câmera) foi para dentro de um `<details>` fechado — a pessoa lê isso no site da Apple. A barra de ação trocou a borda reta por um esmaecido: a linha fazia o painel parecer terminado e o visitante parava de rolar antes da bateria.
+  - **"Limpar filtros"** ao lado da contagem, visível só com filtro ativo, repetido no estado vazio; a paginação some quando não há resultado.
+  - **`marcarMenu()` nunca marcava nada na inicial** (comparava o `href` com `index.html` e os links são âncoras). Agora `seguirSecoes()` marca a seção da tela. **Use rolagem, não `IntersectionObserver`:** o observador não entrega enquanto a aba está em segundo plano, e o painel de navegador do app roda assim — a marcação ficava muda e não dava para testar.
+  - Menores: foco da ficha no nome (era no botão fechar), entrelinha do rodapé em 1.35 (o kit dá 1.25), vitrine presa a iPhone (um MacBook era o terceiro cartão sob um H1 que promete iPhone), leque da campanha reduzido ao aparelho do meio abaixo de 400px.
+  - **Decisão do usuário: a ordenação padrão continua "Mais novo"**, mesmo com a segunda revisão pedindo "Mais barato" (a primeira pediu o contrário). O efeito conhecido é que o catálogo abre acima de R$ 4.700 e o iPhone 11 de R$ 1.549 fica na última página.
+  - **8 dos 9 achados do detector na inicial são falso positivo, provado por medição:** `.ly-live` não é usada por nenhuma página (CSS morto do kit), nenhum elemento computa `radial-gradient`, os cinco `<li>` do `cramped-padding` têm 16px em cima e 46px embaixo, e o `broken-image` é a foto da ficha. **O detector lê o CSS, não a tela.** O único real é `.campanha__ponto`.
 
 ### Próximos passos
 
@@ -170,7 +178,9 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
 
 - domínio e quem registra
 - WhatsApp e Instagram preenchidos em `site/assets/loja.js`: `553198880979` (como o usuário passou: +55 31 9888-0979, 8 dígitos sem o 9 inicial; confirmar que abre a conversa certa) e `auth_imports`
+- **identidade da loja: recebida em 17/11/2026** e já no `site/assets/loja.js` — CNPJ `37.815.326/0001-87` (dígitos conferidos) e R. José Monteiro, 440 — Sala 5, Centro, Juatuba/MG, 35675-000. Aparece no rodapé das duas páginas e na linha de retirada. Falta: horário de funcionamento e uma foto real do balcão
 - **prova social**: prints dos destaques do Instagram (clientes, vendas) e fotos reais da loja, sugeridos pelo usuário de teste. Não inventar depoimento: esperar os prints reais
+- **nenhuma foto mostra um seminovo**: hero, cartões e ficha usam render de imprensa da Apple. Uma foto de uma unidade real testada no balcão faria mais pela confiança que a seção "Como a compra funciona" inteira
 - com que frequência atualizam preço e estoque
 - formato da campanha: na demonstração é janela na inicial; confirmar
 - se as menções ao vídeo antes do pagamento ficam (regra 6)
