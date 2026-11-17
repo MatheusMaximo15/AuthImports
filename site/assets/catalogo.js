@@ -141,7 +141,7 @@ function cartao(gr) {
   <div class="tile__head"><h3>${esc(gr.n)}</h3></div>
   <p class="tile__facts">${gr.k === 'lacrado' ? 'Lacrado' : 'Seminovo'}<span class="f-sep"> · </span><span class="f-gar">${gr.g} meses de garantia</span></p>
   ${chips ? `<div class="caps">${chips}</div>` : ''}
-  <p class="prod__preco">${varios ? '<span class="prod__apd">A partir de</span>' : ''}<b>${brl.format(gr.min)}</b><span class="prod__avista">à vista</span></p>
+  <p class="prod__preco">${varios ? '<span class="prod__apd">A partir de</span>' : ''}<b>${brl.format(gr.min)}</b> <span class="prod__avista">à vista</span></p>
 </a>`;
 }
 
@@ -165,7 +165,6 @@ let dlg, atual = null, iVar = 0;
    a tabela repete quatro vezes o que a pessoa acabou de ler. */
 function fatosDaUnidade(gr, v) {
   const rows = [];
-  if (v.s) rows.push(['Armazenamento', v.s + ' GB']);
   rows.push(['Acompanha', gr.k === 'lacrado' ? 'Caixa fechada e nota' : 'Cabo, carregador e nota']);
   const corte = desconto(v);
   if (corte > 0) rows.push(['Desconto à vista', brl.format(v.p - v.v) + ' a menos que no cartão']);

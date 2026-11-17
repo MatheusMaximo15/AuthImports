@@ -183,6 +183,7 @@
   .politicas .pol__pendente { font-size: var(--t-small); padding: var(--s-4);
                               background: var(--surface); border-radius: var(--r-md) }
   .politicas .pol__volta { margin-top: var(--s-8) }
+  .politicas .pol__volta a { min-height: 44px; display: inline-flex; align-items: center }
   @media (max-width: 639px) {
     .politicas .pol__corpo { gap: var(--s-7) }
     .politicas .pol__fatos > div { flex-direction: column; gap: 2px }
@@ -203,6 +204,7 @@
       <div class="nav__item"><a class="nav__link" href="politicas.html">Garantia</a></div>
       <div class="nav__item"><a class="nav__link" href="index.html#como">Como funciona</a></div>
     </nav>
+    <span class="nav__local" data-loja-local aria-label="Onde fica a loja"></span>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
@@ -285,6 +287,7 @@
         <a class="btn btn--primary btn--zap" data-zap href="https://wa.me/"><span class="btn__icone" data-icone="whatsapp"></span>Falar no WhatsApp</a>
         <a class="btn btn--secondary btn--insta" data-insta href="#"><span class="btn__icone" data-icone="instagram"></span>Instagram</a>
       </div>
+        <p class="rodape__numero">No WhatsApp: <b data-loja-numero></b></p>
     </div>
     <div class="closing__links">
       <div class="grid">

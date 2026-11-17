@@ -2,7 +2,8 @@
    de WhatsApp e Instagram, o botão flutuante e a ficha do aparelho. */
 
 import { abrirFicha, ligarFicha } from './catalogo.js';
-import { LOJA, linkWhatsApp, linkInstagram, cnpjFormatado, enderecoLinha, ICONE_WHATSAPP, ICONE_INSTAGRAM } from './loja.js';
+import { LOJA, linkWhatsApp, linkInstagram, cnpjFormatado, enderecoLinha, numeroFormatado, praca,
+         ICONE_WHATSAPP, ICONE_INSTAGRAM } from './loja.js';
 
 /** Marca no menu o link da página aberta (só a troca é outra página).
     Na inicial os links são âncoras (#estoque, #catalogo), então comparar com o
@@ -71,6 +72,16 @@ export function ligarIdentidade() {
   });
   document.querySelectorAll('[data-loja-cidade]').forEach(e => {
     e.textContent = LOJA.cidade + (LOJA.uf ? ' e região' : '');
+  });
+  const local = praca();
+  document.querySelectorAll('[data-loja-local]').forEach(e => {
+    if (!local) { e.hidden = true; return; }
+    e.textContent = local;
+  });
+  const numero = numeroFormatado();
+  document.querySelectorAll('[data-loja-numero]').forEach(e => {
+    if (!numero) { e.hidden = true; return; }
+    e.textContent = numero;
   });
 }
 

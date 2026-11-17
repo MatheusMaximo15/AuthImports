@@ -41,7 +41,17 @@ main.inicial > .hero.hero--product { height: auto; min-height: 0; padding-bottom
 .inicial .hero--product .hero__stage { height: clamp(150px, 19vw, 250px); flex: none }
 .inicial .hero--product .hero__stage img { width: 100%; height: 100%; object-fit: contain; object-position: center bottom }
 @media (max-width: 1023px) { .inicial .hero--product .hero__stage { margin-top: var(--s-5) } }
-@media (max-width: 639px) { .inicial .hero--product .hero__stage { height: 150px } }
+/* No celular o primeiro cartão nascia a 1032px — 1,2 tela abaixo da dobra, numa
+   página que virou vitrine justamente para mostrar aparelho cedo. O hero encolhe
+   e os dois botões dividem uma linha só. */
+@media (max-width: 639px) {
+  .inicial .hero--product .hero__stage { height: 104px }
+  main.inicial .hero--product .hero__head > .btn-row { display: flex; gap: var(--s-3) }
+  main.inicial .hero--product .hero__head > .btn-row > .btn { flex: 1 1 0; min-width: 0;
+                                                              justify-content: center; padding-inline: var(--s-3) }
+  main.inicial > .hero.hero--product { padding-bottom: var(--s-4) }
+  main.inicial > #estoque { padding-top: var(--s-5) }
+}
 
 /* Rodapé compacto: chamada para WhatsApp e Instagram numa linha, sem a tela
    inteira que o kit dá ao fechamento */
@@ -129,3 +139,16 @@ main.inicial > #estoque { padding-top: var(--s-7, 48px) }
 .footer__col ul { row-gap: 0; gap: 0 }
 .footer__col li { margin: 0 }
 dialog.ficha .cap--btn { min-height: 44px }
+
+/* A barra do menu tinha 46% de largura vazia a direita e a marca ilhada no
+   meio. A praca da loja ocupa esse vazio com o dado que um comprador de
+   seminovo procura primeiro: onde fica. */
+.nav__local { font-size: var(--t-small); color: var(--muted); white-space: nowrap;
+              display: none; align-items: center; min-height: 44px }
+@media (min-width: 1024px) { .nav--split .nav__local { display: inline-flex } }
+
+/* O numero em texto: no desktop sem WhatsApp Web o link vira uma tela de QR
+   sem saida, e a pessoa precisa do numero para digitar no telefone. */
+.rodape__numero { flex-basis: 100%; margin: 0; font-size: var(--t-small); color: var(--muted) }
+.rodape__numero b { color: var(--ink); font-weight: 500; font-variant-numeric: tabular-nums;
+                    user-select: all }

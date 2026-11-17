@@ -27,6 +27,22 @@ export function cnpjFormatado() {
   return d.slice(0, 2) + '.' + d.slice(2, 5) + '.' + d.slice(5, 8) + '/' + d.slice(8, 12) + '-' + d.slice(12);
 }
 
+/** O número como se escreve no Brasil: +55 31 9888-0979. O link do WhatsApp
+    some quando a pessoa está no desktop sem o WhatsApp Web, e aí ela precisa
+    do número para digitar no telefone. */
+export function numeroFormatado() {
+  const d = (LOJA.whatsapp || '').replace(/\D/g, '');
+  if (d.length < 12) return '';
+  const pais = d.slice(0, 2), ddd = d.slice(2, 4), resto = d.slice(4);
+  const meio = resto.length > 8 ? resto.slice(0, 5) : resto.slice(0, 4);
+  return '+' + pais + ' ' + ddd + ' ' + meio + '-' + resto.slice(meio.length);
+}
+
+/** A praça da loja, curta, para caber na barra do menu. */
+export function praca() {
+  return [LOJA.cidade, LOJA.uf].filter(Boolean).join('/');
+}
+
 /** O endereço em uma linha, sem os campos que a loja não preencheu. */
 export function enderecoLinha() {
   const l = LOJA;

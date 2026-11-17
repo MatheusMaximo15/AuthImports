@@ -176,6 +176,11 @@
                 padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--ink) 10%, transparent) }
   .ficha__row dt { color: var(--muted); font-size: var(--t-small) }
   .ficha__row dd { margin: 0; text-align: right }
+  /* a ficha dá foco ao nome para o leitor de tela anunciar o aparelho antes do
+     botão fechar. O anel preto que o Chrome desenha em volta do título, porém,
+     lê como campo de texto ou erro: o foco fica, o anel sai. */
+  dialog.ficha .ficha__nome:focus,
+  dialog.ficha .ficha__nome:focus-visible { outline: none }
   .ficha__preco { font-family: var(--font-display); font-size: var(--t-h2);
                   letter-spacing: var(--display-tracking) }
   .ficha__par { display: block; font-family: var(--font-text); font-size: var(--t-small); color: var(--muted) }
@@ -247,6 +252,7 @@
       <div class="nav__item"><a class="nav__link" href="politicas.html">Garantia</a></div>
       <div class="nav__item"><a class="nav__link" href="#como">Como funciona</a></div>
     </nav>
+    <span class="nav__local" data-loja-local aria-label="Onde fica a loja"></span>
     <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
       <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
     </button>
@@ -406,6 +412,7 @@
         <a class="btn btn--primary btn--zap" data-zap href="https://wa.me/"><span class="btn__icone" data-icone="whatsapp"></span>Falar no WhatsApp</a>
         <a class="btn btn--secondary btn--insta" data-insta href="#"><span class="btn__icone" data-icone="instagram"></span>Instagram</a>
       </div>
+        <p class="rodape__numero">No WhatsApp: <b data-loja-numero></b></p>
     </div>
     <div class="closing__links">
       <div class="grid">
@@ -557,7 +564,8 @@ function desenhar() {
       + '" target="_blank" rel="noopener">peça o modelo no WhatsApp</a>.</p>';
     grade2.innerHTML = '';
   }
-  conta.textContent = filtrada.length + ' de ' + G.length + ' modelos';
+  conta.textContent = filtrada.length + ' de ' + G.length + ' modelos'
+    + (paginas > 1 ? ' · página ' + (pagina + 1) + ' de ' + paginas : '');
   pagN.textContent = 'Página ' + (pagina + 1) + ' de ' + paginas;
   ant.disabled = pagina === 0;
   prox.disabled = pagina >= paginas - 1;
@@ -584,8 +592,15 @@ onde.addEventListener('change', filtrar);
 tipo.addEventListener('change', filtrar);
 memoria.addEventListener('change', filtrar);
 ordem.addEventListener('change', filtrar);
-ant.addEventListener('click', () => { pagina--; desenhar(); });
-prox.addEventListener('click', () => { pagina++; desenhar(); });
+// trocar de página sem rolar deixava metade dos cartões novos fora da tela,
+// e o clique lia como botão quebrado
+function irPara(n) {
+  pagina = n;
+  desenhar();
+  document.getElementById('catalogo').scrollIntoView({ block: 'start' });
+}
+ant.addEventListener('click', () => irPara(pagina - 1));
+prox.addEventListener('click', () => irPara(pagina + 1));
 filtrar();
 
 ligarFichaPagina();
