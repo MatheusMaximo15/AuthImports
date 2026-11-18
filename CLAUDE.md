@@ -167,6 +167,15 @@ Tudo na `main`, publicado em `authimports.pages.dev`.
   - **Decisão do usuário: a ordenação padrão continua "Mais novo"**, mesmo com a segunda revisão pedindo "Mais barato" (a primeira pediu o contrário). O efeito conhecido é que o catálogo abre acima de R$ 4.700 e o iPhone 11 de R$ 1.549 fica na última página.
   - **8 dos 9 achados do detector na inicial são falso positivo, provado por medição:** `.ly-live` não é usada por nenhuma página (CSS morto do kit), nenhum elemento computa `radial-gradient`, os cinco `<li>` do `cramped-padding` têm 16px em cima e 46px embaixo, e o `broken-image` é a foto da ficha. **O detector lê o CSS, não a tela.** O único real é `.campanha__ponto`.
 
+- **Terceira rodada da crítica** (18/11/2026): **30/40 = 75%, "Good"** — contra 25/40 (62%) e 23/36 (64%). *Help and Documentation* subiu de 1 para 3 com a página de políticas, e *Error Recovery* tirou 4. Corrigido nesta rodada:
+  - **Duas regressões minhas da rodada anterior.** O foco que passei a dar ao nome do aparelho desenhava um anel preto em volta do título em toda ficha, que lia como campo de texto; o foco fica (a razão de leitor de tela está certa), o anel saiu. E a linha "Armazenamento" da tabela repetia o botão de capacidade 40px acima; saiu.
+  - **A paginação trocava os oito cartões sem rolar nem anunciar.** Agora rola até `#catalogo` (a mesma chamada que o botão da vitrine já fazia) e o `#conta`, que é `role="status"`, passou a dizer "página 2 de 4".
+  - **O número do WhatsApp em texto no rodapé** (`+55 31 9888-0979`, com `user-select: all`). No desktop sem WhatsApp Web o link vira uma tela de QR sem saída, e a pessoa precisa do número para digitar no telefone.
+  - **"Juatuba/MG" na barra do menu**, que tinha 46% da largura vazia à direita e a marca ilhada no meio.
+  - **No celular o primeiro cartão subiu de 1032px para 824px**, acima da dobra de 844. **Armadilha nova, anote:** o kit dá ao palco que tem recorte `min-height: 240px` e `flex: 1 1 auto`, pela regra `.hero--product .hero__stage:is(:has(> img.is-cutout))`, que pesa (0,3,1). Seletor de três classes não vence; foi preciso `main.inicial .hero.hero--product`.
+  - Alvo de 44px no "Voltar para os aparelhos" das políticas, e um espaço entre o preço e o "à vista" no cartão (o nome acessível saía como "R$ 6.999à vista").
+  - **A avaliação mecânica reconferiu os quatro falsos positivos do detector por conta própria e confirmou os quatro** — mas corrigiu dois raciocínios que estavam errados aqui. O `#c8b092` é valor **computado** de um `color-mix` em `assets/ui/cards.css` (CSS morto: as páginas são `site-kind=other` e não têm nenhum `.panel`), não uma cor ausente. E os cinco `<li>` do `cramped-padding` têm **16px em cima e 16px embaixo**, não 46 — os 46px eram a distância de um item de grid à direita até a base, não o recuo do texto.
+
 ### Próximos passos
 
 - **Fase 4** — Supabase e painel `/admin` para leigo, pensado para celular; campanha e textos editáveis; Cloudflare ligado ao GitHub. É o sistema de verdade: fica para **depois que o cliente fechar**. Detalhe no `PLANO.md`.
