@@ -44,7 +44,11 @@ Abre em `http://localhost:4321/` (o site) e `http://localhost:4321/antigo/` (ver
 
 **Publicar:** dois cliques em `publicar.cmd`, ou `.\publicar` no PowerShell dentro da pasta do projeto. O `wrangler.jsonc` diz o projeto (`authimports`) e a pasta (`site`). Só `site/` vai para o ar; `PLANO.md`, `CLAUDE.md` e `antigo/` não. `RAMO=main` no `publicar.cmd` é a branch de produção; outro nome gera só prévia (`<ramo>.authimports.pages.dev`).
 
-O Cloudflare **não** está ligado ao GitHub: o site foi criado por envio direto (`wrangler`). Enviar ao GitHub não publica; tem que rodar o `publicar.cmd`. O usuário roda — publicar mexe na conta dele.
+**O `publicar.cmd` publica de uma cópia limpa, e isso não é frescura.** A skill `design-taste-frontend` escreve `site\.taste-skill` quando roda o checker e o gate: perfis de Chrome, capturas e caches, cerca de 90 MB, com um `model.tflite` de 35 MB. O Pages recusa qualquer arquivo acima de 25 MB e a publicação morre com `Error: Pages only supports files up to 25 MiB in size`. Um `site/.assetsignore` **não resolve** — o Pages ignora esse arquivo; foi testado. O script monta `.publicar\` com `robocopy /XD .taste-skill` e publica de lá. Se alguém "simplificar" o script de volta para `pages deploy` direto em `site`, ele quebra na primeira vez que o kit rodar.
+
+**Sobre o GitHub:** `wrangler pages project list` mostra `Git Provider: Yes`, e as publicações antigas trazem o hash do commit na coluna Source. Mas um `git push` para a `main` em 18/11/2026 **não** gerou build nenhum em mais de meia hora. Ou seja: a ligação existe, a construção automática não se pode confiar. **Enviar ao GitHub não publica — rode o `publicar.cmd`.**
+
+Publicar mexe na conta do usuário. Ele costuma rodar; em 18/11/2026 pediu que eu publicasse e eu publiquei (`wrangler` já estava autenticado como `matheusmaximo2003@gmail.com`, com escopo `pages (write)`).
 
 ### Máquinas
 
@@ -96,7 +100,7 @@ Além do kit, meça sobreposição nas cinco páginas em telas **largas e baixas
 
 - `site/_headers`: CSP, `X-Frame-Options: SAMEORIGIN`, HSTS, `Permissions-Policy`. `frame-ancestors 'self'` e não `'none'`: a medição de layout usa iframe do próprio site. Script externo novo ou fonte nova exigem mudar a CSP, senão quebra no ar.
 - `site/404.html`: com ele o Cloudflare devolve 404 de verdade (antes devolvia a inicial para qualquer endereço). `robots.txt` bloqueia buscadores (demonstração) e aponta o `sitemap.xml`.
-- `serve.js` imita o Cloudflare: manda os cabeçalhos do `_headers`, serve `/troca` como `troca.html` e devolve o `404.html`. Testar a CSP aqui antes de publicar.
+- `serve.js` imita o Cloudflare: manda os cabeçalhos do `_headers`, serve endereço sem extensão (`/troca`, `/politicas`) como `.html` e devolve o `404.html`. Testar a CSP aqui antes de publicar.
 
 ### Preço
 
