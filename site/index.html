@@ -478,7 +478,7 @@
 <script type="module" src="assets/campanha.js"></script>
 <script type="module">
 import { G, montarCatalogo } from './assets/catalogo.js';
-import { ligarPagina, ligarFichaPagina } from './assets/pagina.js';
+import { ligarPagina, ligarFichaPagina, rolarAteSecao } from './assets/pagina.js';
 import { linkWhatsApp } from './assets/loja.js';
 ligarPagina();
 const porPreco = (a, b) => a.min - b.min;
@@ -545,7 +545,7 @@ function filtrar() {
 document.getElementById('est-todos').addEventListener('click', () => {
   onde.value = 'pronta';
   filtrar();
-  document.getElementById('catalogo').scrollIntoView({ block: 'start' });
+  rolarAteSecao(document.getElementById('catalogo'));
 });
 
 function desenhar() {
@@ -596,7 +596,7 @@ ordem.addEventListener('change', filtrar);
 function irPara(n) {
   pagina = n;
   desenhar();
-  document.getElementById('catalogo').scrollIntoView({ block: 'start' });
+  rolarAteSecao(document.getElementById('catalogo'));
 }
 ant.addEventListener('click', () => irPara(pagina - 1));
 prox.addEventListener('click', () => irPara(pagina + 1));

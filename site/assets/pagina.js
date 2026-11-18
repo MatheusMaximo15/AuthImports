@@ -98,6 +98,40 @@ export function ligarContatos() {
   document.querySelectorAll('[data-icone="instagram"]').forEach(s => { s.innerHTML = ICONE_INSTAGRAM; });
 }
 
+/** Altura do menu fixo, medida (ele muda de altura entre tamanhos de tela). */
+export function alturaMenu() {
+  const nav = document.querySelector('.nav');
+  return nav ? Math.round(nav.getBoundingClientRect().height) : 0;
+}
+
+/** Rola até a seção com o TÍTULO logo abaixo do menu.
+
+    Encostar a borda da seção no topo não serve: a seção tem padding próprio, e
+    o título ficava a mais de 200px do menu, empurrando os produtos para fora da
+    tela. Aqui a conta é feita a partir do título, não da borda. */
+export function rolarAteSecao(el, comportamento = 'smooth') {
+  if (!el) return;
+  const titulo = el.querySelector('h1, h2, h3') || el;
+  const alvo = titulo.getBoundingClientRect().top + scrollY - alturaMenu() - 20;
+  scrollTo({ top: Math.max(0, Math.round(alvo)), behavior: comportamento });
+}
+
+/** Todo link de âncora da página passa a usar a conta acima.
+    Fora: o cartão de produto (abre a ficha) e o link de pular para o conteúdo. */
+export function ligarAncoras() {
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || a.hasAttribute('data-grupo') || a.classList.contains('skip-link')) return;
+    const id = decodeURIComponent((a.getAttribute('href') || '').slice(1));
+    if (!id) return;
+    const alvo = document.getElementById(id);
+    if (!alvo || alvo.closest('dialog')) return;
+    e.preventDefault();
+    history.replaceState(null, '', location.pathname + location.search + '#' + id);
+    rolarAteSecao(alvo);
+  });
+}
+
 /** O botão verde do WhatsApp, fixo no canto inferior direito. */
 export function botaoFlutuante() {
   if (document.querySelector('.zap-flutua')) return;
@@ -139,7 +173,7 @@ export function voltarAoTopo() {
   // âncora de seção: rola até ela depois que as listas montarem (a ficha tem a própria rota)
   const alvo = document.getElementById(decodeURIComponent(location.hash.slice(1)));
   if (alvo && alvo.tagName === 'SECTION') {
-    addEventListener('load', () => alvo.scrollIntoView({ block: 'start', behavior: 'instant' }), { once: true });
+    addEventListener('load', () => rolarAteSecao(alvo, 'instant'), { once: true });
   }
 }
 
@@ -148,6 +182,7 @@ export function ligarPagina() {
   voltarAoTopo();
   marcarMenu();
   seguirSecoes();
+  ligarAncoras();
   ligarIdentidade();
   ligarContatos();
   botaoFlutuante();
