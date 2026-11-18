@@ -34,3 +34,6 @@ desktop.ini
 !.dev.vars.example
 .env*
 !.env.example
+
+# copia limpa que o publicar.cmd monta para o Cloudflare (sem o .taste-skill)
+.publicar/

@@ -22,7 +22,17 @@
 }
 /* Como a compra funciona: a garantia fica dentro, ao lado da tabela de detalhes */
 .compra__base { margin-top: var(--s-8); align-items: start; row-gap: var(--s-6) }
-.garantia { scroll-margin-top: 96px }
+/* Vários botões do site só rolam a página (menu, "Ver o catálogo" da campanha,
+   "Ver todos os que estão na loja", paginação). Sem animação o conteúdo troca
+   de lugar num salto e a pessoa perde a referência de onde estava. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth }
+}
+
+/* O menu é fixo: sem isto a âncora encosta a seção no topo da janela e o menu
+   come o título. Vale para toda seção com id, nas três páginas. */
+main > section[id], main > .section[id], .pol__bloco { scroll-margin-top: calc(var(--nav, 72px) + var(--s-5)) }
+.garantia { scroll-margin-top: calc(var(--nav, 72px) + var(--s-5)) }
 .garantia__titulo { font-family: var(--font-display); font-weight: var(--display-weight);
                     font-size: var(--t-h3); letter-spacing: var(--display-tracking); line-height: 1.15 }
 .garantia > p:last-child { color: var(--muted); max-width: 44ch }
@@ -148,12 +158,6 @@ main.inicial > #estoque { padding-top: var(--s-7, 48px) }
 .footer__col li { margin: 0 }
 dialog.ficha .cap--btn { min-height: 44px }
 
-/* A barra do menu tinha 46% de largura vazia a direita e a marca ilhada no
-   meio. A praca da loja ocupa esse vazio com o dado que um comprador de
-   seminovo procura primeiro: onde fica. */
-.nav__local { font-size: var(--t-small); color: var(--muted); white-space: nowrap;
-              display: none; align-items: center; min-height: 44px }
-@media (min-width: 1024px) { .nav--split .nav__local { display: inline-flex } }
 
 /* O numero em texto: no desktop sem WhatsApp Web o link vira uma tela de QR
    sem saida, e a pessoa precisa do numero para digitar no telefone. */

@@ -38,11 +38,6 @@ export function numeroFormatado() {
   return '+' + pais + ' ' + ddd + ' ' + meio + '-' + resto.slice(meio.length);
 }
 
-/** A praça da loja, curta, para caber na barra do menu. */
-export function praca() {
-  return [LOJA.cidade, LOJA.uf].filter(Boolean).join('/');
-}
-
 /** O endereço em uma linha, sem os campos que a loja não preencheu. */
 export function enderecoLinha() {
   const l = LOJA;

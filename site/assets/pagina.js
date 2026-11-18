@@ -2,7 +2,7 @@
    de WhatsApp e Instagram, o botão flutuante e a ficha do aparelho. */
 
 import { abrirFicha, ligarFicha } from './catalogo.js';
-import { LOJA, linkWhatsApp, linkInstagram, cnpjFormatado, enderecoLinha, numeroFormatado, praca,
+import { LOJA, linkWhatsApp, linkInstagram, cnpjFormatado, enderecoLinha, numeroFormatado,
          ICONE_WHATSAPP, ICONE_INSTAGRAM } from './loja.js';
 
 /** Marca no menu o link da página aberta (só a troca é outra página).
@@ -73,11 +73,6 @@ export function ligarIdentidade() {
   document.querySelectorAll('[data-loja-cidade]').forEach(e => {
     e.textContent = LOJA.cidade + (LOJA.uf ? ' e região' : '');
   });
-  const local = praca();
-  document.querySelectorAll('[data-loja-local]').forEach(e => {
-    if (!local) { e.hidden = true; return; }
-    e.textContent = local;
-  });
   const numero = numeroFormatado();
   document.querySelectorAll('[data-loja-numero]').forEach(e => {
     if (!numero) { e.hidden = true; return; }
@@ -140,11 +135,11 @@ export function ligarFichaPagina() {
     Endereço com âncora (#catalogo, #iphone-13-semi) segue indo ao lugar certo. */
 export function voltarAoTopo() {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  if (!location.hash) { scrollTo(0, 0); return; }
+  if (!location.hash) { scrollTo({ top: 0, behavior: 'instant' }); return; }
   // âncora de seção: rola até ela depois que as listas montarem (a ficha tem a própria rota)
   const alvo = document.getElementById(decodeURIComponent(location.hash.slice(1)));
   if (alvo && alvo.tagName === 'SECTION') {
-    addEventListener('load', () => alvo.scrollIntoView({ block: 'start' }), { once: true });
+    addEventListener('load', () => alvo.scrollIntoView({ block: 'start', behavior: 'instant' }), { once: true });
   }
 }
 
