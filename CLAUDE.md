@@ -110,6 +110,7 @@ A loja anuncia "R$ 3.215 até 10x sem juros no cartão, ou R$ 2.799 à vista". `
 
 - **O kit trava cada seção na altura exata da tela a partir de 1280px.** Em página de lista isso encavala a segunda fileira. `site/assets/site.css` libera: páginas internas (`<main class="interna">`) crescem com o conteúdo; na inicial cada seção tem pelo menos uma tela e cresce se precisar. Não use `.g2` nas páginas internas.
 - **O menu é fixo** e o kit calcula as alturas com ele. Nada de faixa no topo da página.
+- **Âncora de seção não se resolve com `scroll-margin-top`.** O navegador encosta a *borda* da seção no topo, e a seção tem padding próprio: o título caía a mais de 200px do menu e os produtos saíam da tela. Quem rola é `rolarAteSecao()` em `pagina.js`, que mede a partir do **título** e o põe 20px abaixo do menu. Todo link `#` passa por ela (`ligarAncoras`), menos o cartão de produto (abre a ficha) e o pular-para-o-conteúdo (move o foco).
 - **`--error` do kit só existe dentro de `.form`.** Fora disso a borda de campo inválido some (`troca.css` define a variável).
 - **O kit zera `list-style`.** Lista numerada precisa de `list-style: decimal` explícito.
 - **O painel de navegador do app às vezes captura tela em branco** em rolagem profunda no desktop. É do painel, não da página: confira pelo DOM ou em 375px.
